@@ -1,26 +1,26 @@
-import { Tetromino } from "../types";
+import { PieceDetails } from "../types";
 
 export const ROWS = 20;
-export const COLS = 10;
+export const COLS = 12;
 
-export const TETROMINOS: Record<string, { shape: Tetromino; color: string }> = {
+export const TETROMINOS: Record<string, PieceDetails> = {
 	I: {
 		shape: [[1, 1, 1, 1]],
-		color: "cyan",
+		color: "DarkRed",
 	},
 	O: {
 		shape: [
 			[1, 1],
 			[1, 1],
 		],
-		color: "yellow",
+		color: "Brown",
 	},
 	T: {
 		shape: [
 			[0, 1, 0],
 			[1, 1, 1],
 		],
-		color: "purple",
+		color: "DarkGreen",
 	},
 	L: {
 		shape: [
@@ -28,7 +28,7 @@ export const TETROMINOS: Record<string, { shape: Tetromino; color: string }> = {
 			[1, 0],
 			[1, 1],
 		],
-		color: "orange",
+		color: "Purple",
 	},
 	J: {
 		shape: [
@@ -36,20 +36,20 @@ export const TETROMINOS: Record<string, { shape: Tetromino; color: string }> = {
 			[0, 1],
 			[1, 1],
 		],
-		color: "blue",
+		color: "SaddleBrown",
 	},
 	S: {
 		shape: [
 			[0, 1, 1],
 			[1, 1, 0],
 		],
-		color: "green",
+		color: "Crimson",
 	},
 	Z: {
 		shape: [
 			[1, 1, 0],
 			[0, 1, 1],
 		],
-		color: "red",
+		color: "OrangeRed",
 	},
-};
+} as const;

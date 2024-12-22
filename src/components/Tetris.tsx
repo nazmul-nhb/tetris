@@ -8,7 +8,7 @@ import { gameReducer } from "../reducers/gameReducer";
 const initialState: GameState = {
 	grid: createEmptyGrid(),
 	currentPiece: TETROMINOS.T,
-	position: { x: 3, y: 0 },
+	position: { x: 4, y: 0 },
 	score: 0,
 	gameOver: false,
 };
@@ -27,31 +27,13 @@ const Tetris: React.FC = () => {
 		  )
 		: state.grid;
 
-	/** Handle keyboard controls */
-	const handleKeyDown = (e: KeyboardEvent) => {
-		switch (e.key) {
-			case "ArrowLeft":
-				dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 });
-				break;
-			case "ArrowRight":
-				dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 });
-				break;
-			case "ArrowDown":
-				dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
-				break;
-			case "ArrowUp":
-				dispatch({ type: "ROTATE_PIECE" });
-				break;
-			default:
-				break;
-		}
-	};
-
 	/** Automatically drop the Tetromino every second */
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (state.currentPiece && !state.gameOver) {
 				dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
+			} else {
+				clearInterval(interval);
 			}
 		}, 1000);
 
@@ -73,9 +55,30 @@ const Tetris: React.FC = () => {
 
 	// Attach keyboard listener
 	useEffect(() => {
+		/** Handle keyboard controls */
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (state.gameOver) return;
+
+			switch (e.key) {
+				case "ArrowLeft":
+					dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 });
+					break;
+				case "ArrowRight":
+					dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 });
+					break;
+				case "ArrowDown":
+					dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
+					break;
+				case "ArrowUp":
+					dispatch({ type: "ROTATE_PIECE" });
+					break;
+				default:
+					break;
+			}
+		};
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, []);
+	}, [state.gameOver, dispatch]);
 
 	return (
 		<section className="flex flex-col items-center">
@@ -87,12 +90,12 @@ const Tetris: React.FC = () => {
 					Game Over
 				</div>
 			) : (
-				<div className="grid grid-cols-10 gap-px border border-gray-700">
+				<div className="grid grid-cols-12 gap-px border border-gray-700">
 					{renderedGrid.map((row, rowIndex) =>
 						row.map((cell, colIndex) => (
 							<div
 								key={`${rowIndex}-${colIndex}`}
-								className="w-6 h-6 border border-gray-300"
+								className="w-5 h-5 border border-gray-300"
 								style={{
 									backgroundColor: cell.filled
 										? cell.color || "gray"

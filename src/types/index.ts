@@ -8,9 +8,11 @@ export type Tetromino = number[][];
 
 export type Position = { x: number; y: number };
 
+export type PieceDetails = { shape: Tetromino; color: string };
+
 export type GameState = {
 	grid: Cell[][];
-	currentPiece: { shape: Tetromino; color: string } | null;
+	currentPiece: PieceDetails | null;
 	position: Position;
 	score: number;
 	gameOver: boolean;

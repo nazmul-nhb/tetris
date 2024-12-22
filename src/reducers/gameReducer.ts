@@ -21,7 +21,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				...state,
 				grid: createEmptyGrid(),
 				currentPiece: TETROMINOS.T,
-				position: { x: 3, y: 0 },
+				position: { x: 4, y: 0 },
 				score: 0,
 				gameOver: false,
 			};
@@ -32,7 +32,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			}
 
 			const piece = TETROMINOS[action.piece];
-			const spawnPosition = { x: 3, y: 0 };
+			const spawnPosition = { x: 4, y: 0 };
 
 			// Check if the spawn position is valid
 			if (isCollision(state.grid, piece.shape, spawnPosition)) {
@@ -47,6 +47,10 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		}
 
 		case "UPDATE_POSITION": {
+			if (!state.currentPiece) {
+				return state; // No current piece to update
+			}
+
 			const newX = state.position.x + action.x;
 			const newY = state.position.y + action.y;
 
@@ -74,7 +78,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 					...state,
 					grid: newGrid,
 					currentPiece: null,
-					position: { x: 3, y: 0 },
+					position: { x: 4, y: 0 },
 					score: state.score + rowsCleared * 100,
 				};
 			}

@@ -32,7 +32,7 @@ export const getRenderedGrid = (
 	piece: Tetromino,
 	position: Position,
 	color: string
-) => {
+): Cell[][] => {
 	const newGrid = grid.map((row) => row.map((cell) => ({ ...cell })));
 
 	piece.forEach((row, rowIndex) => {
