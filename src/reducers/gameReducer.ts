@@ -6,7 +6,7 @@ import {
 	getRenderedGrid,
 	rotateMatrix,
 	clearFullRows,
-} from "../utilities";
+} from "../utilities/gameUtils";
 
 /**
  * Game Reducer.
@@ -24,12 +24,11 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				position: { x: 4, y: 0 },
 				score: 0,
 				gameOver: false,
+				isPaused: false,
 			};
 
 		case "SPAWN_PIECE": {
-			if (state.gameOver) {
-				return state;
-			}
+			if (state.gameOver) return state;
 
 			const piece = TETROMINOS[action.piece];
 			const spawnPosition = { x: 4, y: 0 };
@@ -47,8 +46,10 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		}
 
 		case "UPDATE_POSITION": {
-			if (!state.currentPiece) {
-				return state; // No current piece to update
+			if (!state.currentPiece) return state;
+
+			if (state.isPaused) {
+				return { ...state, isPaused: false };
 			}
 
 			const newX = state.position.x + action.x;
@@ -98,6 +99,10 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		case "ROTATE_PIECE": {
 			if (!state.currentPiece) return state;
 
+			if (state.isPaused) {
+				return { ...state, isPaused: false };
+			}
+
 			// Rotate the piece
 			const rotatedShape = rotateMatrix(state.currentPiece.shape);
 
@@ -124,6 +129,9 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				score: state.score + rowsCleared * 100, // Increment score (100 points per cleared row)
 			};
 		}
+
+		case "TOGGLE_PAUSE":
+			return { ...state, isPaused: !state.isPaused };
 
 		default:
 			return state;

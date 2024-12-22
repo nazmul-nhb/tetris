@@ -15,7 +15,7 @@ export const createEmptyGrid = (): Cell[][] =>
  * @param matrix The Tetromino matrix to rotate.
  * @returns The rotated Tetromino matrix.
  */
-export const rotateMatrix = (matrix: number[][]): number[][] => {
+export const rotateMatrix = (matrix: Tetromino): Tetromino => {
 	return matrix[0].map((_, i) => matrix.map((row) => row[i]).reverse());
 };
 

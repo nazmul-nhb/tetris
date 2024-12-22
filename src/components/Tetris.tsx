@@ -1,8 +1,19 @@
 import React, { useEffect, useReducer } from "react";
 import { GameState } from "../types";
-import { createEmptyGrid, getRenderedGrid } from "../utilities";
+import { createEmptyGrid, getRenderedGrid } from "../utilities/gameUtils";
 import { TETROMINOS } from "../constants";
 import { gameReducer } from "../reducers/gameReducer";
+import {
+	IoIosArrowDroprightCircle,
+	IoIosArrowDropleftCircle,
+	IoIosArrowDropdownCircle,
+} from "react-icons/io";
+import {
+	FaArrowsRotate,
+	FaCirclePause,
+	FaPlay,
+	FaArrowRotateRight,
+} from "react-icons/fa6";
 
 /** The initial game state */
 const initialState: GameState = {
@@ -11,6 +22,7 @@ const initialState: GameState = {
 	position: { x: 4, y: 0 },
 	score: 0,
 	gameOver: false,
+	isPaused: false,
 };
 
 /** Tetris Component */
@@ -30,15 +42,15 @@ const Tetris: React.FC = () => {
 	/** Automatically drop the Tetromino every second */
 	useEffect(() => {
 		const interval = setInterval(() => {
-			if (state.currentPiece && !state.gameOver) {
+			if (state.isPaused || state.gameOver) return; // Prevent movement if paused or game over
+
+			if (state.currentPiece) {
 				dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
-			} else {
-				clearInterval(interval);
 			}
 		}, 1000);
 
 		return () => clearInterval(interval);
-	}, [state.currentPiece, state.gameOver, dispatch]);
+	}, [state.currentPiece, state.gameOver, dispatch, state.isPaused]);
 
 	useEffect(() => {
 		if (!state.currentPiece) {
@@ -72,6 +84,9 @@ const Tetris: React.FC = () => {
 				case "ArrowUp":
 					dispatch({ type: "ROTATE_PIECE" });
 					break;
+				case " ":
+					dispatch({ type: "TOGGLE_PAUSE" });
+					break;
 				default:
 					break;
 			}
@@ -84,18 +99,26 @@ const Tetris: React.FC = () => {
 		<section className="flex flex-col items-center">
 			<h1 className="text-xl font-bold mb-4">Tetris Game</h1>
 			<h2 className="text-lg font-semibold mt-4">Score: {state.score}</h2>
+			{/* Restart Game Button */}
+			<button
+				onClick={() => dispatch({ type: "RESET_GRID" })}
+				className="text-white my-3 hover:-translate-y-1 outline-none active:rotate-180 active:translate-y-1 transition-all duration-300"
+				title="Restart Game"
+			>
+				<FaArrowsRotate size={36} />
+			</button>
 
 			{state.gameOver ? (
 				<div className="text-red-600 text-2xl font-bold mt-4">
 					Game Over
 				</div>
 			) : (
-				<div className="grid grid-cols-12 gap-px border border-gray-700">
+				<div className="grid grid-cols-12 border border-gray-700">
 					{renderedGrid.map((row, rowIndex) =>
 						row.map((cell, colIndex) => (
 							<div
 								key={`${rowIndex}-${colIndex}`}
-								className="w-5 h-5 border border-gray-300"
+								className="w-5 h-5 border border-gray-400"
 								style={{
 									backgroundColor: cell.filled
 										? cell.color || "gray"
@@ -110,42 +133,79 @@ const Tetris: React.FC = () => {
 			{state.gameOver ? (
 				<button
 					onClick={() => dispatch({ type: "RESET_GRID" })}
-					className="px-4 py-2 bg-red-800 text-white rounded mt-4"
+					className="px-4 py-2 bg-red-800 text-white rounded mt-4 flex items-center gap-2"
 				>
-					Restart Game
+					<FaArrowsRotate /> Restart Game
 				</button>
 			) : (
-				<div className="flex gap-2 mt-4">
-					<button
-						onClick={() =>
-							dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 })
-						}
-						className="px-4 py-2 bg-yellow-600 text-white rounded"
-					>
-						Move Left
-					</button>
-					<button
-						onClick={() =>
-							dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 })
-						}
-						className="px-4 py-2 bg-yellow-600 text-white rounded"
-					>
-						Move Right
-					</button>
-					<button
-						onClick={() =>
-							dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 })
-						}
-						className="px-4 py-2 bg-blue-800 text-white rounded"
-					>
-						Move Down
-					</button>
-					<button
-						onClick={() => dispatch({ type: "ROTATE_PIECE" })}
-						className="px-4 py-2 bg-yellow-600 text-white rounded"
-					>
-						Rotate
-					</button>
+				<div className="flex justify-center mt-4 text-white">
+					<div className="flex flex-col gap-2 items-center">
+						{/* Rotate Button */}
+						<button
+							onClick={() => dispatch({ type: "ROTATE_PIECE" })}
+							className="hover:-rotate-45 outline-none active:rotate-90 transition-all duration-300"
+							title="Rotate Piece"
+						>
+							<FaArrowRotateRight size={30} />
+						</button>
+						{/* Left Pause/Resume and Right Buttons */}
+						<div className="flex justify-center gap-4 w-full">
+							<button
+								onClick={() =>
+									dispatch({
+										type: "UPDATE_POSITION",
+										x: -1,
+										y: 0,
+									})
+								}
+								className="hover:translate-x-1 outline-none active:-translate-x-1 transition-all duration-300"
+								title="Move Left"
+							>
+								<IoIosArrowDropleftCircle size={32} />
+							</button>
+							<button
+								onClick={() =>
+									dispatch({ type: "TOGGLE_PAUSE" })
+								}
+								className="hover:scale-110 outline-none active:scale-90 transition-all duration-300"
+							>
+								{state.isPaused ? (
+									<FaPlay title="Resume Game" size={32} />
+								) : (
+									<FaCirclePause
+										title="Pause Game"
+										size={32}
+									/>
+								)}
+							</button>
+							<button
+								onClick={() =>
+									dispatch({
+										type: "UPDATE_POSITION",
+										x: 1,
+										y: 0,
+									})
+								}
+								className="hover:-translate-x-1 outline-none active:translate-x-1 transition-all duration-300"
+								title="Move Right"
+							>
+								<IoIosArrowDroprightCircle size={32} />
+							</button>
+						</div>
+						<button
+							onClick={() =>
+								dispatch({
+									type: "UPDATE_POSITION",
+									x: 0,
+									y: 1,
+								})
+							}
+							className="hover:-translate-y-1 outline-none active:translate-y-1 transition-all duration-300"
+							title="Move Down"
+						>
+							<IoIosArrowDropdownCircle size={32} />
+						</button>
+					</div>
 				</div>
 			)}
 		</section>

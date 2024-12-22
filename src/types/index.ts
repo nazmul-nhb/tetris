@@ -16,6 +16,7 @@ export type GameState = {
 	position: Position;
 	score: number;
 	gameOver: boolean;
+	isPaused: boolean;
 };
 
 export type GameAction =
@@ -26,5 +27,5 @@ export type GameAction =
 	| { type: "MOVE_LEFT" }
 	| { type: "MOVE_RIGHT" }
 	| { type: "MOVE_DOWN" }
-	| { type: "CLEAR_ROWS" };
-
+	| { type: "CLEAR_ROWS" }
+	| { type: "TOGGLE_PAUSE" };
