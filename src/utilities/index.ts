@@ -50,3 +50,32 @@ export const getRenderedGrid = (
 
 	return newGrid;
 };
+
+/**
+ * Check for collision with walls, floor, or other Tetrominos.
+ * @param grid The game grid.
+ * @param piece The Tetromino shape.
+ * @param position The current position of the Tetromino.
+ * @returns Boolean indicating whether there's a collision.
+ */
+export const isCollision = (
+	grid: Cell[][],
+	piece: Tetromino,
+	position: Position
+): boolean => {
+	return piece.some((row, rowIndex) =>
+		row.some((cell, colIndex) => {
+			if (cell === 0) return false;
+
+			const y = position.y + rowIndex;
+			const x = position.x + colIndex;
+
+			return (
+				y >= ROWS || // Bottom boundary
+				x < 0 || // Left boundary
+				x >= COLS || // Right boundary
+				(y >= 0 && grid[y][x]?.filled) // Occupied cell
+			);
+		})
+	);
+};
