@@ -17,11 +17,33 @@ import {
 export function gameReducer(state: GameState, action: GameAction): GameState {
 	switch (action.type) {
 		case "RESET_GRID":
-			return { ...state, grid: createEmptyGrid() };
+			return {
+				...state,
+				grid: createEmptyGrid(),
+				currentPiece: TETROMINOS.T,
+				position: { x: 3, y: 0 },
+				score: 0,
+				gameOver: false,
+			};
 
 		case "SPAWN_PIECE": {
+			if (state.gameOver) {
+				return state;
+			}
+
 			const piece = TETROMINOS[action.piece];
-			return { ...state, currentPiece: piece, position: { x: 3, y: 0 } };
+			const spawnPosition = { x: 3, y: 0 };
+
+			// Check if the spawn position is valid
+			if (isCollision(state.grid, piece.shape, spawnPosition)) {
+				return { ...state, gameOver: true }; // Game Over
+			}
+
+			return {
+				...state,
+				currentPiece: piece,
+				position: spawnPosition,
+			};
 		}
 
 		case "UPDATE_POSITION": {
@@ -32,10 +54,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			const collision = isCollision(
 				state.grid,
 				state.currentPiece!.shape,
-				{
-					x: newX,
-					y: newY,
-				}
+				{ x: newX, y: newY }
 			);
 
 			// If there's a collision while moving downward (y > 0), lock the piece

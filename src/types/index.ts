@@ -13,6 +13,7 @@ export type GameState = {
 	currentPiece: { shape: Tetromino; color: string } | null;
 	position: Position;
 	score: number;
+	gameOver: boolean;
 };
 
 export type GameAction =
