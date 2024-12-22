@@ -25,36 +25,51 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		}
 
 		case "UPDATE_POSITION": {
-			const newPosition = {
-				x: state.position.x + action.x,
-				y: state.position.y + action.y,
-			};
+			const newX = state.position.x + action.x;
+			const newY = state.position.y + action.y;
 
-			// Check for collision before updating position
-			if (
-				state.currentPiece &&
-				!isCollision(state.grid, state.currentPiece.shape, newPosition)
-			) {
-				return { ...state, position: newPosition };
-			}
+			// Check for collision with the new position
+			const collision = isCollision(
+				state.grid,
+				state.currentPiece!.shape,
+				{
+					x: newX,
+					y: newY,
+				}
+			);
 
-			// Handle collision with the bottom (lock piece in place)
-			if (action.y > 0 && state.currentPiece) {
-				const mergedGrid = getRenderedGrid(
+			// If there's a collision while moving downward (y > 0), lock the piece
+			if (collision && action.y > 0) {
+				// Lock the current piece into the grid
+				const lockedGrid = getRenderedGrid(
 					state.grid,
-					state.currentPiece.shape,
+					state.currentPiece!.shape,
 					state.position,
-					state.currentPiece.color
+					state.currentPiece!.color
 				);
+
+				// Clear completed rows
+				const { newGrid, rowsCleared } = clearFullRows(lockedGrid);
+
 				return {
 					...state,
-					grid: mergedGrid,
-					currentPiece: null, // Clear current piece
-					position: { x: 3, y: 0 }, // Reset position for the next piece
+					grid: newGrid,
+					currentPiece: null,
+					position: { x: 3, y: 0 },
+					score: state.score + rowsCleared * 100,
 				};
 			}
 
-			return state;
+			// If there's a collision but not due to downward movement, ignore the move
+			if (collision) {
+				return state;
+			}
+
+			// Apply the valid movement
+			return {
+				...state,
+				position: { x: newX, y: newY },
+			};
 		}
 
 		case "ROTATE_PIECE": {
