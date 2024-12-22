@@ -69,13 +69,12 @@ export const isCollision = (
 				const x = position.x + colIndex;
 				const y = position.y + rowIndex;
 
-				// Check if out of bounds or collides with filled cells
+				// Check if out of bounds or collides with a filled cell
 				return (
 					x < 0 ||
 					x >= COLS ||
-					y < 0 ||
-					y >= ROWS ||
-					(grid[y] && grid[y][x] && grid[y][x].filled)
+					y >= ROWS || // Out of bounds vertically or horizontally
+					(y >= 0 && grid[y][x].filled) // Collision with filled cell
 				);
 			}
 			return false;

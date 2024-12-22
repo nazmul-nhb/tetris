@@ -7,6 +7,11 @@ import {
 	rotateMatrix,
 	clearFullRows,
 } from "../utilities/gameUtils";
+import {
+	getSavedScores,
+	updateBestScore,
+	updateLinesCleared,
+} from "../utilities/localStorage";
 
 /**
  * Game Reducer.
@@ -47,53 +52,39 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 		case "UPDATE_POSITION": {
 			if (!state.currentPiece) return state;
-
-			if (state.isPaused) {
-				return { ...state, isPaused: false };
-			}
+			if (state.isPaused) return { ...state, isPaused: false };
 
 			const newX = state.position.x + action.x;
 			const newY = state.position.y + action.y;
 
-			// Check for collision with the new position
+			// Check for collision
 			const collision = isCollision(
 				state.grid,
-				state.currentPiece!.shape,
+				state.currentPiece.shape,
 				{ x: newX, y: newY }
 			);
 
-			// If there's a collision while moving downward (y > 0), lock the piece
+			// Lock piece if collision occurs on downward movement
 			if (collision && action.y > 0) {
-				// Lock the current piece into the grid
 				const lockedGrid = getRenderedGrid(
 					state.grid,
-					state.currentPiece!.shape,
+					state.currentPiece.shape,
 					state.position,
-					state.currentPiece!.color
+					state.currentPiece.color
 				);
-
-				// Clear completed rows
-				const { newGrid, rowsCleared } = clearFullRows(lockedGrid);
-
-				const newScore = state.score + rowsCleared * 100;
 
 				return {
 					...state,
-					grid: newGrid,
+					grid: lockedGrid,
 					currentPiece: null,
 					position: { x: 4, y: 0 },
-					score: newScore,
-					bestScore:
-						newScore > state.bestScore ? newScore : state.bestScore,
 				};
 			}
 
-			// If there's a collision but not due to downward movement, ignore the move
-			if (collision) {
-				return state;
-			}
+			// Ignore invalid moves
+			if (collision) return state;
 
-			// Apply the valid movement
+			// Apply valid movement
 			return {
 				...state,
 				position: { x: newX, y: newY },
@@ -128,14 +119,30 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		case "CLEAR_ROWS": {
 			const { newGrid, rowsCleared } = clearFullRows(state.grid);
 
+			if (rowsCleared > 0) {
+				// Update local storage only if rows are cleared
+				updateLinesCleared(rowsCleared / 2);
+			}
+
 			const newScore = state.score + rowsCleared * 100;
+
+			let bestScore = state.bestScore;
+
+			if (newScore > state.bestScore) {
+				bestScore = newScore;
+				updateBestScore(bestScore);
+			}
+
+			// Fetch updated scores after local storage changes
+			const updatedScores = getSavedScores();
 
 			return {
 				...state,
 				grid: newGrid,
-				score: state.score + rowsCleared * 100,
-				bestScore:
-					newScore > state.bestScore ? newScore : state.bestScore,
+				score: newScore,
+				bestScore: updatedScores.bestScore,
+				linesCleared: state.linesCleared + rowsCleared,
+				totalLines: updatedScores.totalLines,
 			};
 		}
 

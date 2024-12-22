@@ -14,6 +14,7 @@ import {
 	FaPlay,
 	FaArrowRotateRight,
 } from "react-icons/fa6";
+import { getSavedScores } from "../utilities/localStorage";
 
 /** The initial game state */
 const initialState: GameState = {
@@ -21,7 +22,9 @@ const initialState: GameState = {
 	currentPiece: TETROMINOS.T,
 	position: { x: 4, y: 0 },
 	score: 0,
-	bestScore: 0,
+	bestScore: getSavedScores().bestScore,
+	linesCleared: 0,
+	totalLines: getSavedScores().totalLines,
 	gameOver: false,
 	isPaused: false,
 };
@@ -56,6 +59,8 @@ const Tetris: React.FC = () => {
 
 	useEffect(() => {
 		if (!state.currentPiece) {
+			dispatch({ type: "CLEAR_ROWS" });
+
 			const randomPiece = ["I", "O", "T", "L", "J", "S", "Z"][
 				Math.floor(Math.random() * 7)
 			];
@@ -114,10 +119,16 @@ const Tetris: React.FC = () => {
 
 	return (
 		<section className="flex flex-col items-center">
-			<h2 className="text-lg font-semibold mt-4">
+			<h2 className="text-lg font-semibold">
 				Best Score: {state.bestScore}
 			</h2>
-			<h2 className="text-lg font-semibold mt-4">Score: {state.score}</h2>
+			<h2 className="text-lg font-semibold">
+				Total Lines Cleared: {state.totalLines}
+			</h2>
+			<h2 className="text-lg font-semibold">
+				Lines Cleared: {state.linesCleared}
+			</h2>
+			<h2 className="text-lg font-semibold">Score: {state.score}</h2>
 			{/* Restart Game Button */}
 			<button
 				onClick={() => dispatch({ type: "RESET_GRID" })}

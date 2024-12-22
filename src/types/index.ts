@@ -15,7 +15,9 @@ export type GameState = {
 	currentPiece: PieceDetails | null;
 	position: Position;
 	score: number;
-	bestScore: number;
+    bestScore: number;
+    linesCleared: number;
+    totalLines: number;
 	gameOver: boolean;
 	isPaused: boolean;
 };
@@ -31,5 +33,14 @@ export type GameAction =
 	| { type: "CLEAR_ROWS" }
 	| { type: "TOGGLE_PAUSE" };
 
+export type KeyPressed =
+	| "ArrowLeft"
+	| "ArrowRight"
+	| "ArrowDown"
+	| "ArrowUp"
+	| "Space";
 
-    export type KeyPressed = "ArrowLeft" | "ArrowRight" | "ArrowDown" | "ArrowUp" | "Space";
+export type TetrisScores = {
+	totalLines: number;
+	bestScore: number;
+};
