@@ -75,12 +75,16 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				// Clear completed rows
 				const { newGrid, rowsCleared } = clearFullRows(lockedGrid);
 
+				const newScore = state.score + rowsCleared * 100;
+
 				return {
 					...state,
 					grid: newGrid,
 					currentPiece: null,
 					position: { x: 4, y: 0 },
-					score: state.score + rowsCleared * 100,
+					score: newScore,
+					bestScore:
+						newScore > state.bestScore ? newScore : state.bestScore,
 				};
 			}
 
@@ -123,10 +127,15 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 		case "CLEAR_ROWS": {
 			const { newGrid, rowsCleared } = clearFullRows(state.grid);
+
+			const newScore = state.score + rowsCleared * 100;
+
 			return {
 				...state,
 				grid: newGrid,
-				score: state.score + rowsCleared * 100, // Increment score (100 points per cleared row)
+				score: state.score + rowsCleared * 100,
+				bestScore:
+					newScore > state.bestScore ? newScore : state.bestScore,
 			};
 		}
 

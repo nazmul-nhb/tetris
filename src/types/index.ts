@@ -15,6 +15,7 @@ export type GameState = {
 	currentPiece: PieceDetails | null;
 	position: Position;
 	score: number;
+	bestScore: number;
 	gameOver: boolean;
 	isPaused: boolean;
 };
@@ -29,3 +30,6 @@ export type GameAction =
 	| { type: "MOVE_DOWN" }
 	| { type: "CLEAR_ROWS" }
 	| { type: "TOGGLE_PAUSE" };
+
+
+    export type KeyPressed = "ArrowLeft" | "ArrowRight" | "ArrowDown" | "ArrowUp" | "Space";

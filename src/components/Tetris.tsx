@@ -1,4 +1,4 @@
-import { GameState } from "../types";
+import { GameState, KeyPressed } from "../types";
 import { TETROMINOS } from "../constants";
 import { gameReducer } from "../reducers/gameReducer";
 import React, { useEffect, useReducer, useState } from "react";
@@ -21,6 +21,7 @@ const initialState: GameState = {
 	currentPiece: TETROMINOS.T,
 	position: { x: 4, y: 0 },
 	score: 0,
+	bestScore: 0,
 	gameOver: false,
 	isPaused: false,
 };
@@ -28,7 +29,7 @@ const initialState: GameState = {
 /** Tetris Component */
 const Tetris: React.FC = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialState);
-	const [keyPressed, setKeyPressed] = useState<string | null>(null);
+	const [keyPressed, setKeyPressed] = useState<KeyPressed | null>(null);
 
 	/** Get the rendered grid with the current piece. */
 	const renderedGrid = state.currentPiece
@@ -92,7 +93,7 @@ const Tetris: React.FC = () => {
 					dispatch({ type: "ROTATE_PIECE" });
 					break;
 				case " ":
-					setKeyPressed(" ");
+					setKeyPressed("Space");
 					dispatch({ type: "TOGGLE_PAUSE" });
 					break;
 				default:
@@ -113,6 +114,9 @@ const Tetris: React.FC = () => {
 
 	return (
 		<section className="flex flex-col items-center">
+			<h2 className="text-lg font-semibold mt-4">
+				Best Score: {state.bestScore}
+			</h2>
 			<h2 className="text-lg font-semibold mt-4">Score: {state.score}</h2>
 			{/* Restart Game Button */}
 			<button
@@ -148,7 +152,7 @@ const Tetris: React.FC = () => {
 			{state.gameOver ? (
 				<button
 					onClick={() => dispatch({ type: "RESET_GRID" })}
-					className="px-4 py-2 bg-red-800 text-white rounded mt-4 flex items-center gap-2"
+					className="px-4 py-2 bg-red-800 text-white rounded mt-4 flex items-center gap-2 hover:-translate-y-1 outline-none active:translate-y-1 transition-all duration-300"
 				>
 					<FaArrowsRotate /> Restart Game
 				</button>
@@ -191,7 +195,7 @@ const Tetris: React.FC = () => {
 									dispatch({ type: "TOGGLE_PAUSE" })
 								}
 								className={`${
-									keyPressed === " "
+									keyPressed === "Space"
 										? "scale-90"
 										: "hover:scale-110 active:scale-90 duration-300"
 								} outline-none transition-all`}
