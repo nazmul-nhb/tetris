@@ -9,6 +9,7 @@ const initialState: GameState = {
 	grid: createEmptyGrid(),
 	currentPiece: TETROMINOS.T,
 	position: { x: 3, y: 0 },
+	score: 0,
 };
 
 /** Tetris Component */
@@ -60,7 +61,8 @@ const Tetris: React.FC = () => {
 		if (!state.currentPiece) {
 			const randomPiece = ["I", "O", "T", "L", "J", "S", "Z"][
 				Math.floor(Math.random() * 7)
-			];
+            ];
+            
 			dispatch({
 				type: "SPAWN_PIECE",
 				piece: randomPiece as keyof typeof TETROMINOS,
@@ -77,6 +79,8 @@ const Tetris: React.FC = () => {
 	return (
 		<div className="flex flex-col items-center">
 			<h1 className="text-xl font-bold mb-4">Tetris Game</h1>
+			<h2 className="text-lg font-semibold mt-4">Score: {state.score}</h2>
+
 			<div className="grid grid-cols-10 gap-px border border-gray-700">
 				{renderedGrid.map((row, rowIndex) =>
 					row.map((cell, colIndex) => (
@@ -132,6 +136,13 @@ const Tetris: React.FC = () => {
 				>
 					Spawn Piece
 				</button>
+				<button
+					onClick={() => dispatch({ type: "CLEAR_ROWS" })}
+					className="px-4 py-2 bg-purple-600 text-white rounded"
+				>
+					Clear Rows
+				</button>
+
 				<button
 					onClick={() => dispatch({ type: "RESET_GRID" })}
 					className="px-4 py-2 bg-red-800 text-white rounded"

@@ -82,3 +82,24 @@ export const isCollision = (
 		})
 	);
 };
+
+/**
+ * Clear filled rows and update the grid and score.
+ * @param grid The current game grid.
+ * @returns An object with the updated grid and cleared row count.
+ */
+export const clearFullRows = (
+	grid: Cell[][]
+): { newGrid: Cell[][]; rowsCleared: number } => {
+	const newGrid = grid.filter((row) => row.some((cell) => !cell.filled));
+	const clearedRows = ROWS - newGrid.length;
+
+	// Add empty rows on top to maintain grid size
+	while (newGrid.length < ROWS) {
+		newGrid.unshift(
+			Array.from({ length: COLS }, () => ({ filled: false, color: null }))
+		);
+	}
+
+	return { newGrid, rowsCleared: clearedRows };
+};

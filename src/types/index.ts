@@ -12,6 +12,7 @@ export type GameState = {
 	grid: Cell[][];
 	currentPiece: { shape: Tetromino; color: string } | null;
 	position: Position;
+	score: number;
 };
 
 export type GameAction =
@@ -21,4 +22,6 @@ export type GameAction =
 	| { type: "ROTATE_PIECE" }
 	| { type: "MOVE_LEFT" }
 	| { type: "MOVE_RIGHT" }
-	| { type: "MOVE_DOWN" };
+	| { type: "MOVE_DOWN" }
+	| { type: "CLEAR_ROWS" };
+

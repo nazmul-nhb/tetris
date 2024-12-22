@@ -5,6 +5,7 @@ import {
 	isCollision,
 	getRenderedGrid,
 	rotateMatrix,
+	clearFullRows,
 } from "../utilities";
 
 /**
@@ -75,6 +76,15 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 			// If rotation is invalid, return state unchanged
 			return state;
+		}
+
+		case "CLEAR_ROWS": {
+			const { newGrid, rowsCleared } = clearFullRows(state.grid);
+			return {
+				...state,
+				grid: newGrid,
+				score: state.score + rowsCleared * 100, // Increment score (100 points per cleared row)
+			};
 		}
 
 		default:
