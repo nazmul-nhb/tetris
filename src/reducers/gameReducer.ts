@@ -1,6 +1,11 @@
 import { TETROMINOS } from "../constants";
 import { GameAction, GameState } from "../types";
-import { createEmptyGrid, isCollision, getRenderedGrid } from "../utilities";
+import {
+	createEmptyGrid,
+	isCollision,
+	getRenderedGrid,
+	rotateMatrix,
+} from "../utilities";
 
 /**
  * Game Reducer.
@@ -48,6 +53,27 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				};
 			}
 
+			return state;
+		}
+
+		case "ROTATE_PIECE": {
+			if (!state.currentPiece) return state;
+
+			// Rotate the piece
+			const rotatedShape = rotateMatrix(state.currentPiece.shape);
+
+			// Check for collisions after rotation
+			if (!isCollision(state.grid, rotatedShape, state.position)) {
+				return {
+					...state,
+					currentPiece: {
+						...state.currentPiece,
+						shape: rotatedShape,
+					},
+				};
+			}
+
+			// If rotation is invalid, return state unchanged
 			return state;
 		}
 

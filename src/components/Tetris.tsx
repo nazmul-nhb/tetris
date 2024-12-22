@@ -37,6 +37,9 @@ const Tetris: React.FC = () => {
 			case "ArrowDown":
 				dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
 				break;
+			case "ArrowUp":
+				dispatch({ type: "ROTATE_PIECE" });
+				break;
 			default:
 				break;
 		}
@@ -53,7 +56,7 @@ const Tetris: React.FC = () => {
 		return () => clearInterval(interval);
 	}, [state.currentPiece, dispatch]);
 
-    useEffect(() => {
+	useEffect(() => {
 		if (!state.currentPiece) {
 			const randomPiece = ["I", "O", "T", "L", "J", "S", "Z"][
 				Math.floor(Math.random() * 7)
@@ -64,7 +67,6 @@ const Tetris: React.FC = () => {
 			});
 		}
 	}, [state.currentPiece, dispatch]);
-
 
 	// Attach keyboard listener
 	useEffect(() => {
@@ -115,6 +117,13 @@ const Tetris: React.FC = () => {
 				>
 					Move Down
 				</button>
+				<button
+					onClick={() => dispatch({ type: "ROTATE_PIECE" })}
+					className="px-4 py-2 bg-yellow-600 text-white rounded"
+				>
+					Rotate
+				</button>
+
 				<button
 					onClick={() =>
 						dispatch({ type: "SPAWN_PIECE", piece: "L" })

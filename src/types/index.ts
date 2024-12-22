@@ -18,6 +18,7 @@ export type GameAction =
 	| { type: "RESET_GRID" }
 	| { type: "SPAWN_PIECE"; piece: keyof typeof TETROMINOS }
 	| { type: "UPDATE_POSITION"; x: number; y: number }
+	| { type: "ROTATE_PIECE" }
 	| { type: "MOVE_LEFT" }
 	| { type: "MOVE_RIGHT" }
 	| { type: "MOVE_DOWN" };

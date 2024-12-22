@@ -15,7 +15,7 @@ export const createEmptyGrid = (): Cell[][] =>
  * @param matrix The Tetromino matrix to rotate.
  * @returns The rotated Tetromino matrix.
  */
- export const rotateMatrix = (matrix: number[][]): number[][] => {
+export const rotateMatrix = (matrix: number[][]): number[][] => {
 	return matrix[0].map((_, i) => matrix.map((row) => row[i]).reverse());
 };
 
@@ -52,30 +52,33 @@ export const getRenderedGrid = (
 };
 
 /**
- * Check for collision with walls, floor, or other Tetrominos.
+ * Check for collision when placing or rotating a Tetromino.
  * @param grid The game grid.
- * @param piece The Tetromino shape.
- * @param position The current position of the Tetromino.
- * @returns Boolean indicating whether there's a collision.
+ * @param shape The Tetromino shape.
+ * @param position The position to check.
+ * @returns True if there's a collision.
  */
 export const isCollision = (
 	grid: Cell[][],
-	piece: Tetromino,
+	shape: Tetromino,
 	position: Position
 ): boolean => {
-	return piece.some((row, rowIndex) =>
+	return shape.some((row, rowIndex) =>
 		row.some((cell, colIndex) => {
-			if (cell === 0) return false;
+			if (cell === 1) {
+				const x = position.x + colIndex;
+				const y = position.y + rowIndex;
 
-			const y = position.y + rowIndex;
-			const x = position.x + colIndex;
-
-			return (
-				y >= ROWS || // Bottom boundary
-				x < 0 || // Left boundary
-				x >= COLS || // Right boundary
-				(y >= 0 && grid[y][x]?.filled) // Occupied cell
-			);
+				// Check if out of bounds or collides with filled cells
+				return (
+					x < 0 ||
+					x >= COLS ||
+					y < 0 ||
+					y >= ROWS ||
+					(grid[y] && grid[y][x] && grid[y][x].filled)
+				);
+			}
+			return false;
 		})
 	);
 };
