@@ -1,8 +1,8 @@
-import React, { useEffect, useReducer } from "react";
 import { GameState } from "../types";
-import { createEmptyGrid, getRenderedGrid } from "../utilities/gameUtils";
 import { TETROMINOS } from "../constants";
 import { gameReducer } from "../reducers/gameReducer";
+import React, { useEffect, useReducer, useState } from "react";
+import { createEmptyGrid, getRenderedGrid } from "../utilities/gameUtils";
 import {
 	IoIosArrowDroprightCircle,
 	IoIosArrowDropleftCircle,
@@ -28,6 +28,7 @@ const initialState: GameState = {
 /** Tetris Component */
 const Tetris: React.FC = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialState);
+	const [keyPressed, setKeyPressed] = useState<string | null>(null);
 
 	/** Get the rendered grid with the current piece. */
 	const renderedGrid = state.currentPiece
@@ -69,22 +70,29 @@ const Tetris: React.FC = () => {
 	useEffect(() => {
 		/** Handle keyboard controls */
 		const handleKeyDown = (e: KeyboardEvent) => {
+			e.preventDefault();
+
 			if (state.gameOver) return;
 
 			switch (e.key) {
 				case "ArrowLeft":
+					setKeyPressed("ArrowLeft");
 					dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 });
 					break;
 				case "ArrowRight":
+					setKeyPressed("ArrowRight");
 					dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 });
 					break;
 				case "ArrowDown":
+					setKeyPressed("ArrowDown");
 					dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
 					break;
 				case "ArrowUp":
+					setKeyPressed("ArrowUp");
 					dispatch({ type: "ROTATE_PIECE" });
 					break;
 				case " ":
+					setKeyPressed(" ");
 					dispatch({ type: "TOGGLE_PAUSE" });
 					break;
 				default:
@@ -95,9 +103,16 @@ const Tetris: React.FC = () => {
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [state.gameOver, dispatch]);
 
+	// Reset key pressed after animation completes
+	useEffect(() => {
+		if (keyPressed) {
+			const timeout = setTimeout(() => setKeyPressed(null), 150);
+			return () => clearTimeout(timeout);
+		}
+	}, [keyPressed]);
+
 	return (
 		<section className="flex flex-col items-center">
-			<h1 className="text-xl font-bold mb-4">Tetris Game</h1>
 			<h2 className="text-lg font-semibold mt-4">Score: {state.score}</h2>
 			{/* Restart Game Button */}
 			<button
@@ -143,7 +158,11 @@ const Tetris: React.FC = () => {
 						{/* Rotate Button */}
 						<button
 							onClick={() => dispatch({ type: "ROTATE_PIECE" })}
-							className="hover:-rotate-45 outline-none active:rotate-90 transition-all duration-300"
+							className={`${
+								keyPressed === "ArrowUp"
+									? "rotate-90"
+									: "hover:-rotate-45 active:rotate-90 duration-300"
+							} outline-none transition-all`}
 							title="Rotate Piece"
 						>
 							<FaArrowRotateRight size={30} />
@@ -158,7 +177,11 @@ const Tetris: React.FC = () => {
 										y: 0,
 									})
 								}
-								className="hover:translate-x-1 outline-none active:-translate-x-1 transition-all duration-300"
+								className={`${
+									keyPressed === "ArrowLeft"
+										? "-translate-x-1"
+										: "hover:translate-x-1 active:-translate-x-1 duration-300"
+								} outline-none transition-all`}
 								title="Move Left"
 							>
 								<IoIosArrowDropleftCircle size={32} />
@@ -167,7 +190,11 @@ const Tetris: React.FC = () => {
 								onClick={() =>
 									dispatch({ type: "TOGGLE_PAUSE" })
 								}
-								className="hover:scale-110 outline-none active:scale-90 transition-all duration-300"
+								className={`${
+									keyPressed === " "
+										? "scale-90"
+										: "hover:scale-110 active:scale-90 duration-300"
+								} outline-none transition-all`}
 							>
 								{state.isPaused ? (
 									<FaPlay title="Resume Game" size={32} />
@@ -186,7 +213,11 @@ const Tetris: React.FC = () => {
 										y: 0,
 									})
 								}
-								className="hover:-translate-x-1 outline-none active:translate-x-1 transition-all duration-300"
+								className={`${
+									keyPressed === "ArrowRight"
+										? "translate-x-1"
+										: "hover:-translate-x-1 active:translate-x-1 duration-300"
+								} "outline-none transition-all"`}
 								title="Move Right"
 							>
 								<IoIosArrowDroprightCircle size={32} />
@@ -200,7 +231,11 @@ const Tetris: React.FC = () => {
 									y: 1,
 								})
 							}
-							className="hover:-translate-y-1 outline-none active:translate-y-1 transition-all duration-300"
+							className={`${
+								keyPressed === "ArrowDown"
+									? "translate-y-1"
+									: "hover:-translate-y-1 active:translate-y-1 duration-300"
+							} outline-none transition-all`}
 							title="Move Down"
 						>
 							<IoIosArrowDropdownCircle size={32} />
