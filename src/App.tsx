@@ -1,9 +1,10 @@
 import React from 'react';
+import Tetris from './components/Tetris';
 
 const App:React.FC = () => {
   return (
-    <main>
-      <h3 className='text-center'>Hello Tetris</h3>
+    <main className='bg-slate-950 min-h-screen text-white'>
+      <Tetris/>
     </main>
   );
 };
