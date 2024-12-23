@@ -36,7 +36,7 @@ export type GameAction =
 	| { type: "MOVE_DOWN" }
 	| { type: "CLEAR_ROWS" }
 	| { type: "TOGGLE_PAUSE" }
-	| { type: "TOGGLE_MUSIC" }
+	| { type: "TOGGLE_MUSIC"; enableMusic?: boolean }
 	| { type: "TOGGLE_SOUND_EFFECTS" };
 
 export type PressedKey =
@@ -47,7 +47,8 @@ export type PressedKey =
 	| "Space"
 	| "Music"
 	| "Sound"
-	| "Escape";
+	| "Escape"
+	| "Next";
 
 export type TetrisScores = {
 	totalLines: number;

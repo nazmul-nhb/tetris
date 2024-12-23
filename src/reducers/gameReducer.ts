@@ -167,6 +167,10 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			};
 
 		case "TOGGLE_MUSIC":
+			if (action.enableMusic) {
+				return { ...state, isMusicEnabled: true };
+			}
+
 			return { ...state, isMusicEnabled: !state.isMusicEnabled };
 
 		case "TOGGLE_SOUND_EFFECTS":

@@ -13,9 +13,9 @@ const musicTracks = [
 	"/music/remedy.mp3",
 ];
 
-const backgroundMusic = new Audio(
-	musicTracks[Math.floor(Math.random() * musicTracks.length)]
-);
+let currentTrackIndex = Math.floor(Math.random() * musicTracks.length);
+
+let backgroundMusic = new Audio(musicTracks[currentTrackIndex]);
 
 backgroundMusic.loop = true;
 
@@ -43,5 +43,26 @@ export const toggleMusic = (isEnabled: boolean) => {
 		backgroundMusic.play();
 	} else {
 		backgroundMusic.pause();
+	}
+};
+
+/**
+ * Play the next music track.
+ * @param isEnabled Whether music is enabled.
+ */
+export const playNextTrack = (isEnabled: boolean) => {
+	// Stop and clean up current music
+	backgroundMusic.pause();
+	backgroundMusic.src = ""; // Clear the source
+
+	// Move to the next track
+	currentTrackIndex = (currentTrackIndex + 1) % musicTracks.length;
+
+	// Clone a fresh audio instance with the new track
+	backgroundMusic = new Audio(musicTracks[currentTrackIndex]);
+	backgroundMusic.loop = true;
+
+	if (isEnabled) {
+		backgroundMusic.play();
 	}
 };

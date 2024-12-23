@@ -20,6 +20,7 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 - **Space**: Pause/Resume game
 - **S**: Toggle sound effects
 - **M**: Toggle background music
+- **N**: Play next background music
 - **Esc**: Restart game
 
 ## Local Setup
@@ -119,7 +120,7 @@ yarn build
 
 ## Version
 
-Current version: 1.2.1
+Current version: 1.3.1
 
 ## Author
 

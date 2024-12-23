@@ -2,7 +2,11 @@ import { GameState, PressedKey } from "../types";
 import { TETROMINOS } from "../constants";
 import { gameReducer } from "../reducers/gameReducer";
 import { getSavedScores } from "../utilities/localStorage";
-import { playSoundEffect, toggleMusic } from "../utilities/soundUtils";
+import {
+	playNextTrack,
+	playSoundEffect,
+	toggleMusic,
+} from "../utilities/soundUtils";
 import React, { useEffect, useReducer, useState } from "react";
 import {
 	createEmptyGrid,
@@ -28,6 +32,7 @@ import { FaTasks } from "react-icons/fa";
 import {
 	MdMusicNote,
 	MdMusicOff,
+	MdSkipNext,
 	MdVolumeOff,
 	MdVolumeUp,
 } from "react-icons/md";
@@ -139,6 +144,11 @@ const Tetris: React.FC = () => {
 					setPressedKey("Escape");
 					dispatch({ type: "RESET_GRID" });
 					break;
+				case "n":
+					setPressedKey("Next");
+					playNextTrack(true);
+					dispatch({ type: "TOGGLE_MUSIC", enableMusic: true });
+					break;
 				default:
 					break;
 			}
@@ -231,15 +241,17 @@ const Tetris: React.FC = () => {
 						)}
 					</div>
 				</div>
-				{/* Total Lines and Current Lines Cleared */}
+				{/* Total Lines and Current Lines Cleared with Sound Effects and Music Controls */}
 				<div className="flex justify-between w-full relative mb-2">
+					{/* Total Lines Cleared */}
 					<h2
 						title="Total Lines Cleared"
 						className="text-lg font-semibold flex items-center gap-2"
 					>
 						<FaTasks size={24} /> {state.totalLines}
 					</h2>
-					<div className="absolute left-1/2 -translate-x-1/2 bottom-0 flex items-center gap-3">
+					<div className="absolute left-1/2 -translate-x-1/2 bottom-1 flex items-center gap-1">
+						{/* Toggle Sound Effects */}
 						<button
 							onClick={() => {
 								dispatch({ type: "TOGGLE_SOUND_EFFECTS" });
@@ -261,12 +273,12 @@ const Tetris: React.FC = () => {
 							}
 						>
 							{state.isSoundEffectsEnabled ? (
-								<MdVolumeUp size={24} />
+								<MdVolumeUp size={20} />
 							) : (
-								<MdVolumeOff size={24} />
+								<MdVolumeOff size={20} />
 							)}
 						</button>
-
+						{/* Toggle Music */}
 						<button
 							onClick={() => dispatch({ type: "TOGGLE_MUSIC" })}
 							className={`${
@@ -286,12 +298,31 @@ const Tetris: React.FC = () => {
 							}
 						>
 							{state.isMusicEnabled ? (
-								<MdMusicNote size={24} />
+								<MdMusicNote size={20} />
 							) : (
-								<MdMusicOff size={24} />
+								<MdMusicOff size={20} />
 							)}
 						</button>
+						{/* Play Next Music Track */}
+						<button
+							onClick={() => {
+								playNextTrack(true);
+								dispatch({
+									type: "TOGGLE_MUSIC",
+									enableMusic: true,
+								});
+							}}
+							className={`${
+								pressedKey === "Next"
+									? "-translate-x-1 duration-150"
+									: "hover:translate-x-1 active:-translate-x-1 duration-300"
+							} outline-none transition-all`}
+							title="Restart Game"
+						>
+							<MdSkipNext size={20} />
+						</button>
 					</div>
+					{/* Lines Cleared in Current Session */}
 					<h2
 						title="Lines Cleared"
 						className="text-lg font-semibold flex items-center gap-2"
