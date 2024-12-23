@@ -29,6 +29,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				currentPiece: TETROMINOS[getRandomPiece()],
 				position: { x: 4, y: 0 },
 				score: 0,
+				linesCleared: 0,
 				gameOver: false,
 				isPaused: false,
 			};

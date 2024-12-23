@@ -155,11 +155,14 @@ const Tetris: React.FC = () => {
 				{/* Control Background based on gameOver flag */}
 				<div
 					className={`${
-						state.gameOver ? "blur-sm z-30" : "bg-transparent"
+						state.gameOver || (!state.gameOver && state.isPaused)
+							? "blur-sm z-30"
+							: "bg-transparent"
 					} flex flex-col items-center bg-white p-3 rounded-md`}
 				>
 					{/* Main Tetrominos Grid */}
 					<div
+						onClick={() => dispatch({ type: "TOGGLE_PAUSE" })}
 						className={`${
 							state.gameOver ? "-z-10" : "z-10"
 						} grid grid-cols-12 border border-gray-700`}
@@ -188,7 +191,7 @@ const Tetris: React.FC = () => {
 						<FaTasks size={24} /> {state.totalLines}
 					</h2>
 					<h2
-						title="Current Lines Cleared"
+						title="Lines Cleared"
 						className="text-lg font-semibold flex items-center gap-2"
 					>
 						<FaCheckToSlot size={24} /> {state.linesCleared}
@@ -209,6 +212,21 @@ const Tetris: React.FC = () => {
 							</span>
 							<span>Restart Game</span>
 						</button>
+					</div>
+				)}
+				{/* Pause Button */}
+				{!state.gameOver && state.isPaused && (
+					<div
+						onClick={() => dispatch({ type: "TOGGLE_PAUSE" })}
+						className="absolute z-40 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 mx-4 text-center"
+					>
+						<h3 className="text-3xl font-bold text-nowrap animate-bounce text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400">
+							Paused
+						</h3>
+						<h5 className="px-4 py-2 bg-red-800/90 text-white text-sm font-semibold tracking-wider rounded">
+							Press Space or Any Arrow Button or Click Anywhere in
+							the Grid to Resume
+						</h5>
 					</div>
 				)}
 			</div>
