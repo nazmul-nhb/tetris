@@ -25,7 +25,12 @@ import {
 	FaCheckToSlot,
 } from "react-icons/fa6";
 import { FaTasks } from "react-icons/fa";
-import { MdVolumeOff, MdVolumeUp } from "react-icons/md";
+import {
+	MdMusicNote,
+	MdMusicOff,
+	MdVolumeOff,
+	MdVolumeUp,
+} from "react-icons/md";
 
 /** The initial game state */
 const initialState: GameState = {
@@ -122,6 +127,18 @@ const Tetris: React.FC = () => {
 					playSoundEffect("pause", state.isSoundEffectsEnabled);
 					dispatch({ type: "TOGGLE_PAUSE" });
 					break;
+				case "s":
+					setPressedKey("Sound");
+					dispatch({ type: "TOGGLE_SOUND_EFFECTS" });
+					break;
+				case "m":
+					setPressedKey("Music");
+					dispatch({ type: "TOGGLE_MUSIC" });
+					break;
+				case "Escape":
+					setPressedKey("Escape");
+					dispatch({ type: "RESET_GRID" });
+					break;
 				default:
 					break;
 			}
@@ -141,9 +158,10 @@ const Tetris: React.FC = () => {
 	return (
 		<section className="flex flex-col items-center select-none">
 			{/* Container for Main Grid and all the Buttons */}
-			<div className="relative flex flex-col items-center gap-2">
+			<div className="relative flex flex-col items-center gap-2 pt-4">
 				{/* Current & Best Scores with Restart Button */}
-				<div className="flex justify-between items-center w-full">
+				<div className="flex justify-between items-center w-full relative pb-2">
+					{/* Best Score */}
 					<h2
 						title="Best Score"
 						className="text-lg font-semibold flex items-center gap-2"
@@ -160,28 +178,16 @@ const Tetris: React.FC = () => {
 							);
 							dispatch({ type: "RESET_GRID" });
 						}}
-						className="text-white my-3 hover:scale-125 hover:-rotate-45 outline-none active:rotate-180 active:scale-75 transition-all duration-500"
+						className={`${
+							pressedKey === "Escape"
+								? "scale-90 duration-150 rotate-180"
+								: "hover:scale-125 active:rotate-180 active:scale-75 hover:-rotate-45 duration-300"
+						} text-white my-3 outline-none transition-all absolute left-1/2 -translate-x-1/2`}
 						title="Restart Game"
 					>
 						<FaArrowsRotate size={24} />
 					</button>
-					<button
-						onClick={() =>
-							dispatch({ type: "TOGGLE_SOUND_EFFECTS" })
-						}
-						className="text-white my-3 hover:scale-125 outline-none active:scale-75 transition-all duration-500"
-						aria-label={
-							state.isSoundEffectsEnabled
-								? "Disable Sound Effects"
-								: "Enable Sound Effects"
-						}
-					>
-						{state.isSoundEffectsEnabled ? (
-							<MdVolumeUp size={24} />
-						) : (
-							<MdVolumeOff size={24} />
-						)}
-					</button>
+					{/* Current Score */}
 					<h2
 						title="Current Score"
 						className="text-lg font-semibold flex items-center gap-2"
@@ -226,13 +232,66 @@ const Tetris: React.FC = () => {
 					</div>
 				</div>
 				{/* Total Lines and Current Lines Cleared */}
-				<div className="flex justify-between w-full">
+				<div className="flex justify-between w-full relative mb-2">
 					<h2
 						title="Total Lines Cleared"
 						className="text-lg font-semibold flex items-center gap-2"
 					>
 						<FaTasks size={24} /> {state.totalLines}
 					</h2>
+					<div className="absolute left-1/2 -translate-x-1/2 bottom-0 flex items-center gap-3">
+						<button
+							onClick={() => {
+								dispatch({ type: "TOGGLE_SOUND_EFFECTS" });
+							}}
+							className={`${
+								pressedKey === "Sound"
+									? "scale-90 duration-150"
+									: "hover:scale-125 active:scale-90 duration-300"
+							} outline-none transition-all`}
+							title={
+								state.isSoundEffectsEnabled
+									? "Disable Sound Effects"
+									: "Enable Sound Effects"
+							}
+							aria-label={
+								state.isSoundEffectsEnabled
+									? "Disable Sound Effects"
+									: "Enable Sound Effects"
+							}
+						>
+							{state.isSoundEffectsEnabled ? (
+								<MdVolumeUp size={24} />
+							) : (
+								<MdVolumeOff size={24} />
+							)}
+						</button>
+
+						<button
+							onClick={() => dispatch({ type: "TOGGLE_MUSIC" })}
+							className={`${
+								pressedKey === "Music"
+									? "scale-90 duration-150"
+									: "hover:scale-125 active:scale-90 duration-300"
+							} outline-none transition-all`}
+							title={
+								state.isMusicEnabled
+									? "Disable Music"
+									: "Enable Music"
+							}
+							aria-label={
+								state.isMusicEnabled
+									? "Disable Music"
+									: "Enable Music"
+							}
+						>
+							{state.isMusicEnabled ? (
+								<MdMusicNote size={24} />
+							) : (
+								<MdMusicOff size={24} />
+							)}
+						</button>
+					</div>
 					<h2
 						title="Lines Cleared"
 						className="text-lg font-semibold flex items-center gap-2"
@@ -275,7 +334,7 @@ const Tetris: React.FC = () => {
 						}}
 						className="absolute z-40 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 mx-4 text-center"
 					>
-						<h3 className="text-3xl font-bold text-nowrap animate-bounce text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400">
+						<h3 className="text-3xl font-extrabold text-nowrap animate-bounce text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400">
 							Paused
 						</h3>
 						<h5 className="px-4 py-2 bg-red-800/90 text-white text-sm font-semibold tracking-wider rounded">
@@ -344,7 +403,7 @@ const Tetris: React.FC = () => {
 								className={`${
 									pressedKey === "Space"
 										? "scale-90 duration-150"
-										: "hover:scale-110 active:scale-90 duration-300"
+										: "hover:scale-125 active:scale-90 duration-300"
 								} outline-none transition-all`}
 							>
 								{state.isPaused ? (

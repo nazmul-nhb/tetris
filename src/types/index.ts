@@ -44,7 +44,10 @@ export type PressedKey =
 	| "ArrowRight"
 	| "ArrowDown"
 	| "ArrowUp"
-	| "Space";
+	| "Space"
+	| "Music"
+	| "Sound"
+	| "Escape";
 
 export type TetrisScores = {
 	totalLines: number;

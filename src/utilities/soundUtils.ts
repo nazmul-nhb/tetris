@@ -1,23 +1,16 @@
-import move from "../assets/sounds/move.wav";
-import rotate from "../assets/sounds/rotate.wav";
-import drop from "../assets/sounds/drop.wav";
-import clear from "../assets/sounds/clear.wav";
-import gameOver from "../assets/sounds/game-over.wav";
-import pause from "../assets/sounds/pause.wav";
-
 const soundEffects = {
-	move: new Audio(move),
-	rotate: new Audio(rotate),
-	drop: new Audio(drop),
-	clear: new Audio(clear),
-	gameOver: new Audio(gameOver),
-	pause: new Audio(pause),
+	move: new Audio("/sounds/move.wav"),
+	rotate: new Audio("/sounds/rotate.wav"),
+	drop: new Audio("/sounds/drop.wav"),
+	clear: new Audio("/sounds/clear.wav"),
+	gameOver: new Audio("/sounds/game-over.wav"),
+	pause: new Audio("/sounds/pause.wav"),
 };
 
 const musicTracks = [
-	"/src/sounds/music1.mp3",
-	"/src/sounds/music2.mp3",
-	"/src/sounds/music3.mp3",
+	"/music/puppets.mp3",
+	"/music/crawl.mp3",
+	"/music/remedy.mp3",
 ];
 
 const backgroundMusic = new Audio(

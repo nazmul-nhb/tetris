@@ -54,7 +54,14 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 		case "UPDATE_POSITION": {
 			if (!state.currentPiece) return state;
-			if (state.isPaused) return { ...state, isPaused: false };
+
+			if (state.isPaused) {
+				return {
+					...state,
+					isPaused: false,
+					isMusicEnabled: true,
+				};
+			}
 
 			const newX = state.position.x + action.x;
 			const newY = state.position.y + action.y;
@@ -97,7 +104,11 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			if (!state.currentPiece) return state;
 
 			if (state.isPaused) {
-				return { ...state, isPaused: false };
+				return {
+					...state,
+					isPaused: false,
+					isMusicEnabled: true,
+				};
 			}
 
 			// Rotate the piece
@@ -149,7 +160,11 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		}
 
 		case "TOGGLE_PAUSE":
-			return { ...state, isPaused: !state.isPaused };
+			return {
+				...state,
+				isPaused: !state.isPaused,
+				isMusicEnabled: !!state.isPaused,
+			};
 
 		case "TOGGLE_MUSIC":
 			return { ...state, isMusicEnabled: !state.isMusicEnabled };
