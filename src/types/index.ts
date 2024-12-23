@@ -22,6 +22,8 @@ export type GameState = {
 	totalLines: number;
 	gameOver: boolean;
 	isPaused: boolean;
+	isMusicEnabled: boolean;
+	isSoundEffectsEnabled: boolean;
 };
 
 export type GameAction =
@@ -33,7 +35,9 @@ export type GameAction =
 	| { type: "MOVE_RIGHT" }
 	| { type: "MOVE_DOWN" }
 	| { type: "CLEAR_ROWS" }
-	| { type: "TOGGLE_PAUSE" };
+	| { type: "TOGGLE_PAUSE" }
+	| { type: "TOGGLE_MUSIC" }
+	| { type: "TOGGLE_SOUND_EFFECTS" };
 
 export type PressedKey =
 	| "ArrowLeft"

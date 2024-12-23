@@ -151,6 +151,15 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		case "TOGGLE_PAUSE":
 			return { ...state, isPaused: !state.isPaused };
 
+		case "TOGGLE_MUSIC":
+			return { ...state, isMusicEnabled: !state.isMusicEnabled };
+
+		case "TOGGLE_SOUND_EFFECTS":
+			return {
+				...state,
+				isSoundEffectsEnabled: !state.isSoundEffectsEnabled,
+			};
+
 		default:
 			return state;
 	}

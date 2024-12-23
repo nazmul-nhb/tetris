@@ -2,6 +2,7 @@ import { GameState, PressedKey } from "../types";
 import { TETROMINOS } from "../constants";
 import { gameReducer } from "../reducers/gameReducer";
 import { getSavedScores } from "../utilities/localStorage";
+import { playSoundEffect, toggleMusic } from "../utilities/soundUtils";
 import React, { useEffect, useReducer, useState } from "react";
 import {
 	createEmptyGrid,
@@ -24,6 +25,7 @@ import {
 	FaCheckToSlot,
 } from "react-icons/fa6";
 import { FaTasks } from "react-icons/fa";
+import { MdVolumeOff, MdVolumeUp } from "react-icons/md";
 
 /** The initial game state */
 const initialState: GameState = {
@@ -36,6 +38,8 @@ const initialState: GameState = {
 	totalLines: getSavedScores().totalLines,
 	gameOver: false,
 	isPaused: false,
+	isMusicEnabled: true,
+	isSoundEffectsEnabled: true,
 };
 
 /** Tetris Component */
@@ -68,6 +72,7 @@ const Tetris: React.FC = () => {
 
 	useEffect(() => {
 		if (!state.currentPiece) {
+			playSoundEffect("clear", state.isSoundEffectsEnabled);
 			dispatch({ type: "CLEAR_ROWS" });
 
 			const randomPiece = getRandomPiece();
@@ -77,7 +82,11 @@ const Tetris: React.FC = () => {
 				piece: randomPiece,
 			});
 		}
-	}, [state.currentPiece, dispatch]);
+	}, [state.currentPiece, dispatch, state.isSoundEffectsEnabled]);
+
+	useEffect(() => {
+		toggleMusic(state.isMusicEnabled);
+	}, [state.isMusicEnabled]);
 
 	// Attach keyboard listener
 	useEffect(() => {
@@ -90,22 +99,27 @@ const Tetris: React.FC = () => {
 			switch (e.key) {
 				case "ArrowLeft":
 					setPressedKey("ArrowLeft");
+					playSoundEffect("move", state.isSoundEffectsEnabled);
 					dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 });
 					break;
 				case "ArrowRight":
 					setPressedKey("ArrowRight");
+					playSoundEffect("move", state.isSoundEffectsEnabled);
 					dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 });
 					break;
 				case "ArrowDown":
 					setPressedKey("ArrowDown");
+					playSoundEffect("drop", state.isSoundEffectsEnabled);
 					dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
 					break;
 				case "ArrowUp":
 					setPressedKey("ArrowUp");
+					playSoundEffect("rotate", state.isSoundEffectsEnabled);
 					dispatch({ type: "ROTATE_PIECE" });
 					break;
 				case " ":
 					setPressedKey("Space");
+					playSoundEffect("pause", state.isSoundEffectsEnabled);
 					dispatch({ type: "TOGGLE_PAUSE" });
 					break;
 				default:
@@ -114,7 +128,7 @@ const Tetris: React.FC = () => {
 		}, 50);
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [state.gameOver, dispatch]);
+	}, [state.gameOver, dispatch, state.isSoundEffectsEnabled]);
 
 	// Reset key pressed after animation completes
 	useEffect(() => {
@@ -139,11 +153,34 @@ const Tetris: React.FC = () => {
 					</h2>
 					{/* Restart Game Button */}
 					<button
-						onClick={() => dispatch({ type: "RESET_GRID" })}
+						onClick={() => {
+							playSoundEffect(
+								"pause",
+								state.isSoundEffectsEnabled
+							);
+							dispatch({ type: "RESET_GRID" });
+						}}
 						className="text-white my-3 hover:scale-125 hover:-rotate-45 outline-none active:rotate-180 active:scale-75 transition-all duration-500"
 						title="Restart Game"
 					>
-						<FaArrowsRotate size={28} />
+						<FaArrowsRotate size={24} />
+					</button>
+					<button
+						onClick={() =>
+							dispatch({ type: "TOGGLE_SOUND_EFFECTS" })
+						}
+						className="text-white my-3 hover:scale-125 outline-none active:scale-75 transition-all duration-500"
+						aria-label={
+							state.isSoundEffectsEnabled
+								? "Disable Sound Effects"
+								: "Enable Sound Effects"
+						}
+					>
+						{state.isSoundEffectsEnabled ? (
+							<MdVolumeUp size={24} />
+						) : (
+							<MdVolumeOff size={24} />
+						)}
 					</button>
 					<h2
 						title="Current Score"
@@ -162,7 +199,13 @@ const Tetris: React.FC = () => {
 				>
 					{/* Main Tetrominos Grid */}
 					<div
-						onClick={() => dispatch({ type: "TOGGLE_PAUSE" })}
+						onClick={() => {
+							playSoundEffect(
+								"pause",
+								state.isSoundEffectsEnabled
+							);
+							dispatch({ type: "TOGGLE_PAUSE" });
+						}}
 						className={`${
 							state.gameOver ? "-z-10" : "z-10"
 						} grid grid-cols-12 border border-gray-700`}
@@ -204,7 +247,13 @@ const Tetris: React.FC = () => {
 							Game Over
 						</h3>
 						<button
-							onClick={() => dispatch({ type: "RESET_GRID" })}
+							onClick={() => {
+								playSoundEffect(
+									"pause",
+									state.isSoundEffectsEnabled
+								);
+								dispatch({ type: "RESET_GRID" });
+							}}
 							className="px-4 py-2 bg-red-800 text-white text-lg tracking-wider rounded flex items-center gap-2 hover:scale-110 outline-none active:scale-90 transition-all duration-300 group"
 						>
 							<span className="group-hover:-rotate-45 group-active:rotate-180 transition-all duration-300">
@@ -217,7 +266,13 @@ const Tetris: React.FC = () => {
 				{/* Pause Screen */}
 				{!state.gameOver && state.isPaused && (
 					<div
-						onClick={() => dispatch({ type: "TOGGLE_PAUSE" })}
+						onClick={() => {
+							playSoundEffect(
+								"pause",
+								state.isSoundEffectsEnabled
+							);
+							dispatch({ type: "TOGGLE_PAUSE" });
+						}}
 						className="absolute z-40 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 mx-4 text-center"
 					>
 						<h3 className="text-3xl font-bold text-nowrap animate-bounce text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400">
@@ -236,7 +291,13 @@ const Tetris: React.FC = () => {
 					<div className="flex flex-col gap-3 items-center">
 						{/* Rotate Button */}
 						<button
-							onClick={() => dispatch({ type: "ROTATE_PIECE" })}
+							onClick={() => {
+								playSoundEffect(
+									"rotate",
+									state.isSoundEffectsEnabled
+								);
+								dispatch({ type: "ROTATE_PIECE" });
+							}}
 							className={`${
 								pressedKey === "ArrowUp"
 									? "rotate-180 duration-150"
@@ -250,13 +311,17 @@ const Tetris: React.FC = () => {
 						<div className="flex justify-center gap-4 w-full">
 							{/* Left Arrow */}
 							<button
-								onClick={() =>
+								onClick={() => {
+									playSoundEffect(
+										"move",
+										state.isSoundEffectsEnabled
+									);
 									dispatch({
 										type: "UPDATE_POSITION",
 										x: -1,
 										y: 0,
-									})
-								}
+									});
+								}}
 								className={`${
 									pressedKey === "ArrowLeft"
 										? "-translate-x-1 duration-150"
@@ -268,9 +333,14 @@ const Tetris: React.FC = () => {
 							</button>
 							{/* Pause/Resume */}
 							<button
-								onClick={() =>
-									dispatch({ type: "TOGGLE_PAUSE" })
-								}
+								onClick={() => {
+									playSoundEffect(
+										"pause",
+										state.isSoundEffectsEnabled
+									);
+
+									dispatch({ type: "TOGGLE_PAUSE" });
+								}}
 								className={`${
 									pressedKey === "Space"
 										? "scale-90 duration-150"
@@ -288,13 +358,17 @@ const Tetris: React.FC = () => {
 							</button>
 							{/* Right Arrow */}
 							<button
-								onClick={() =>
+								onClick={() => {
+									playSoundEffect(
+										"move",
+										state.isSoundEffectsEnabled
+									);
 									dispatch({
 										type: "UPDATE_POSITION",
 										x: 1,
 										y: 0,
-									})
-								}
+									});
+								}}
 								className={`${
 									pressedKey === "ArrowRight"
 										? "translate-x-1 duration-150"
@@ -307,13 +381,17 @@ const Tetris: React.FC = () => {
 						</div>
 						{/* Down Arrow */}
 						<button
-							onClick={() =>
+							onClick={() => {
+								playSoundEffect(
+									"drop",
+									state.isSoundEffectsEnabled
+								);
 								dispatch({
 									type: "UPDATE_POSITION",
 									x: 0,
 									y: 1,
-								})
-							}
+								});
+							}}
 							className={`${
 								pressedKey === "ArrowDown"
 									? "translate-y-1 duration-150"
