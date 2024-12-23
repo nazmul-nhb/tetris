@@ -10,14 +10,16 @@ export type Position = { x: number; y: number };
 
 export type PieceDetails = { shape: Tetromino; color: string };
 
+export type ClearedRows = { newGrid: Cell[][]; rowsCleared: number };
+
 export type GameState = {
 	grid: Cell[][];
 	currentPiece: PieceDetails | null;
 	position: Position;
 	score: number;
-    bestScore: number;
-    linesCleared: number;
-    totalLines: number;
+	bestScore: number;
+	linesCleared: number;
+	totalLines: number;
 	gameOver: boolean;
 	isPaused: boolean;
 };
@@ -43,4 +45,7 @@ export type KeyPressed =
 export type TetrisScores = {
 	totalLines: number;
 	bestScore: number;
+	pendingUpdate?: boolean;
 };
+
+export type KeyPress = (event: KeyboardEvent) => void;

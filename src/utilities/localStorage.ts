@@ -18,7 +18,7 @@ export const getSavedScores = (): TetrisScores => {
  * Save the scores to local storage.
  * @param scores The scores to save.
  */
-const _saveScores = (scores: TetrisScores): void => {
+const storeTetrisScores = (scores: TetrisScores): void => {
 	localStorage.setItem("tetrisScores", JSON.stringify(scores));
 };
 
@@ -31,7 +31,7 @@ export const updateBestScore = (score: number): void => {
 
 	const updatedScores = { ...savedScores, bestScore: score };
 
-	_saveScores(updatedScores);
+	storeTetrisScores(updatedScores);
 };
 
 /**
@@ -39,13 +39,27 @@ export const updateBestScore = (score: number): void => {
  * @param lines New cleared lines to add to the previous cleared lines.
  */
 export const updateLinesCleared = (lines: number): void => {
+	// Retrieve the current saved scores
 	const savedScores = getSavedScores();
-	console.log({ savedScores });
-	const updatedScores = {
+
+	// Check if there's a pending update in the same object
+	if (savedScores.pendingUpdate) {
+		return; // Prevent duplicate updates
+	}
+
+	// Set the flag before updating
+	const updatedScores: TetrisScores = {
 		...savedScores,
 		totalLines: savedScores.totalLines + lines,
+		pendingUpdate: true,
 	};
-	console.log({ updatedScores });
 
-	_saveScores(updatedScores);
+	storeTetrisScores(updatedScores);
+
+	// Clear the flag after a successful update
+	setTimeout(() => {
+		const finalScores = getSavedScores();
+		finalScores.pendingUpdate = false;
+		storeTetrisScores(finalScores);
+	}, 0);
 };

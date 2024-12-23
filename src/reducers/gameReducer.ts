@@ -121,7 +121,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 			if (rowsCleared > 0) {
 				// Update local storage only if rows are cleared
-				updateLinesCleared(rowsCleared / 2);
+				updateLinesCleared(rowsCleared);
 			}
 
 			const newScore = state.score + rowsCleared * 100;

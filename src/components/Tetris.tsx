@@ -2,7 +2,11 @@ import { GameState, KeyPressed } from "../types";
 import { TETROMINOS } from "../constants";
 import { gameReducer } from "../reducers/gameReducer";
 import React, { useEffect, useReducer, useState } from "react";
-import { createEmptyGrid, getRenderedGrid } from "../utilities/gameUtils";
+import {
+	createEmptyGrid,
+	getRenderedGrid,
+	throttleKeyPress,
+} from "../utilities/gameUtils";
 import {
 	IoIosArrowDroprightCircle,
 	IoIosArrowDropleftCircle,
@@ -46,16 +50,16 @@ const Tetris: React.FC = () => {
 
 	/** Automatically drop the Tetromino every second */
 	useEffect(() => {
-		const interval = setInterval(() => {
-			if (state.isPaused || state.gameOver) return; // Prevent movement if paused or game over
+		let interval: number;
 
-			if (state.currentPiece) {
+		if (!state.isPaused && !state.gameOver) {
+			interval = setInterval(() => {
 				dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
-			}
-		}, 1000);
+			}, 1000);
+		}
 
 		return () => clearInterval(interval);
-	}, [state.currentPiece, state.gameOver, dispatch, state.isPaused]);
+	}, [state.isPaused, state.gameOver, dispatch]);
 
 	useEffect(() => {
 		if (!state.currentPiece) {
@@ -75,7 +79,7 @@ const Tetris: React.FC = () => {
 	// Attach keyboard listener
 	useEffect(() => {
 		/** Handle keyboard controls */
-		const handleKeyDown = (e: KeyboardEvent) => {
+		const handleKeyDown = throttleKeyPress((e: KeyboardEvent) => {
 			e.preventDefault();
 
 			if (state.gameOver) return;
@@ -104,7 +108,7 @@ const Tetris: React.FC = () => {
 				default:
 					break;
 			}
-		};
+		}, 50);
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [state.gameOver, dispatch]);
@@ -175,7 +179,7 @@ const Tetris: React.FC = () => {
 							onClick={() => dispatch({ type: "ROTATE_PIECE" })}
 							className={`${
 								keyPressed === "ArrowUp"
-									? "rotate-90"
+									? "rotate-90 duration-150"
 									: "hover:-rotate-45 active:rotate-90 duration-300"
 							} outline-none transition-all`}
 							title="Rotate Piece"
@@ -194,7 +198,7 @@ const Tetris: React.FC = () => {
 								}
 								className={`${
 									keyPressed === "ArrowLeft"
-										? "-translate-x-1"
+										? "-translate-x-1 duration-150"
 										: "hover:translate-x-1 active:-translate-x-1 duration-300"
 								} outline-none transition-all`}
 								title="Move Left"
@@ -207,7 +211,7 @@ const Tetris: React.FC = () => {
 								}
 								className={`${
 									keyPressed === "Space"
-										? "scale-90"
+										? "scale-90 duration-150"
 										: "hover:scale-110 active:scale-90 duration-300"
 								} outline-none transition-all`}
 							>
@@ -230,7 +234,7 @@ const Tetris: React.FC = () => {
 								}
 								className={`${
 									keyPressed === "ArrowRight"
-										? "translate-x-1"
+										? "translate-x-1 duration-150"
 										: "hover:-translate-x-1 active:translate-x-1 duration-300"
 								} "outline-none transition-all"`}
 								title="Move Right"
@@ -248,7 +252,7 @@ const Tetris: React.FC = () => {
 							}
 							className={`${
 								keyPressed === "ArrowDown"
-									? "translate-y-1"
+									? "translate-y-1 duration-150"
 									: "hover:-translate-y-1 active:translate-y-1 duration-300"
 							} outline-none transition-all`}
 							title="Move Down"

@@ -1,5 +1,5 @@
 import { COLS, ROWS } from "../constants";
-import { Cell, Position, Tetromino } from "../types";
+import { Cell, ClearedRows, KeyPress, Position, Tetromino } from "../types";
 
 /**
  * Function to create an empty grid
@@ -87,9 +87,7 @@ export const isCollision = (
  * @param grid The current game grid.
  * @returns An object with the updated grid and cleared row count.
  */
-export const clearFullRows = (
-	grid: Cell[][]
-): { newGrid: Cell[][]; rowsCleared: number } => {
+export const clearFullRows = (grid: Cell[][]): ClearedRows => {
 	const newGrid = grid.filter((row) => row.some((cell) => !cell.filled));
 	const clearedRows = ROWS - newGrid.length;
 
@@ -101,4 +99,23 @@ export const clearFullRows = (
 	}
 
 	return { newGrid, rowsCleared: clearedRows };
+};
+
+/**
+ * Throttle a function to prevent rapid key-press.
+ * @param func The function to throttle key-press.
+ * @param delay The delay between key-presses in ms.
+ * @returns Throttled keyPress function.
+ */
+export const throttleKeyPress = (func: KeyPress, delay: number): KeyPress => {
+	let lastCall = 0;
+
+	return (event: KeyboardEvent) => {
+		const now = Date.now();
+
+		if (now - lastCall >= delay) {
+			lastCall = now;
+			func(event);
+		}
+	};
 };
