@@ -6,6 +6,7 @@ import {
 	getRenderedGrid,
 	rotateMatrix,
 	clearFullRows,
+	getRandomPiece,
 } from "../utilities/gameUtils";
 import {
 	getSavedScores,
@@ -25,7 +26,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			return {
 				...state,
 				grid: createEmptyGrid(),
-				currentPiece: TETROMINOS.T,
+				currentPiece: TETROMINOS[getRandomPiece()],
 				position: { x: 4, y: 0 },
 				score: 0,
 				gameOver: false,

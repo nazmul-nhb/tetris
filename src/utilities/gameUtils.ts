@@ -1,4 +1,4 @@
-import { COLS, ROWS } from "../constants";
+import { COLS, ROWS, TETROMINOS } from "../constants";
 import { Cell, ClearedRows, KeyPress, Position, Tetromino } from "../types";
 
 /**
@@ -17,6 +17,15 @@ export const createEmptyGrid = (): Cell[][] =>
  */
 export const rotateMatrix = (matrix: Tetromino): Tetromino => {
 	return matrix[0].map((_, i) => matrix.map((row) => row[i]).reverse());
+};
+
+/**
+ * Generate a random Tetromino piece key.
+ * @returns A random Tetromino key from TETROMINOS.
+ */
+export const getRandomPiece = (): keyof typeof TETROMINOS => {
+	const pieces = Object.keys(TETROMINOS) as (keyof typeof TETROMINOS)[];
+	return pieces[Math.floor(Math.random() * pieces.length)];
 };
 
 /**

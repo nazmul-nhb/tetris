@@ -1,9 +1,11 @@
 import { GameState, KeyPressed } from "../types";
 import { TETROMINOS } from "../constants";
 import { gameReducer } from "../reducers/gameReducer";
+import { getSavedScores } from "../utilities/localStorage";
 import React, { useEffect, useReducer, useState } from "react";
 import {
 	createEmptyGrid,
+	getRandomPiece,
 	getRenderedGrid,
 	throttleKeyPress,
 } from "../utilities/gameUtils";
@@ -18,12 +20,11 @@ import {
 	FaPlay,
 	FaArrowRotateRight,
 } from "react-icons/fa6";
-import { getSavedScores } from "../utilities/localStorage";
 
 /** The initial game state */
 const initialState: GameState = {
 	grid: createEmptyGrid(),
-	currentPiece: TETROMINOS.T,
+	currentPiece: TETROMINOS[getRandomPiece()],
 	position: { x: 4, y: 0 },
 	score: 0,
 	bestScore: getSavedScores().bestScore,
@@ -65,13 +66,11 @@ const Tetris: React.FC = () => {
 		if (!state.currentPiece) {
 			dispatch({ type: "CLEAR_ROWS" });
 
-			const randomPiece = ["I", "O", "T", "L", "J", "S", "Z"][
-				Math.floor(Math.random() * 7)
-			];
+			const randomPiece = getRandomPiece();
 
 			dispatch({
 				type: "SPAWN_PIECE",
-				piece: randomPiece as keyof typeof TETROMINOS,
+				piece: randomPiece,
 			});
 		}
 	}, [state.currentPiece, dispatch]);
