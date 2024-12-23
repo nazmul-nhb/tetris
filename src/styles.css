@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+	font-family: "Seven Segment";
+	src: url("/src/assets/fonts/seven-segment.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: "Seven Segment", "Consolas", "Courier New", monospace;
+	letter-spacing: 0.2rem;
+}

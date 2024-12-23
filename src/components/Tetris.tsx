@@ -157,8 +157,8 @@ const Tetris: React.FC = () => {
 					className={`${
 						state.gameOver || (!state.gameOver && state.isPaused)
 							? "blur-sm z-30"
-							: "bg-transparent"
-					} flex flex-col items-center bg-white p-3 rounded-md`}
+							: "blur-none"
+					} transition-all duration-500 origin-center flex flex-col items-center bg-white p-3 rounded-md`}
 				>
 					{/* Main Tetrominos Grid */}
 					<div
@@ -214,7 +214,7 @@ const Tetris: React.FC = () => {
 						</button>
 					</div>
 				)}
-				{/* Pause Button */}
+				{/* Pause Screen */}
 				{!state.gameOver && state.isPaused && (
 					<div
 						onClick={() => dispatch({ type: "TOGGLE_PAUSE" })}
@@ -239,8 +239,8 @@ const Tetris: React.FC = () => {
 							onClick={() => dispatch({ type: "ROTATE_PIECE" })}
 							className={`${
 								pressedKey === "ArrowUp"
-									? "rotate-90 duration-150"
-									: "hover:-rotate-45 active:rotate-90 duration-300"
+									? "rotate-180 duration-150"
+									: "hover:-rotate-45 active:rotate-180 duration-300"
 							} outline-none transition-all`}
 							title="Rotate Piece"
 						>
