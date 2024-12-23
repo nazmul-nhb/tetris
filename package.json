@@ -1,7 +1,7 @@
 {
 	"name": "tetris-nhb",
 	"private": true,
-	"version": "1.1.9",
+	"version": "1.2.1",
 	"author": {
 		"name": "Nazmul Hassan",
 		"email": "nazmulnhb@gmail.com"
@@ -33,5 +33,9 @@
 		"typescript": "~5.6.2",
 		"typescript-eslint": "^8.18.1",
 		"vite": "^6.0.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nazmul-nhb/tetris.git"
 	}
 }

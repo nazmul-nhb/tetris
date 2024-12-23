@@ -43,7 +43,7 @@ const initialState: GameState = {
 	totalLines: getSavedScores().totalLines,
 	gameOver: false,
 	isPaused: false,
-	isMusicEnabled: true,
+	isMusicEnabled: false,
 	isSoundEffectsEnabled: true,
 };
 
