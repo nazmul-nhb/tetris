@@ -35,7 +35,7 @@ export type GameAction =
 	| { type: "CLEAR_ROWS" }
 	| { type: "TOGGLE_PAUSE" };
 
-export type KeyPressed =
+export type PressedKey =
 	| "ArrowLeft"
 	| "ArrowRight"
 	| "ArrowDown"
