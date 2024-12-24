@@ -1,41 +1,24 @@
-import { GameState, PressedKey } from "../types";
 import { TETROMINOS } from "../constants";
+import GameControls from "./GameControls";
+import MusicControls from "./MusicControls";
+import { GameState, PressedKey } from "../types";
 import { gameReducer } from "../reducers/gameReducer";
 import { getSavedScores } from "../utilities/localStorage";
+import React, { useEffect, useReducer, useState } from "react";
 import {
 	playNextTrack,
 	playSoundEffect,
 	toggleMusic,
 } from "../utilities/soundUtils";
-import React, { useEffect, useReducer, useState } from "react";
 import {
 	createEmptyGrid,
 	getRandomPiece,
 	getRenderedGrid,
 	throttleKeyPress,
 } from "../utilities/gameUtils";
-import {
-	IoIosArrowDroprightCircle,
-	IoIosArrowDropleftCircle,
-	IoIosArrowDropdownCircle,
-} from "react-icons/io";
-import {
-	FaArrowsRotate,
-	FaCirclePause,
-	FaPlay,
-	FaArrowRotateRight,
-	FaTrophy,
-	FaCoins,
-	FaCheckToSlot,
-} from "react-icons/fa6";
-import { FaTasks } from "react-icons/fa";
-import {
-	MdMusicNote,
-	MdMusicOff,
-	MdSkipNext,
-	MdVolumeOff,
-	MdVolumeUp,
-} from "react-icons/md";
+import PausedScreen from "./PausedScreen";
+import GameOverScreen from "./GameOverScreen";
+import ScoredPoints from "./ScoredPoints";
 
 /** The initial game state */
 const initialState: GameState = {
@@ -170,42 +153,12 @@ const Tetris: React.FC = () => {
 			{/* Container for Main Grid and all the Buttons */}
 			<div className="relative flex flex-col items-center gap-2 pt-4">
 				{/* Current & Best Scores with Restart Button */}
-				<div className="flex justify-between items-center w-full relative pb-2">
-					{/* Best Score */}
-					<h2
-						title="Best Score"
-						className="text-lg font-semibold flex items-center gap-2"
-					>
-						<FaTrophy size={24} />
-						{state.bestScore}
-					</h2>
-					{/* Restart Game Button */}
-					<button
-						onClick={() => {
-							playSoundEffect(
-								"pause",
-								state.isSoundEffectsEnabled
-							);
-							dispatch({ type: "RESET_GRID" });
-						}}
-						className={`${
-							pressedKey === "Escape"
-								? "scale-90 duration-150 rotate-180"
-								: "hover:scale-125 active:rotate-180 active:scale-75 hover:-rotate-45 duration-300"
-						} text-white my-3 outline-none transition-all absolute left-1/2 -translate-x-1/2`}
-						title="Restart Game"
-					>
-						<FaArrowsRotate size={24} />
-					</button>
-					{/* Current Score */}
-					<h2
-						title="Current Score"
-						className="text-lg font-semibold flex items-center gap-2"
-					>
-						<FaCoins size={24} /> {state.score}
-					</h2>
-				</div>
-				{/* Control Background based on gameOver flag */}
+				<ScoredPoints
+					state={state}
+					dispatch={dispatch}
+					pressedKey={pressedKey}
+				/>
+				{/* Grid Background blur based on `gameOver` flag */}
 				<div
 					className={`${
 						state.gameOver || (!state.gameOver && state.isPaused)
@@ -242,257 +195,27 @@ const Tetris: React.FC = () => {
 					</div>
 				</div>
 				{/* Total Lines and Current Lines Cleared with Sound Effects and Music Controls */}
-				<div className="flex justify-between w-full relative mb-2">
-					{/* Total Lines Cleared */}
-					<h2
-						title="Total Lines Cleared"
-						className="text-lg font-semibold flex items-center gap-2"
-					>
-						<FaTasks size={24} /> {state.totalLines}
-					</h2>
-					<div className="absolute left-1/2 -translate-x-1/2 bottom-1 flex items-center gap-1">
-						{/* Toggle Sound Effects */}
-						<button
-							onClick={() => {
-								dispatch({ type: "TOGGLE_SOUND_EFFECTS" });
-							}}
-							className={`${
-								pressedKey === "Sound"
-									? "scale-90 duration-150"
-									: "hover:scale-125 active:scale-90 duration-300"
-							} outline-none transition-all`}
-							title={
-								state.isSoundEffectsEnabled
-									? "Disable Sound Effects"
-									: "Enable Sound Effects"
-							}
-							aria-label={
-								state.isSoundEffectsEnabled
-									? "Disable Sound Effects"
-									: "Enable Sound Effects"
-							}
-						>
-							{state.isSoundEffectsEnabled ? (
-								<MdVolumeUp size={20} />
-							) : (
-								<MdVolumeOff size={20} />
-							)}
-						</button>
-						{/* Toggle Music */}
-						<button
-							onClick={() => dispatch({ type: "TOGGLE_MUSIC" })}
-							className={`${
-								pressedKey === "Music"
-									? "scale-90 duration-150"
-									: "hover:scale-125 active:scale-90 duration-300"
-							} outline-none transition-all`}
-							title={
-								state.isMusicEnabled
-									? "Disable Music"
-									: "Enable Music"
-							}
-							aria-label={
-								state.isMusicEnabled
-									? "Disable Music"
-									: "Enable Music"
-							}
-						>
-							{state.isMusicEnabled ? (
-								<MdMusicNote size={20} />
-							) : (
-								<MdMusicOff size={20} />
-							)}
-						</button>
-						{/* Play Next Music Track */}
-						<button
-							onClick={() => {
-								playNextTrack(true);
-								dispatch({
-									type: "TOGGLE_MUSIC",
-									enableMusic: true,
-								});
-							}}
-							className={`${
-								pressedKey === "Next"
-									? "-translate-x-1 duration-150"
-									: "hover:translate-x-1 active:-translate-x-1 duration-300"
-							} outline-none transition-all`}
-							title="Restart Game"
-						>
-							<MdSkipNext size={20} />
-						</button>
-					</div>
-					{/* Lines Cleared in Current Session */}
-					<h2
-						title="Lines Cleared"
-						className="text-lg font-semibold flex items-center gap-2"
-					>
-						<FaCheckToSlot size={24} /> {state.linesCleared}
-					</h2>
-				</div>
-				{/* Restart Game button in the center of the Grid */}
+				<MusicControls
+					state={state}
+					dispatch={dispatch}
+					pressedKey={pressedKey}
+				/>
+				{/* Restart Game button with the Game Over Screen */}
 				{state.gameOver && (
-					<div className="absolute z-40 top-1/2 -translate-y-1/2 text-nowrap font-bold flex flex-col items-center gap-2">
-						<h3 className="text-3xl animate-bounce text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400">
-							Game Over
-						</h3>
-						<button
-							onClick={() => {
-								playSoundEffect(
-									"pause",
-									state.isSoundEffectsEnabled
-								);
-								dispatch({ type: "RESET_GRID" });
-							}}
-							className="px-4 py-2 bg-red-800 text-white text-lg tracking-wider rounded flex items-center gap-2 hover:scale-110 outline-none active:scale-90 transition-all duration-300 group"
-						>
-							<span className="group-hover:-rotate-45 group-active:rotate-180 transition-all duration-300">
-								<FaArrowsRotate />
-							</span>
-							<span>Restart Game</span>
-						</button>
-					</div>
+					<GameOverScreen state={state} dispatch={dispatch} />
 				)}
-				{/* Pause Screen */}
+				{/* Paused Screen */}
 				{!state.gameOver && state.isPaused && (
-					<div
-						onClick={() => {
-							playSoundEffect(
-								"pause",
-								state.isSoundEffectsEnabled
-							);
-							dispatch({ type: "TOGGLE_PAUSE" });
-						}}
-						className="absolute z-40 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 mx-4 text-center"
-					>
-						<h3 className="text-3xl font-extrabold text-nowrap animate-bounce text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400">
-							Paused
-						</h3>
-						<h5 className="px-4 py-2 bg-red-800/90 text-white text-sm font-semibold tracking-wider rounded">
-							Press Space or Any Arrow Button or Click Anywhere in
-							the Grid to Resume
-						</h5>
-					</div>
+					<PausedScreen state={state} dispatch={dispatch} />
 				)}
 			</div>
 			{/* Game Control Buttons */}
 			{!state.gameOver && (
-				<div className="flex justify-center mt-2 text-white">
-					<div className="flex flex-col gap-3 items-center">
-						{/* Rotate Button */}
-						<button
-							onClick={() => {
-								playSoundEffect(
-									"rotate",
-									state.isSoundEffectsEnabled
-								);
-								dispatch({ type: "ROTATE_PIECE" });
-							}}
-							className={`${
-								pressedKey === "ArrowUp"
-									? "rotate-180 duration-150"
-									: "hover:-rotate-45 active:rotate-180 duration-300"
-							} outline-none transition-all`}
-							title="Rotate Piece"
-						>
-							<FaArrowRotateRight size={30} />
-						</button>
-						{/* Left, Pause/Resume and Right Buttons */}
-						<div className="flex justify-center gap-4 w-full">
-							{/* Left Arrow */}
-							<button
-								onClick={() => {
-									playSoundEffect(
-										"move",
-										state.isSoundEffectsEnabled
-									);
-									dispatch({
-										type: "UPDATE_POSITION",
-										x: -1,
-										y: 0,
-									});
-								}}
-								className={`${
-									pressedKey === "ArrowLeft"
-										? "-translate-x-1 duration-150"
-										: "hover:translate-x-1 active:-translate-x-1 duration-300"
-								} outline-none transition-all`}
-								title="Move Left"
-							>
-								<IoIosArrowDropleftCircle size={32} />
-							</button>
-							{/* Pause/Resume */}
-							<button
-								onClick={() => {
-									playSoundEffect(
-										"pause",
-										state.isSoundEffectsEnabled
-									);
-
-									dispatch({ type: "TOGGLE_PAUSE" });
-								}}
-								className={`${
-									pressedKey === "Space"
-										? "scale-90 duration-150"
-										: "hover:scale-125 active:scale-90 duration-300"
-								} outline-none transition-all`}
-							>
-								{state.isPaused ? (
-									<FaPlay title="Resume Game" size={32} />
-								) : (
-									<FaCirclePause
-										title="Pause Game"
-										size={32}
-									/>
-								)}
-							</button>
-							{/* Right Arrow */}
-							<button
-								onClick={() => {
-									playSoundEffect(
-										"move",
-										state.isSoundEffectsEnabled
-									);
-									dispatch({
-										type: "UPDATE_POSITION",
-										x: 1,
-										y: 0,
-									});
-								}}
-								className={`${
-									pressedKey === "ArrowRight"
-										? "translate-x-1 duration-150"
-										: "hover:-translate-x-1 active:translate-x-1 duration-300"
-								} "outline-none transition-all"`}
-								title="Move Right"
-							>
-								<IoIosArrowDroprightCircle size={32} />
-							</button>
-						</div>
-						{/* Down Arrow */}
-						<button
-							onClick={() => {
-								playSoundEffect(
-									"drop",
-									state.isSoundEffectsEnabled
-								);
-								dispatch({
-									type: "UPDATE_POSITION",
-									x: 0,
-									y: 1,
-								});
-							}}
-							className={`${
-								pressedKey === "ArrowDown"
-									? "translate-y-1 duration-150"
-									: "hover:-translate-y-1 active:translate-y-1 duration-300"
-							} outline-none transition-all`}
-							title="Move Down"
-						>
-							<IoIosArrowDropdownCircle size={32} />
-						</button>
-					</div>
-				</div>
+				<GameControls
+					state={state}
+					dispatch={dispatch}
+					pressedKey={pressedKey}
+				/>
 			)}
 		</section>
 	);

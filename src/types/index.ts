@@ -57,3 +57,9 @@ export type TetrisScores = {
 };
 
 export type KeyPress = (event: KeyboardEvent) => void;
+
+export type ControlProps = {
+	state: GameState;
+	dispatch: React.Dispatch<GameAction>;
+	pressedKey: PressedKey | null;
+}

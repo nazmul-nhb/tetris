@@ -120,7 +120,7 @@ yarn build
 
 ## Version
 
-Current version: 1.3.1
+Current version: 1.3.2
 
 ## Author
 

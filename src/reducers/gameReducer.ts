@@ -163,7 +163,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			return {
 				...state,
 				isPaused: !state.isPaused,
-				isMusicEnabled: !!state.isPaused,
+				// isMusicEnabled: !!state.isPaused,
 			};
 
 		case "TOGGLE_MUSIC":
