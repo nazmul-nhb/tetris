@@ -8,11 +8,11 @@ type Props = Omit<ControlProps, "pressedKey">;
 const GameOverScreen: React.FC<Props> = ({ state, dispatch }) => {
 	return (
 		<div className="absolute z-40 top-1/2 -translate-y-1/2 text-nowrap font-bold flex flex-col items-center gap-2">
-			<h3 className="text-3xl animate-bounce text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400">
+			<h3 className="text-3xl font-black animate-bounce text-red-800 px-4 py-1 rounded-lg bg-red-200/75 border border-red-400">
 				Game Over
 			</h3>
-			<h3 className="text-3xl animate-pulse text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400 tracking-tight">
-				Score: {state.score}
+			<h3 className="text-2xl font-black animate-pulse text-red-800 px-4 py-1 rounded-lg bg-red-200/85 border border-red-400 tracking-tight">
+				You Scored {state.score}
 			</h3>
 			<button
 				onClick={() => {
