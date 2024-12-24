@@ -135,7 +135,7 @@ const Tetris: React.FC = () => {
 				default:
 					break;
 			}
-		}, 50);
+		}, 25);
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [state.gameOver, dispatch, state.isSoundEffectsEnabled]);

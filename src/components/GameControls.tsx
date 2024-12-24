@@ -1,5 +1,6 @@
 import React from "react";
 import { ControlProps } from "../types";
+import { useAction } from "../hooks/useAction";
 import { playSoundEffect } from "../utilities/soundUtils";
 import { FaArrowRotateRight, FaCirclePause, FaPlay } from "react-icons/fa6";
 import {
@@ -13,15 +14,58 @@ const GameControls: React.FC<ControlProps> = ({
 	dispatch,
 	pressedKey,
 }) => {
+	// Rotate Button
+	const { start: startRotate, stop: stopRotate } = useAction(
+		() => {
+			playSoundEffect("rotate", state.isSoundEffectsEnabled);
+			dispatch({ type: "ROTATE_PIECE" });
+		},
+		state.gameOver,
+		250
+	);
+
+	// Left Button
+	const { start: startLeft, stop: stopLeft } = useAction(
+		() => {
+			playSoundEffect("move", state.isSoundEffectsEnabled);
+			dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 });
+		},
+		state.gameOver,
+		150
+	);
+
+	// Pause/Resume Button
+	const handlePauseResume = () => {
+		playSoundEffect("pause", state.isSoundEffectsEnabled);
+		dispatch({ type: "TOGGLE_PAUSE" });
+	};
+
+	// Right Button
+	const { start: startRight, stop: stopRight } = useAction(
+		() => {
+			playSoundEffect("move", state.isSoundEffectsEnabled);
+			dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 });
+		},
+		state.gameOver,
+		150
+	);
+
+	// Down Button
+	const { start: startDown, stop: stopDown } = useAction(() => {
+		playSoundEffect("drop", state.isSoundEffectsEnabled);
+		dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
+	}, state.gameOver);
+
 	return (
 		<div className="flex justify-center mt-2 text-white">
 			<div className="flex flex-col gap-3 items-center">
 				{/* Rotate Button */}
 				<button
-					onMouseDown={() => {
-						playSoundEffect("rotate", state.isSoundEffectsEnabled);
-						dispatch({ type: "ROTATE_PIECE" });
-					}}
+					onMouseDown={startRotate}
+					onMouseUp={stopRotate}
+					onMouseLeave={stopRotate}
+					onTouchStart={startRotate}
+					onTouchEnd={stopRotate}
 					className={`${
 						pressedKey === "ArrowUp"
 							? "rotate-180 duration-150"
@@ -35,17 +79,11 @@ const GameControls: React.FC<ControlProps> = ({
 				<div className="flex justify-center gap-4 w-full">
 					{/* Left Arrow */}
 					<button
-						onClick={() => {
-							playSoundEffect(
-								"move",
-								state.isSoundEffectsEnabled
-							);
-							dispatch({
-								type: "UPDATE_POSITION",
-								x: -1,
-								y: 0,
-							});
-						}}
+						onMouseDown={startLeft}
+						onMouseUp={stopLeft}
+						onMouseLeave={stopLeft}
+						onTouchStart={startLeft}
+						onTouchEnd={stopLeft}
 						className={`${
 							pressedKey === "ArrowLeft"
 								? "-translate-x-1 duration-150"
@@ -57,13 +95,7 @@ const GameControls: React.FC<ControlProps> = ({
 					</button>
 					{/* Pause/Resume */}
 					<button
-						onClick={() => {
-							playSoundEffect(
-								"pause",
-								state.isSoundEffectsEnabled
-							);
-							dispatch({ type: "TOGGLE_PAUSE" });
-						}}
+						onClick={handlePauseResume}
 						className={`${
 							pressedKey === "Space"
 								? "scale-90 duration-150"
@@ -78,17 +110,11 @@ const GameControls: React.FC<ControlProps> = ({
 					</button>
 					{/* Right Arrow */}
 					<button
-						onClick={() => {
-							playSoundEffect(
-								"move",
-								state.isSoundEffectsEnabled
-							);
-							dispatch({
-								type: "UPDATE_POSITION",
-								x: 1,
-								y: 0,
-							});
-						}}
+						onMouseDown={startRight}
+						onMouseUp={stopRight}
+						onMouseLeave={stopRight}
+						onTouchStart={startRight}
+						onTouchEnd={stopRight}
 						className={`${
 							pressedKey === "ArrowRight"
 								? "translate-x-1 duration-150"
@@ -101,14 +127,11 @@ const GameControls: React.FC<ControlProps> = ({
 				</div>
 				{/* Down Arrow */}
 				<button
-					onClick={() => {
-						playSoundEffect("drop", state.isSoundEffectsEnabled);
-						dispatch({
-							type: "UPDATE_POSITION",
-							x: 0,
-							y: 1,
-						});
-					}}
+					onMouseDown={startDown}
+					onMouseUp={stopDown}
+					onMouseLeave={stopDown}
+					onTouchStart={startDown}
+					onTouchEnd={stopDown}
 					className={`${
 						pressedKey === "ArrowDown"
 							? "translate-y-1 duration-150"

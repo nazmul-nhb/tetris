@@ -59,7 +59,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				return {
 					...state,
 					isPaused: false,
-					isMusicEnabled: true,
+					// isMusicEnabled: true,
 				};
 			}
 
@@ -107,7 +107,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				return {
 					...state,
 					isPaused: false,
-					isMusicEnabled: true,
+					// isMusicEnabled: true,
 				};
 			}
 
