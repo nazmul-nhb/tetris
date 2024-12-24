@@ -1,4 +1,4 @@
-import { TETROMINOS } from "../constants";
+import { SPEED_LEVELS, TETROMINOS } from "../constants";
 import { GameAction, GameState } from "../types";
 import {
 	createEmptyGrid,
@@ -32,6 +32,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				linesCleared: 0,
 				gameOver: false,
 				isPaused: false,
+				speed: 1000,
 			};
 
 		case "SPAWN_PIECE": {
@@ -42,7 +43,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 			// Check if the spawn position is valid
 			if (isCollision(state.grid, piece.shape, spawnPosition)) {
-				return { ...state, gameOver: true }; // Game Over
+				return { ...state, speed: 1000, gameOver: true }; // Game Over
 			}
 
 			return {
@@ -132,21 +133,28 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		case "CLEAR_ROWS": {
 			const { newGrid, rowsCleared } = clearFullRows(state.grid);
 
-			let bonusPoints: number | null = null;
+			let newPoints: number | null = null;
 
 			if (rowsCleared > 0) {
 				updateLinesCleared(rowsCleared);
-				bonusPoints =
+				newPoints =
 					rowsCleared === 4 ? 800 : rowsCleared > 1 ? 300 : 100;
 			}
 
-			const newScore = state.score + (bonusPoints || 0);
+			const newScore = state.score + (newPoints || 0);
+
 			let bestScore = state.bestScore;
 
+			// Handle Best Score
 			if (newScore > state.bestScore) {
 				bestScore = newScore;
 				updateBestScore(bestScore);
 			}
+
+			// Dynamic Speed Adjustment
+			const newSpeed = SPEED_LEVELS.reduce((acc, level) => {
+				return newScore >= level.score ? level.speed : acc;
+			}, 1000);
 
 			// Fetch updated scores after local storage changes
 			const updatedScores = getSavedScores();
@@ -155,7 +163,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				...state,
 				grid: newGrid,
 				score: newScore,
-				points: bonusPoints,
+				speed: newSpeed,
+				points: newPoints,
 				bestScore: updatedScores.bestScore,
 				linesCleared: state.linesCleared + rowsCleared,
 				totalLines: updatedScores.totalLines,

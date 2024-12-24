@@ -8,7 +8,7 @@ import PointsPopUp from "./PointsPopUp";
 import { GameState, PressedKey } from "../types";
 import { gameReducer } from "../reducers/gameReducer";
 import { getSavedScores } from "../utilities/localStorage";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import {
 	playNextTrack,
 	playSoundEffect,
@@ -21,26 +21,32 @@ import {
 	throttleKeyPress,
 } from "../utilities/gameUtils";
 
+const { bestScore, totalLines } = getSavedScores();
+
+const currentPiece = TETROMINOS[getRandomPiece()];
+
 /** The initial game state */
 const initialState: GameState = {
 	grid: createEmptyGrid(),
-	currentPiece: TETROMINOS[getRandomPiece()],
+	currentPiece: currentPiece,
 	position: { x: 4, y: 0 },
 	score: 0,
-	bestScore: getSavedScores().bestScore,
+	bestScore: bestScore,
 	linesCleared: 0,
-	totalLines: getSavedScores().totalLines,
+	totalLines: totalLines,
 	gameOver: false,
-	isPaused: false,
+	isPaused: true,
 	isMusicEnabled: false,
 	isSoundEffectsEnabled: true,
 	points: null,
+	speed: 1000,
 };
 
 /** Tetris Component */
 const Tetris: React.FC = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialState);
 	const [pressedKey, setPressedKey] = useState<PressedKey | null>(null);
+	const intervalRef = useRef<number | null>(null);
 
 	/** Get the rendered grid with the current piece. */
 	const renderedGrid = state.currentPiece
@@ -52,19 +58,34 @@ const Tetris: React.FC = () => {
 		  )
 		: state.grid;
 
-	/** Automatically drop the Tetromino every second */
+	/** Automatically drop the Tetromino according to `speed` */
 	useEffect(() => {
-		let interval: number;
-
-		if (!state.isPaused && !state.gameOver) {
-			interval = setInterval(() => {
+		const startInterval = () => {
+			intervalRef.current = window.setInterval(() => {
 				playSoundEffect("move", state.isSoundEffectsEnabled);
 				dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
-			}, 1000);
+			}, state.speed);
+		};
+
+		const stopInterval = () => {
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current);
+				intervalRef.current = null;
+			}
+		};
+
+		if (!state.isPaused && !state.gameOver) {
+			startInterval();
 		}
 
-		return () => clearInterval(interval);
-	}, [state.isPaused, state.gameOver, dispatch, state.isSoundEffectsEnabled]);
+		return stopInterval;
+	}, [
+		state.isPaused,
+		state.gameOver,
+		state.speed,
+		state.isSoundEffectsEnabled,
+		dispatch,
+	]);
 
 	useEffect(() => {
 		if (!state.currentPiece) {
@@ -89,6 +110,11 @@ const Tetris: React.FC = () => {
 		/** Handle keyboard controls */
 		const handleKeyDown = throttleKeyPress((e: KeyboardEvent) => {
 			e.preventDefault();
+
+			if (e.key === "Escape") {
+				setPressedKey("Escape");
+				dispatch({ type: "RESET_GRID" });
+			}
 
 			if (state.gameOver) return;
 
@@ -125,10 +151,6 @@ const Tetris: React.FC = () => {
 				case "m":
 					setPressedKey("Music");
 					dispatch({ type: "TOGGLE_MUSIC" });
-					break;
-				case "Escape":
-					setPressedKey("Escape");
-					dispatch({ type: "RESET_GRID" });
 					break;
 				case "n":
 					setPressedKey("Next");

@@ -25,6 +25,7 @@ export type GameState = {
 	isMusicEnabled: boolean;
 	isSoundEffectsEnabled: boolean;
 	points: number | null;
+	speed: number;
 };
 
 export type GameAction =

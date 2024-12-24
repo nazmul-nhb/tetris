@@ -10,12 +10,35 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 - Sound effects and background music
 - Local storage for saving high scores and total lines cleared
 - Keyboard and on-screen controls
+- Points pop-up display showing the scored points for current cleared lines
+- Reward system for clearing more lines at a time
+- Speed ups that increase the challenge as the player progresses
 
 ## Scoring System
 
-- `100` Points for clearing `1x` line at the same time.
+The game rewards player with points based on how many lines s/he clears at once:
+
+- `100` Points for clearing only `1x` line.
 - `300` Points for clearing `2x` lines at the same time.
 - `800` Points for clearing `4x` lines at the same time.
+
+As you clear more lines in a single move, the points awarded increase. Clearing multiple lines simultaneously is a strategic way to rack up more points and increase your score quickly.
+
+## Speed Ups
+
+As you accumulate more points during gameplay, the game will automatically increase the speed of the falling Tetrominos. This adds an increasing challenge as you progress. The speed levels are determined by your current score:
+
+- **0 - 999 points**: Speed is **1s** per drop.
+- **1000 - 4999 points**: Speed is **0.9s** per drop.
+- **5000 - 9999 points**: Speed is **0.8s** per drop.
+- **10000 - 24999 points**: Speed is **0.7s** per drop.
+- **25000 - 34999 points**: Speed is **0.6s** per drop.
+- **35000 - 39999 points**: Speed is **0.5s** per drop.
+- **40000 - 44999 points**: Speed is **0.4s** per drop.
+- **45000 - 49999 points**: Speed is **0.3s** per drop.
+- **50000+ points**: Speed is **0.2s** per drop.
+
+The Tetrominos will fall faster as you reach higher score thresholds, making the game progressively more difficult and exciting.
 
 ## Keyboard Shortcuts
 
@@ -38,7 +61,7 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 
 ## Version
 
-Current version: 1.5.0
+Current version: 1.6.1
 
 ## Author
 
