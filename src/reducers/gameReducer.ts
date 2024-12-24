@@ -137,8 +137,15 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 			if (rowsCleared > 0) {
 				updateLinesCleared(rowsCleared);
-				newPoints =
-					rowsCleared === 4 ? 800 : rowsCleared > 1 ? 300 : 100;
+				if (rowsCleared === 1) {
+					newPoints = 100;
+				} else if (rowsCleared === 2) {
+					newPoints = 300;
+				} else if (rowsCleared === 3) {
+					newPoints = 500;
+				} else if (rowsCleared === 4) {
+					newPoints = 800;
+				}
 			}
 
 			const newScore = state.score + (newPoints || 0);

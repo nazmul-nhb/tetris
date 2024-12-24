@@ -20,6 +20,7 @@ The game rewards player with points based on how many lines s/he clears at once:
 
 - `100` Points for clearing only `1x` line.
 - `300` Points for clearing `2x` lines at the same time.
+- `500` Points for clearing `3x` lines at the same time.
 - `800` Points for clearing `4x` lines at the same time.
 
 As you clear more lines in a single move, the points awarded increase. Clearing multiple lines simultaneously is a strategic way to rack up more points and increase your score quickly.
@@ -61,7 +62,7 @@ The Tetrominos will fall faster as you reach higher score thresholds, making the
 
 ## Version
 
-Current version: 1.6.2
+Current version: 1.6.9
 
 ## Author
 
