@@ -1,6 +1,6 @@
 # 🎮 Tetris
 
-[**Play Now! ▶️**](https://tetris-nhb.vercel.app)
+[**▶️ Play Now!**](https://tetris-nhb.vercel.app)
 
 A modern implementation of the classic **Tetris** game built with `React` and `TypeScript`.
 
@@ -10,10 +10,10 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 - 🔊 **Sound Effects & Music:** Toggle background music and sound effects for an engaging experience.  
 - 💾 **Local Storage Integration:** Automatically save **high scores** and **total lines cleared**.  
 - 🎮 **Keyboard & On-Screen Controls:** Play using keyboard shortcuts or on-screen buttons.  
-- 🧩 **Next Piece Preview:** Preview the upcoming Tetromino to plan your strategy better.  
+- 🧩 **Next Piece Preview:** Preview the upcoming Tetromino to plan better strategy.  
 - 🏆 **Dynamic Points Pop-Up:** Instant feedback with animated point pop-ups after clearing lines.  
 - ⭐ **Reward System:** Score higher rewards for clearing multiple lines simultaneously.  
-- ⚡ **Adaptive Difficulty:** The game speeds up as you progress, adding more challenge.  
+- ⚡ **Adaptive Difficulty:** The game speeds up as the player progresses, adding more challenge.  
 - 🛑 **Pause & Restart Controls:** Easily pause and restart the game.  
 
 ## 📊 Scoring & Reward System
@@ -25,11 +25,11 @@ The game rewards player with points based on how many lines s/he clears at once:
 - `500` Points for clearing `3x` lines at the same time.
 - `800` Points for clearing `4x` lines at the same time.
 
-As you clear more lines in a single move, the points awarded increase. Clearing multiple lines simultaneously is a strategic way to rack up more points and increase your score quickly.
+As more lines are cleared in a single move, the points awarded increase. Clearing multiple lines simultaneously is a strategic way to accumulate points quickly and boost the score efficiently.
 
 ## 🔥 Speed Ups
 
-As you accumulate more points during gameplay, the game will automatically increase the speed of the falling Tetrominos. This adds an increasing challenge as you progress. The speed levels are determined by your current score:
+As more points are accumulated during gameplay, the speed of the falling Tetrominos increases automatically. This creates an escalating challenge as the game progresses. Speed levels are determined by the current score:
 
 - **0 - 999 points**: Speed is **1s** per drop.
 - **1000 - 4999 points**: Speed is **0.9s** per drop.
@@ -41,7 +41,7 @@ As you accumulate more points during gameplay, the game will automatically incre
 - **45000 - 49999 points**: Speed is **0.3s** per drop.
 - **50000+ points**: Speed is **0.2s** per drop.
 
-The Tetrominos will fall faster as you reach higher score thresholds, making the game progressively more difficult and exciting.
+The Tetrominos will fall faster as the player reaches higher score thresholds, making the game progressively more difficult and exciting.
 
 ## 🎯 **Controls with Keyboard Shortcuts**
 
