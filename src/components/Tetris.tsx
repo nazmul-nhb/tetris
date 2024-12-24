@@ -1,46 +1,20 @@
-import { TETROMINOS } from "../constants";
 import GameControls from "./GameControls";
 import MusicControls from "./MusicControls";
 import PausedScreen from "./PausedScreen";
 import GameOverScreen from "./GameOverScreen";
 import ScoredPoints from "./ScoredPoints";
+import RestartGame from "./RestartGame";
 import PointsPopUp from "./PointsPopUp";
-import { GameState, PressedKey } from "../types";
+import { PressedKey } from "../types";
+import { initialState } from "../constants/state";
 import { gameReducer } from "../reducers/gameReducer";
-import { getSavedScores } from "../utilities/localStorage";
+import { getRenderedGrid, throttleKeyPress } from "../utilities/gameUtils";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import {
 	playNextTrack,
 	playSoundEffect,
 	toggleMusic,
 } from "../utilities/soundUtils";
-import {
-	createEmptyGrid,
-	getRandomPiece,
-	getRenderedGrid,
-	throttleKeyPress,
-} from "../utilities/gameUtils";
-
-const { bestScore, totalLines } = getSavedScores();
-
-const currentPiece = TETROMINOS[getRandomPiece()];
-
-/** The initial game state */
-const initialState: GameState = {
-	grid: createEmptyGrid(),
-	currentPiece: currentPiece,
-	position: { x: 4, y: 0 },
-	score: 0,
-	bestScore: bestScore,
-	linesCleared: 0,
-	totalLines: totalLines,
-	gameOver: false,
-	isPaused: true,
-	isMusicEnabled: false,
-	isSoundEffectsEnabled: true,
-	points: null,
-	speed: 1000,
-};
 
 /** Tetris Component */
 const Tetris: React.FC = () => {
@@ -91,13 +65,7 @@ const Tetris: React.FC = () => {
 		if (!state.currentPiece) {
 			playSoundEffect("clear", state.isSoundEffectsEnabled);
 			dispatch({ type: "CLEAR_ROWS" });
-
-			const randomPiece = getRandomPiece();
-
-			dispatch({
-				type: "SPAWN_PIECE",
-				piece: randomPiece,
-			});
+			dispatch({ type: "SPAWN_PIECE" });
 		}
 	}, [state.currentPiece, dispatch, state.isSoundEffectsEnabled]);
 
@@ -111,8 +79,8 @@ const Tetris: React.FC = () => {
 		const handleKeyDown = throttleKeyPress((e: KeyboardEvent) => {
 			e.preventDefault();
 
-			if (e.key === "Escape") {
-				setPressedKey("Escape");
+			if (e.key === "Escape" || e.key === "r") {
+				setPressedKey("Restart");
 				dispatch({ type: "RESET_GRID" });
 			}
 
@@ -139,8 +107,9 @@ const Tetris: React.FC = () => {
 					playSoundEffect("rotate", state.isSoundEffectsEnabled);
 					dispatch({ type: "ROTATE_PIECE" });
 					break;
+				case "p":
 				case " ":
-					setPressedKey("Space");
+					setPressedKey("Pause");
 					playSoundEffect("pause", state.isSoundEffectsEnabled);
 					dispatch({ type: "TOGGLE_PAUSE" });
 					break;
@@ -189,12 +158,8 @@ const Tetris: React.FC = () => {
 		<section className="flex flex-col items-center select-none overflow-hidden">
 			{/* Container for Main Grid and all the Buttons */}
 			<div className="relative flex flex-col items-center gap-2 pt-4">
-				{/* Current & Best Scores with Restart Button */}
-				<ScoredPoints
-					state={state}
-					dispatch={dispatch}
-					pressedKey={pressedKey}
-				/>
+				{/* Current & Best Scores with Next Piece */}
+				<ScoredPoints state={state} />
 				{/* Blur Grid Background based on `gameOver` flag */}
 				<div
 					className={`${
@@ -232,6 +197,14 @@ const Tetris: React.FC = () => {
 							))
 						)}
 					</div>
+				</div>
+				{/* Restart Button at the Right-top Corner */}
+				<div className="absolute top-12 -right-3 z-30">
+					<RestartGame
+						state={state}
+						dispatch={dispatch}
+						pressedKey={pressedKey}
+					/>
 				</div>
 				{/* Total Lines and Current Lines Cleared
 				 with Sound Effects and Music Controls */}

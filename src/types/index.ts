@@ -1,4 +1,3 @@
-import { TETROMINOS } from "../constants";
 
 export type Cell = {
 	filled: boolean;
@@ -15,6 +14,7 @@ export type ClearedRows = { newGrid: Cell[][]; rowsCleared: number };
 export type GameState = {
 	grid: Cell[][];
 	currentPiece: PieceDetails | null;
+	nextPiece: PieceDetails;
 	position: Position;
 	score: number;
 	bestScore: number;
@@ -30,7 +30,7 @@ export type GameState = {
 
 export type GameAction =
 	| { type: "RESET_GRID" }
-	| { type: "SPAWN_PIECE"; piece: keyof typeof TETROMINOS }
+	| { type: "SPAWN_PIECE" }
 	| { type: "UPDATE_POSITION"; x: number; y: number }
 	| { type: "ROTATE_PIECE" }
 	| { type: "MOVE_LEFT" }
@@ -47,10 +47,10 @@ export type PressedKey =
 	| "ArrowRight"
 	| "ArrowDown"
 	| "ArrowUp"
-	| "Space"
+	| "Pause"
 	| "Music"
 	| "Sound"
-	| "Escape"
+	| "Restart"
 	| "Next";
 
 export type TetrisScores = {

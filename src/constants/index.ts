@@ -3,6 +3,7 @@ import { PieceDetails } from "../types";
 export const ROWS = 20;
 export const COLS = 12;
 
+/** Speed Levels and Conditions */
 export const SPEED_LEVELS = [
 	{ score: 0, speed: 1000 },
 	{ score: 1000, speed: 900 },
@@ -15,6 +16,7 @@ export const SPEED_LEVELS = [
 	{ score: 50000, speed: 200 },
 ];
 
+/** The Tetrominos shapes and colors */
 export const TETROMINOS: Record<string, PieceDetails> = {
 	I: {
 		shape: [[1, 1, 1, 1]],

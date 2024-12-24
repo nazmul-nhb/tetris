@@ -2,16 +2,18 @@ import { COLS, ROWS, TETROMINOS } from "../constants";
 import { Cell, ClearedRows, KeyPress, Position, Tetromino } from "../types";
 
 /**
- * Function to create an empty grid
- * @returns a 2D array of empty cells
+ * Function to create an empty grid.
+ * @param rows Number of rows for the empty grid.
+ * @param cols Number of columns for the empty grid.
+ * @returns a 2D array of empty cells.
  */
-export const createEmptyGrid = (): Cell[][] =>
-	Array.from({ length: ROWS }, () =>
-		Array.from({ length: COLS }, () => ({ filled: false, color: null }))
+export const createEmptyGrid = (rows: number, cols: number): Cell[][] =>
+	Array.from({ length: rows }, () =>
+		Array.from({ length: cols }, () => ({ filled: false, color: null }))
 	);
 
 /**
- * Rotate a Tetromino matrix clockwise
+ * Rotate a Tetromino matrix clockwise.
  * @param matrix The Tetromino matrix to rotate.
  * @returns The rotated Tetromino matrix.
  */
@@ -42,6 +44,9 @@ export const getRenderedGrid = (
 	position: Position,
 	color: string
 ): Cell[][] => {
+	const rows = grid.length; // Dynamic row count based on the grid
+	const cols = grid[0].length; // Dynamic column count based on the grid
+
 	const newGrid = grid.map((row) => row.map((cell) => ({ ...cell })));
 
 	piece.forEach((row, rowIndex) => {
@@ -50,7 +55,8 @@ export const getRenderedGrid = (
 				const y = position.y + rowIndex;
 				const x = position.x + colIndex;
 
-				if (y >= 0 && y < ROWS && x >= 0 && x < COLS) {
+				// Validate against the custom grid dimensions
+				if (y >= 0 && y < rows && x >= 0 && x < cols) {
 					newGrid[y][x] = { filled: true, color };
 				}
 			}

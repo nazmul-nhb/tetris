@@ -1,20 +1,22 @@
-# Tetris
+# 🎮 Tetris
 
-[Play Now!](https://tetris-nhb.vercel.app/)
+[**Play Now! ▶️**](https://tetris-nhb.vercel.app)
 
 A modern implementation of the classic **Tetris** game built with `React` and `TypeScript`.
 
-## Key Features
+## 🚀 **Key Features**
 
-- Classic `Tetris` gameplay with modern web UI
-- Sound effects and background music
-- Local storage for saving high scores and total lines cleared
-- Keyboard and on-screen controls
-- Points pop-up display showing the scored points for current cleared lines
-- Reward system for clearing more lines at a time
-- Speed ups that increase the challenge as the player progresses
+- 🎲 **Classic Tetris Gameplay:** Enjoy the iconic block-stacking puzzle mechanics.  
+- 🔊 **Sound Effects & Music:** Toggle background music and sound effects for an engaging experience.  
+- 💾 **Local Storage Integration:** Automatically save **high scores** and **total lines cleared**.  
+- 🎮 **Keyboard & On-Screen Controls:** Play using keyboard shortcuts or on-screen buttons.  
+- 🧩 **Next Piece Preview:** Preview the upcoming Tetromino to plan your strategy better.  
+- 🏆 **Dynamic Points Pop-Up:** Instant feedback with animated point pop-ups after clearing lines.  
+- ⭐ **Reward System:** Score higher rewards for clearing multiple lines simultaneously.  
+- ⚡ **Adaptive Difficulty:** The game speeds up as you progress, adding more challenge.  
+- 🛑 **Pause & Restart Controls:** Easily pause and restart the game.  
 
-## Scoring System
+## 📊 Scoring & Reward System
 
 The game rewards player with points based on how many lines s/he clears at once:
 
@@ -25,7 +27,7 @@ The game rewards player with points based on how many lines s/he clears at once:
 
 As you clear more lines in a single move, the points awarded increase. Clearing multiple lines simultaneously is a strategic way to rack up more points and increase your score quickly.
 
-## Speed Ups
+## 🔥 Speed Ups
 
 As you accumulate more points during gameplay, the game will automatically increase the speed of the falling Tetrominos. This adds an increasing challenge as you progress. The speed levels are determined by your current score:
 
@@ -41,30 +43,34 @@ As you accumulate more points during gameplay, the game will automatically incre
 
 The Tetrominos will fall faster as you reach higher score thresholds, making the game progressively more difficult and exciting.
 
-## Keyboard Shortcuts
+## 🎯 **Controls with Keyboard Shortcuts**
 
-- **Left Arrow**: Move piece left
-- **Right Arrow**: Move piece right
-- **Down Arrow**: Move piece down
-- **Up Arrow**: Rotate piece
-- **Space**: Pause/Resume game
-- **S**: Toggle sound effects
-- **M**: Toggle background music
-- **N**: Play next background music
-- **Esc**: Restart game
+| **Action**                 | **Key**   |
+|----------------------------|---------  |
+| Rotate                     | ↑ Arrow   |
+| Move Left                  | ← Arrow   |
+| Move Right                 | → Arrow   |
+| Fast Drop                  | ↓ Arrow   |
+| Pause/Resume               | Space-bar |
+| Restart                    | Escape/R  |
+| Toggle Sound Effects       | S         |
+| Toggle Background Music    | M         |
+| Play next background music | N         |
 
-## Technologies Used
+## 🖥️ **Technologies Used**
 
-- `React` JavaScript library to build the application UI.
-- `TypeScript` For typed JavaScript logic during development.
-- `react-icons` For attractive icons.
-- `useReducer`: Built in React hook for complex state management.
+- **React** for building UI components.  
+- **TypeScript** for type safety during development.  
+- **TailwindCSS** for styling alongside vanilla css.  
+- **useReducer Hook** for complex state management.  
+- **LocalStorage** for persistent game data.  
+- **React Icons** for visual controls with attractive icons.  
 
-## Version
+## 📦 Version
 
-Current version: 1.6.9
+Current version: 1.7.1
 
-## Author
+## 👨‍💻 Author
 
 [Nazmul Hassan](https://nazmul-nhb.vercel.app)
 
@@ -77,7 +83,7 @@ Current version: 1.6.9
          color: black;
       "
    >
-      Local Setup
+      🛠️ Local Setup
    </summary>
 
 ### Set up the Project Locally

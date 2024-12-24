@@ -1,4 +1,4 @@
-import { SPEED_LEVELS, TETROMINOS } from "../constants";
+import { COLS, ROWS, SPEED_LEVELS, TETROMINOS } from "../constants";
 import { GameAction, GameState } from "../types";
 import {
 	createEmptyGrid,
@@ -25,8 +25,9 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		case "RESET_GRID":
 			return {
 				...state,
-				grid: createEmptyGrid(),
+				grid: createEmptyGrid(ROWS, COLS),
 				currentPiece: TETROMINOS[getRandomPiece()],
+				nextPiece: TETROMINOS[getRandomPiece()],
 				position: { x: 4, y: 0 },
 				score: 0,
 				linesCleared: 0,
@@ -38,7 +39,8 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		case "SPAWN_PIECE": {
 			if (state.gameOver) return state;
 
-			const piece = TETROMINOS[action.piece];
+			const piece = state.nextPiece;
+
 			const spawnPosition = { x: 4, y: 0 };
 
 			// Check if the spawn position is valid
@@ -49,6 +51,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			return {
 				...state,
 				currentPiece: piece,
+				nextPiece: TETROMINOS[getRandomPiece()],
 				position: spawnPosition,
 			};
 		}
