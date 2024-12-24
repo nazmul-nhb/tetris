@@ -132,13 +132,15 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		case "CLEAR_ROWS": {
 			const { newGrid, rowsCleared } = clearFullRows(state.grid);
 
+			let bonusPoints: number | null = null;
+
 			if (rowsCleared > 0) {
-				// Update local storage only if rows are cleared
 				updateLinesCleared(rowsCleared);
+				bonusPoints =
+					rowsCleared === 4 ? 800 : rowsCleared > 1 ? 300 : 100;
 			}
 
-			const newScore = state.score + rowsCleared * 100;
-
+			const newScore = state.score + (bonusPoints || 0);
 			let bestScore = state.bestScore;
 
 			if (newScore > state.bestScore) {
@@ -153,6 +155,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				...state,
 				grid: newGrid,
 				score: newScore,
+				points: bonusPoints,
 				bestScore: updatedScores.bestScore,
 				linesCleared: state.linesCleared + rowsCleared,
 				totalLines: updatedScores.totalLines,
@@ -177,6 +180,12 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			return {
 				...state,
 				isSoundEffectsEnabled: !state.isSoundEffectsEnabled,
+			};
+
+		case "RESET_POINTS":
+			return {
+				...state,
+				points: null,
 			};
 
 		default:

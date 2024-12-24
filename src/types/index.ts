@@ -24,6 +24,7 @@ export type GameState = {
 	isPaused: boolean;
 	isMusicEnabled: boolean;
 	isSoundEffectsEnabled: boolean;
+	points: number | null;
 };
 
 export type GameAction =
@@ -37,7 +38,8 @@ export type GameAction =
 	| { type: "CLEAR_ROWS" }
 	| { type: "TOGGLE_PAUSE" }
 	| { type: "TOGGLE_MUSIC"; enableMusic?: boolean }
-	| { type: "TOGGLE_SOUND_EFFECTS" };
+	| { type: "TOGGLE_SOUND_EFFECTS" }
+	| { type: "RESET_POINTS" };
 
 export type PressedKey =
 	| "ArrowLeft"
@@ -62,4 +64,4 @@ export type ControlProps = {
 	state: GameState;
 	dispatch: React.Dispatch<GameAction>;
 	pressedKey: PressedKey | null;
-}
+};

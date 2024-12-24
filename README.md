@@ -11,6 +11,12 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 - Local storage for saving high scores and total lines cleared
 - Keyboard and on-screen controls
 
+## Scoring System
+
+- `100` Points for clearing `1x` line at the same time.
+- `300` Points for clearing `2x` lines at the same time.
+- `800` Points for clearing `4x` lines at the same time.
+
 ## Keyboard Shortcuts
 
 - **Left Arrow**: Move piece left
@@ -23,105 +29,119 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 - **N**: Play next background music
 - **Esc**: Restart game
 
-## Local Setup
+## Technologies Used
 
-To set up the project locally, follow these steps:
+- `React` JavaScript library to build the application UI.
+- `TypeScript` For typed JavaScript logic during development.
+- `react-icons` For attractive icons.
+- `useReducer`: Built in React hook for complex state management.
 
-1. Clone the repository:
+## Version
 
-   ```bash
-   git clone https://github.com/nazmul-nhb/tetris.git
-   ```
+Current version: 1.5.0
 
-2. Navigate to the project directory:
+## Author
 
-   ```bash
-   cd tetris
-   ```
+[Nazmul Hassan](https://nazmul-nhb.vercel.app)
 
-3. If you are using `npm` `yarn` or any other package manager rather than `pnpm` delete the `pnpm lockfile`:
+<details>
+   <summary
+      style="
+         font-weight: 600;
+         font-size: 26px;
+         cursor: pointer;
+         color: black;
+      "
+   >
+      Local Setup
+   </summary>
 
-   ```bash
-   rm pnpm-lock.yaml
-   ```
+### Set up the Project Locally
 
-4. Install the dependencies using your preferred package manager:
+   To set up the project locally, follow these steps:
+
+   1. Clone the repository:
+
+      ```bash
+      git clone https://github.com/nazmul-nhb/tetris.git
+      ```
+
+   2. Navigate to the project directory:
+
+      ```bash
+      cd tetris
+      ```
+
+   3. If you are using `npm` `yarn` or any other package manager rather than `pnpm` delete the `pnpm lockfile`:
+
+      ```bash
+      rm pnpm-lock.yaml
+      ```
+
+   4. Install the dependencies using your preferred package manager:
+
+      **Using pnpm:**
+
+      ```bash
+      pnpm install
+      ```
+
+      **Using npm:**
+
+      ```bash
+      npm install
+      ```
+
+      **Using yarn:**
+
+      ```bash
+      yarn install
+      ```
+
+### Run the Project Locally
+
+   To run the project locally, use the following command:
 
    **Using pnpm:**
 
    ```bash
-   pnpm install
+   pnpm dev
    ```
 
    **Using npm:**
 
    ```bash
-   npm install
+   npm run dev
    ```
 
    **Using yarn:**
 
    ```bash
-   yarn install
+   yarn dev
    ```
 
-## Usage
+   This will start the development server and you can view the application in your browser at `http://localhost:5173` (or the `port` specified in your console).
 
-To run the project locally, use the following command:
+### Build for Production
 
-**Using pnpm:**
+   To create a production build, run:
 
-```bash
-pnpm dev
-```
+   **Using pnpm:**
 
-**Using npm:**
+   ```bash
+   pnpm build
+   ```
 
-```bash
-npm run dev
-```
+   **Using npm:**
 
-**Using yarn:**
+   ```bash
+   npm run build
+   ```
 
-```bash
-yarn dev
-```
+   **Using yarn:**
 
-This will start the development server and you can view the application in your browser at `http://localhost:5173` (or the `port` specified in your console).
+   ```bash
+   yarn build
+   ```
 
-## Build for Production
-
-To create a production build, run:
-
-**Using pnpm:**
-
-```bash
-pnpm build
-```
-
-**Using npm:**
-
-```bash
-npm run build
-```
-
-**Using yarn:**
-
-```bash
-yarn build
-```
-
-## Technologies Used
-
-- `React` JavaScript library to build the application.
-- `TypeScript` For typed JavaScript during development.
-- `react-icons` for icons.
-- `useReducer`: Built in React hook for complex state management.
-
-## Version
-
-Current version: 1.3.2
-
-## Author
-
-[Nazmul Hassan](https://nazmul-nhb.vercel.app)
+</details>

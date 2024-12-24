@@ -11,6 +11,9 @@ const GameOverScreen: React.FC<Props> = ({ state, dispatch }) => {
 			<h3 className="text-3xl animate-bounce text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400">
 				Game Over
 			</h3>
+			<h3 className="text-3xl animate-pulse text-red-800 px-4 py-1 rounded-lg bg-gray-300/35 border border-red-400 tracking-tight">
+				Score: {state.score}
+			</h3>
 			<button
 				onClick={() => {
 					playSoundEffect("pause", state.isSoundEffectsEnabled);

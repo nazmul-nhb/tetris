@@ -1,6 +1,10 @@
 import { TETROMINOS } from "../constants";
 import GameControls from "./GameControls";
 import MusicControls from "./MusicControls";
+import PausedScreen from "./PausedScreen";
+import GameOverScreen from "./GameOverScreen";
+import ScoredPoints from "./ScoredPoints";
+import PointsPopUp from "./PointsPopUp";
 import { GameState, PressedKey } from "../types";
 import { gameReducer } from "../reducers/gameReducer";
 import { getSavedScores } from "../utilities/localStorage";
@@ -16,9 +20,6 @@ import {
 	getRenderedGrid,
 	throttleKeyPress,
 } from "../utilities/gameUtils";
-import PausedScreen from "./PausedScreen";
-import GameOverScreen from "./GameOverScreen";
-import ScoredPoints from "./ScoredPoints";
 
 /** The initial game state */
 const initialState: GameState = {
@@ -33,6 +34,7 @@ const initialState: GameState = {
 	isPaused: false,
 	isMusicEnabled: false,
 	isSoundEffectsEnabled: true,
+	points: null,
 };
 
 /** Tetris Component */
@@ -56,12 +58,13 @@ const Tetris: React.FC = () => {
 
 		if (!state.isPaused && !state.gameOver) {
 			interval = setInterval(() => {
+				playSoundEffect("move", state.isSoundEffectsEnabled);
 				dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
 			}, 1000);
 		}
 
 		return () => clearInterval(interval);
-	}, [state.isPaused, state.gameOver, dispatch]);
+	}, [state.isPaused, state.gameOver, dispatch, state.isSoundEffectsEnabled]);
 
 	useEffect(() => {
 		if (!state.currentPiece) {
@@ -148,8 +151,20 @@ const Tetris: React.FC = () => {
 		}
 	}, [pressedKey]);
 
+	// Reset Bonus Points
+	useEffect(() => {
+		if (state.points) {
+			const timeout = setTimeout(() => {
+				playSoundEffect("clear", state.isSoundEffectsEnabled);
+				dispatch({ type: "RESET_POINTS" });
+			}, 3000);
+
+			return () => clearTimeout(timeout);
+		}
+	}, [state.isSoundEffectsEnabled, state.points]);
+
 	return (
-		<section className="flex flex-col items-center select-none">
+		<section className="flex flex-col items-center select-none overflow-hidden">
 			{/* Container for Main Grid and all the Buttons */}
 			<div className="relative flex flex-col items-center gap-2 pt-4">
 				{/* Current & Best Scores with Restart Button */}
@@ -158,14 +173,16 @@ const Tetris: React.FC = () => {
 					dispatch={dispatch}
 					pressedKey={pressedKey}
 				/>
-				{/* Grid Background blur based on `gameOver` flag */}
+				{/* Blur Grid Background based on `gameOver` flag */}
 				<div
 					className={`${
 						state.gameOver || (!state.gameOver && state.isPaused)
 							? "blur-sm z-30"
 							: "blur-none"
-					} transition-all duration-500 origin-center flex flex-col items-center bg-white p-3 rounded-md`}
+					} transition-all duration-500 flex flex-col items-center bg-white p-3 rounded-md relative border border-red-600`}
 				>
+					{/* Show Points PopUp */}
+					<PointsPopUp points={state.points} />
 					{/* Main Tetrominos Grid */}
 					<div
 						onClick={() => {
@@ -194,7 +211,8 @@ const Tetris: React.FC = () => {
 						)}
 					</div>
 				</div>
-				{/* Total Lines and Current Lines Cleared with Sound Effects and Music Controls */}
+				{/* Total Lines and Current Lines Cleared
+				 with Sound Effects and Music Controls */}
 				<MusicControls
 					state={state}
 					dispatch={dispatch}
