@@ -15,7 +15,7 @@ const NextPiece: React.FC<Props> = ({ nextPiece }) => {
 	);
 
 	return (
-		<div className="border border-gray-300 flex items-center justify-center z-50">
+		<div className="border border-gray-300 flex items-center justify-center z-50 hover:scale-125 transition-all duration-300">
 			<div className="grid grid-cols-4 grid-rows-3">
 				{renderedMiniGrid.map((row, rowIndex) =>
 					row.map((cell, colIndex) => (

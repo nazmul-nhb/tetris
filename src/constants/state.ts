@@ -1,7 +1,7 @@
-import { getSavedScores } from "../utilities/localStorage";
-import { createEmptyGrid, getRandomPiece } from "../utilities/gameUtils";
 import { GameState } from "../types";
 import { COLS, ROWS, TETROMINOS } from ".";
+import { getSavedScores } from "../utilities/localStorage";
+import { createEmptyGrid, getRandomPiece } from "../utilities/gameUtils";
 
 const { bestScore, totalLines } = getSavedScores();
 

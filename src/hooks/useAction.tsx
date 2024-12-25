@@ -20,9 +20,11 @@ export const useAction = (
 	/** Start the Action (throttled) */
 	const startAction = () => {
 		const now = Date.now();
+		
 		if (isGameOver || now - lastStartRef.current < throttle) return;
 
 		lastStartRef.current = now;
+
 		action(); // Perform the action immediately
 
 		intervalRef.current = window.setInterval(() => {
@@ -61,7 +63,7 @@ export const useAction = (
 			stopAction();
 		}
 
-		return stopAction; // Cleanup on unmount
+		return stopAction;
 	}, [isGameOver]);
 
 	return {

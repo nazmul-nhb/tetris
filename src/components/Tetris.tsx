@@ -75,9 +75,8 @@ const Tetris: React.FC = () => {
 	useEffect(() => {
 		if (!state.currentPiece) {
 			dispatch({ type: "CLEAR_ROWS" });
-			dispatch({ type: "SPAWN_PIECE" });
-
 			playSoundEffect("drop", state.isSoundEffectsEnabled);
+			dispatch({ type: "SPAWN_PIECE" });
 		}
 	}, [state.currentPiece, dispatch, state.isSoundEffectsEnabled]);
 

@@ -1,5 +1,7 @@
 import React from "react";
 import { ControlProps } from "../types";
+import { playNextTrack } from "../utilities/soundUtils";
+import { FaCheckToSlot } from "react-icons/fa6";
 import { FaTasks } from "react-icons/fa";
 import {
 	MdMusicNote,
@@ -8,8 +10,6 @@ import {
 	MdVolumeOff,
 	MdVolumeUp,
 } from "react-icons/md";
-import { playNextTrack } from "../utilities/soundUtils";
-import { FaCheckToSlot } from "react-icons/fa6";
 
 const MusicControls: React.FC<ControlProps> = ({
 	state,

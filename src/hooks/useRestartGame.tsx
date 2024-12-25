@@ -12,25 +12,25 @@ export const useRestartGame = ({ state, dispatch }: UseRestartGameProps) => {
 	const [showPopup, setShowPopup] = useState(false);
 
 	const restartGame = () => {
+		setShowPopup(true);
+
 		if (!state.isPaused) {
 			dispatch({ type: "TOGGLE_PAUSE" });
 		}
-
-		setShowPopup(true);
 	};
 
 	const confirmRestart = () => {
+		setShowPopup(false);
 		playSoundEffect("pause", state.isSoundEffectsEnabled);
 		dispatch({ type: "RESET_GRID" });
-		setShowPopup(false);
 	};
 
 	const cancelRestart = () => {
+		setShowPopup(false);
+
 		if (state.isPaused) {
 			dispatch({ type: "TOGGLE_PAUSE" });
 		}
-
-		setShowPopup(false);
 	};
 
 	return { showPopup, restartGame, confirmRestart, cancelRestart };
