@@ -97,7 +97,7 @@ const GameControls: React.FC<ControlProps> = ({
 					<button
 						onClick={handlePauseResume}
 						className={`${
-							pressedKey === "Space"
+							pressedKey === "Pause"
 								? "scale-90 duration-150"
 								: "hover:scale-125 active:scale-90 duration-300"
 						} outline-none transition-all`}
