@@ -13,17 +13,19 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 - 🧩 **Next Piece Preview:** Preview the upcoming Tetromino to plan better strategy.  
 - 🏆 **Dynamic Points Pop-Up:** Instant feedback with animated point pop-ups after clearing lines.  
 - ⭐ **Reward System:** Score higher rewards for clearing multiple lines simultaneously.  
-- ⚡ **Adaptive Difficulty:** The game speeds up as the player progresses, adding more challenge.  
-- 🛑 **Pause & Restart Controls:** Easily pause and restart the game.  
+- ⚡ **Adaptive Difficulty:** The game speeds up as the player progresses, adding more challenge. Show speed on top-left corner.  
+- 🛑 **Pause & Restart Controls:** Easily pause and restart the game. Show restart button on top-right corner.  
 
 ## 📊 Scoring & Reward System
 
-The game rewards player with points based on how many lines s/he clears at once:
+The game rewards players with points based on how many lines they clear at once:
 
-- `100` Points for clearing only `1x` line.
-- `300` Points for clearing `2x` lines at the same time.
-- `500` Points for clearing `3x` lines at the same time.
-- `800` Points for clearing `4x` lines at the same time.
+| **Lines Cleared** | **Points Awarded** |
+|------------------:|:-------------------|
+| 1 Line            | 100 Points         |
+| 2 Lines           | 300 Points         |
+| 3 Lines           | 500 Points         |
+| 4 Lines           | 800 Points         |
 
 As more lines are cleared in a single move, the points awarded increase. Clearing multiple lines simultaneously is a strategic way to accumulate points quickly and boost the score efficiently.
 
@@ -31,7 +33,7 @@ As more lines are cleared in a single move, the points awarded increase. Clearin
 
 As more points are accumulated during gameplay, the speed of the falling Tetrominos increases automatically. This creates an escalating challenge as the game progresses. Speed levels are determined by the current score:
 
-### 📊 **Speed Levels Table**
+### 📊 Speed Levels Table
 
 | **Score Range (points)** | **Drop Speed (seconds)** |
 |-------------------------:|:------------------------:|
@@ -49,17 +51,17 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 🎯 **Controls with Keyboard Shortcuts**
 
-| **Action**                 | **Key**   |
-|---------------------------:|:--------  |
-| Rotate                     | ↑ Arrow   |
-| Move Left                  | ← Arrow   |
-| Move Right                 | → Arrow   |
-| Fast Drop                  | ↓ Arrow   |
-| Pause/Resume               | Space-bar |
-| Restart                    | Escape/R  |
-| Toggle Sound Effects       | S         |
-| Toggle Background Music    | M         |
-| Play next background music | N         |
+| **Action**                 | **Key**     |
+|---------------------------:|:------------|
+| Rotate                     | ↑ Arrow     |
+| Move Left                  | ← Arrow     |
+| Move Right                 | → Arrow     |
+| Faster Drop                | ↓ Arrow     |
+| Pause/Resume               | Space-bar/P |
+| Restart                    | Escape/R    |
+| Toggle Sound Effects       | S           |
+| Toggle Background Music    | M           |
+| Play next background music | N           |
 
 ## 🖥️ **Technologies Used**
 
@@ -72,7 +74,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 1.7.5
+Current version: 1.8.0
 
 ## 👨‍💻 Author
 

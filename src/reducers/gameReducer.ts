@@ -139,7 +139,9 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			let newPoints: number | null = null;
 
 			if (rowsCleared > 0) {
+				// Update lines cleared in local storage
 				updateLinesCleared(rowsCleared);
+
 				if (rowsCleared === 1) {
 					newPoints = 100;
 				} else if (rowsCleared === 2) {
@@ -155,7 +157,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 			let bestScore = state.bestScore;
 
-			// Handle Best Score
+			// Update Best Score in memory and local storage
 			if (newScore > state.bestScore) {
 				bestScore = newScore;
 				updateBestScore(bestScore);

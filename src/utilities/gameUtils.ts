@@ -135,6 +135,18 @@ export const throttleKeyPress = (func: KeyPress, delay: number): KeyPress => {
 	};
 };
 
+/**
+ * Calculate speed multiplier based on speed in milliseconds.
+ * @param speed - The current speed in milliseconds.
+ * @returns A formatted multiplier string (e.g., '1.0', '1.2').
+ */
+export const getSpeedMultiplier = (speed: number): string => {
+	// Base speed is 1000ms (1x speed)
+	const multiplier = 1000 / speed;
+	return multiplier.toFixed(1);
+};
+
+
 
 // /**
 //  * Throttle a function to prevent rapid execution.
