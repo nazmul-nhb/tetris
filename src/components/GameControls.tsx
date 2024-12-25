@@ -26,7 +26,8 @@ const GameControls: React.FC<ControlProps> = ({
 			dispatch({ type: "ROTATE_PIECE" });
 		},
 		state.gameOver,
-		200
+		175,
+		225
 	);
 
 	// Left Button
@@ -42,7 +43,7 @@ const GameControls: React.FC<ControlProps> = ({
 		},
 		state.gameOver,
 		150,
-		100
+		150
 	);
 
 	// Pause/Resume Button
@@ -64,7 +65,7 @@ const GameControls: React.FC<ControlProps> = ({
 		},
 		state.gameOver,
 		150,
-		100
+		150
 	);
 
 	// Down Button
@@ -80,12 +81,12 @@ const GameControls: React.FC<ControlProps> = ({
 		},
 		state.gameOver,
 		50,
-		50
+		100
 	);
 
 	return (
 		<div className="flex justify-center mt-2 text-white">
-			<div className="flex flex-col gap-3 items-center">
+			<div className="flex flex-col gap-2 items-center">
 				{/* Rotate Button */}
 				<button
 					onMouseDown={startRotate}
@@ -96,7 +97,7 @@ const GameControls: React.FC<ControlProps> = ({
 					className={`${
 						pressedKey === "ArrowUp"
 							? "rotate-180 duration-150"
-							: "hover:-rotate-45 active:rotate-180 duration-300"
+							: "hover:-rotate-90 active:rotate-180 duration-300"
 					} outline-none transition-all`}
 					title="Rotate Piece"
 				>
@@ -118,7 +119,7 @@ const GameControls: React.FC<ControlProps> = ({
 						} outline-none transition-all`}
 						title="Move Left"
 					>
-						<IoIosArrowDropleftCircle size={32} />
+						<IoIosArrowDropleftCircle size={36} />
 					</button>
 					{/* Pause/Resume */}
 					<button
@@ -146,10 +147,10 @@ const GameControls: React.FC<ControlProps> = ({
 							pressedKey === "ArrowRight"
 								? "translate-x-1 duration-150"
 								: "hover:-translate-x-1 active:translate-x-1 duration-300"
-						} "outline-none transition-all"`}
+						} outline-none transition-all`}
 						title="Move Right"
 					>
-						<IoIosArrowDroprightCircle size={32} />
+						<IoIosArrowDroprightCircle size={36} />
 					</button>
 				</div>
 				{/* Down Arrow */}
@@ -166,7 +167,7 @@ const GameControls: React.FC<ControlProps> = ({
 					} outline-none transition-all`}
 					title="Move Down"
 				>
-					<IoIosArrowDropdownCircle size={32} />
+					<IoIosArrowDropdownCircle size={36} />
 				</button>
 			</div>
 		</div>

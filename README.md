@@ -14,7 +14,7 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 - 🏆 **Dynamic Points Pop-Up:** Instant feedback with animated point pop-ups after clearing lines.  
 - ⭐ **Reward System:** Score higher rewards for clearing multiple lines simultaneously.  
 - ⚡ **Adaptive Difficulty:** The game speeds up as the player progresses, adding more challenge. Show speed on top-left corner.  
-- 🛑 **Pause & Restart Controls:** Easily pause and restart the game. Show restart button on top-right corner.  
+- 🛑 **Pause & Restart Controls:** Easily pause and restart the game. Show restart button on top-right corner. Restarting the game requires confirmation.
 
 ## 📊 Scoring & Reward System
 
@@ -74,7 +74,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 1.8.6
+Current version: 1.9.0
 
 ## 👨‍💻 Author
 

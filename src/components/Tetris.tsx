@@ -19,12 +19,19 @@ import {
 	playSoundEffect,
 	toggleMusic,
 } from "../utilities/soundUtils";
+import { useRestartGame } from "../hooks/useRestartGame";
+import Confirmation from "./Confirmation";
 
 /** Tetris Component */
 const Tetris: React.FC = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialState);
 	const [pressedKey, setPressedKey] = useState<PressedKey | null>(null);
 	const intervalRef = useRef<number | null>(null);
+	const { showPopup, restartGame, confirmRestart, cancelRestart } =
+		useRestartGame({
+			state,
+			dispatch,
+		});
 
 	/** Get the rendered grid with the current piece. */
 	const renderedGrid = state.currentPiece
@@ -92,7 +99,7 @@ const Tetris: React.FC = () => {
 
 			if (e.key === "Escape" || e.key === "r") {
 				setPressedKey("Restart");
-				dispatch({ type: "RESET_GRID" });
+				restartGame();
 			}
 
 			if (state.gameOver) {
@@ -146,7 +153,7 @@ const Tetris: React.FC = () => {
 		}, 25);
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [state.gameOver, dispatch, state.isSoundEffectsEnabled]);
+	}, [state.gameOver, dispatch, state.isSoundEffectsEnabled, restartGame]);
 
 	// Reset key pressed after animation completes
 	useEffect(() => {
@@ -156,7 +163,7 @@ const Tetris: React.FC = () => {
 		}
 	}, [pressedKey]);
 
-	// Reset Bonus Points
+	// Reset Current Scored Points
 	useEffect(() => {
 		if (state.points) {
 			playSoundEffect("clear", state.isSoundEffectsEnabled);
@@ -175,6 +182,13 @@ const Tetris: React.FC = () => {
 			<div className="relative flex flex-col items-center gap-2 pt-4">
 				{/* Current & Best Scores with Next Piece */}
 				<ScoredPoints state={state} />
+				{/* Show Restart Confirmation Popup */}
+				{showPopup && (
+					<Confirmation
+						onConfirm={confirmRestart}
+						onCancel={cancelRestart}
+					/>
+				)}
 				{/* Blur Grid Background based on `gameOver` flag */}
 				<div
 					className={`${
@@ -214,14 +228,14 @@ const Tetris: React.FC = () => {
 					</div>
 				</div>
 				{/* Show Dropping Speed */}
-				<div className="absolute top-12 -left-3 z-30 tracking-wider w-9 aspect-square bg-orange-800 text-[13px] flex items-center justify-center p-1 rounded-full border-[3.5px] font-extrabold">
-					<h4>
+				<div className="absolute top-12 -left-3 z-30 tracking-wider w-9 aspect-square bg-orange-800 text-[13px] flex items-center justify-center p-1 rounded-full border-[3.5px] font-extrabold hover:scale-[1.2] hover:rotate-[360deg] transition-all duration-300">
+					<h4 className="font-black">
 						{getSpeedMultiplier(state.speed)}
 						<span className="text-[9.5px]">x</span>
 					</h4>
 				</div>
 				{/* Restart Button at the Right-top Corner */}
-				<div className="absolute top-12 -right-3 z-30">
+				<div className="absolute top-12 -right-3 z-50">
 					<RestartGame
 						state={state}
 						dispatch={dispatch}
