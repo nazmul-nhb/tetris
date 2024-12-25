@@ -214,7 +214,7 @@ const Tetris: React.FC = () => {
 					</div>
 				</div>
 				{/* Show Dropping Speed */}
-				<div className="absolute top-12 -left-3 z-30 tracking-wide w-9 aspect-square bg-orange-800 text-sm flex items-center justify-center p-1 rounded-full border-[3.5px] font-extrabold">
+				<div className="absolute top-12 -left-3 z-30 tracking-wider w-9 aspect-square bg-orange-800 text-[13px] flex items-center justify-center p-1 rounded-full border-[3.5px] font-extrabold">
 					<h4>
 						{getSpeedMultiplier(state.speed)}
 						<span className="text-[9.5px]">x</span>
