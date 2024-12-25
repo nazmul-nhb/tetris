@@ -15,7 +15,12 @@ const GameControls: React.FC<ControlProps> = ({
 	pressedKey,
 }) => {
 	// Rotate Button
-	const { start: startRotate, stop: stopRotate } = useAction(
+	const {
+		start: startRotate,
+		stop: stopRotate,
+		startTouch: startTouchRotate,
+		stopTouch: stopTouchRotate,
+	} = useAction(
 		() => {
 			playSoundEffect("rotate", state.isSoundEffectsEnabled);
 			dispatch({ type: "ROTATE_PIECE" });
@@ -64,8 +69,8 @@ const GameControls: React.FC<ControlProps> = ({
 					onMouseDown={startRotate}
 					onMouseUp={stopRotate}
 					onMouseLeave={stopRotate}
-					onTouchStart={startRotate}
-					onTouchEnd={stopRotate}
+					onTouchStart={startTouchRotate}
+					onTouchEnd={stopTouchRotate}
 					className={`${
 						pressedKey === "ArrowUp"
 							? "rotate-180 duration-150"
