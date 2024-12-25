@@ -67,15 +67,22 @@ const Tetris: React.FC = () => {
 
 	useEffect(() => {
 		if (!state.currentPiece) {
-			playSoundEffect("clear", state.isSoundEffectsEnabled);
 			dispatch({ type: "CLEAR_ROWS" });
 			dispatch({ type: "SPAWN_PIECE" });
+
+			playSoundEffect("drop", state.isSoundEffectsEnabled);
 		}
 	}, [state.currentPiece, dispatch, state.isSoundEffectsEnabled]);
 
 	useEffect(() => {
 		toggleMusic(state.isMusicEnabled);
 	}, [state.isMusicEnabled]);
+
+	useEffect(() => {
+		if (state.gameOver) {
+			playSoundEffect("gameOver", state.isSoundEffectsEnabled);
+		}
+	}, [state.gameOver, state.isSoundEffectsEnabled]);
 
 	// Attach keyboard listener
 	useEffect(() => {
@@ -88,7 +95,10 @@ const Tetris: React.FC = () => {
 				dispatch({ type: "RESET_GRID" });
 			}
 
-			if (state.gameOver) return;
+			if (state.gameOver) {
+				playSoundEffect("gameOver", state.isSoundEffectsEnabled);
+				return;
+			}
 
 			switch (e.key) {
 				case "ArrowLeft":
@@ -103,7 +113,7 @@ const Tetris: React.FC = () => {
 					break;
 				case "ArrowDown":
 					setPressedKey("ArrowDown");
-					playSoundEffect("drop", state.isSoundEffectsEnabled);
+					playSoundEffect("move", state.isSoundEffectsEnabled);
 					dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
 					break;
 				case "ArrowUp":
@@ -149,8 +159,9 @@ const Tetris: React.FC = () => {
 	// Reset Bonus Points
 	useEffect(() => {
 		if (state.points) {
+			playSoundEffect("clear", state.isSoundEffectsEnabled);
+
 			const timeout = setTimeout(() => {
-				playSoundEffect("clear", state.isSoundEffectsEnabled);
 				dispatch({ type: "RESET_POINTS" });
 			}, 3000);
 

@@ -17,7 +17,7 @@ const MusicControls: React.FC<ControlProps> = ({
 	pressedKey,
 }) => {
 	return (
-		<div className="flex justify-between w-full relative mb-2">
+		<div className="flex justify-between w-full relative mb-2 tracking-wider">
 			{/* Total Lines Cleared */}
 			<h2
 				title="Total Lines Cleared"
