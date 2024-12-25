@@ -31,22 +31,26 @@ As more lines are cleared in a single move, the points awarded increase. Clearin
 
 As more points are accumulated during gameplay, the speed of the falling Tetrominos increases automatically. This creates an escalating challenge as the game progresses. Speed levels are determined by the current score:
 
-- **0 - 999 points**: Speed is **1s** per drop.
-- **1000 - 4999 points**: Speed is **0.9s** per drop.
-- **5000 - 9999 points**: Speed is **0.8s** per drop.
-- **10000 - 24999 points**: Speed is **0.7s** per drop.
-- **25000 - 34999 points**: Speed is **0.6s** per drop.
-- **35000 - 39999 points**: Speed is **0.5s** per drop.
-- **40000 - 44999 points**: Speed is **0.4s** per drop.
-- **45000 - 49999 points**: Speed is **0.3s** per drop.
-- **50000+ points**: Speed is **0.2s** per drop.
+### 📊 **Speed Levels Table**
+
+| **Score Range (points)** | **Drop Speed (seconds)** |
+|-------------------------:|:------------------------:|
+| **0 - 999**              | **1.0 second**           |
+| **1000 - 4999**          | **0.9 second**           |
+| **5000 - 9999**          | **0.8 second**           |
+| **10000 - 24999**        | **0.7 second**           |
+| **25000 - 34999**        | **0.6 second**           |
+| **35000 - 39999**        | **0.5 second**           |
+| **40000 - 44999**        | **0.4 second**           |
+| **45000 - 49999**        | **0.3 second**           |
+| **50000+**               | **0.2 second**           |
 
 The Tetrominos will fall faster as the player reaches higher score thresholds, making the game progressively more difficult and exciting.
 
 ## 🎯 **Controls with Keyboard Shortcuts**
 
 | **Action**                 | **Key**   |
-|----------------------------|---------  |
+|---------------------------:|:--------  |
 | Rotate                     | ↑ Arrow   |
 | Move Left                  | ← Arrow   |
 | Move Right                 | → Arrow   |
@@ -68,7 +72,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 1.7.3
+Current version: 1.7.5
 
 ## 👨‍💻 Author
 

@@ -26,17 +26,23 @@ const GameControls: React.FC<ControlProps> = ({
 			dispatch({ type: "ROTATE_PIECE" });
 		},
 		state.gameOver,
-		250
+		200
 	);
 
 	// Left Button
-	const { start: startLeft, stop: stopLeft } = useAction(
+	const {
+		start: startLeft,
+		stop: stopLeft,
+		startTouch: startTouchLeft,
+		stopTouch: stopTouchLeft,
+	} = useAction(
 		() => {
 			playSoundEffect("move", state.isSoundEffectsEnabled);
 			dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 });
 		},
 		state.gameOver,
-		150
+		150,
+		100
 	);
 
 	// Pause/Resume Button
@@ -46,20 +52,36 @@ const GameControls: React.FC<ControlProps> = ({
 	};
 
 	// Right Button
-	const { start: startRight, stop: stopRight } = useAction(
+	const {
+		start: startRight,
+		stop: stopRight,
+		startTouch: startTouchRight,
+		stopTouch: stopTouchRight,
+	} = useAction(
 		() => {
 			playSoundEffect("move", state.isSoundEffectsEnabled);
 			dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 });
 		},
 		state.gameOver,
-		150
+		150,
+		100
 	);
 
 	// Down Button
-	const { start: startDown, stop: stopDown } = useAction(() => {
-		playSoundEffect("drop", state.isSoundEffectsEnabled);
-		dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
-	}, state.gameOver);
+	const {
+		start: startDown,
+		stop: stopDown,
+		startTouch: startTouchDown,
+		stopTouch: stopTouchDown,
+	} = useAction(
+		() => {
+			playSoundEffect("drop", state.isSoundEffectsEnabled);
+			dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
+		},
+		state.gameOver,
+		50,
+		50
+	);
 
 	return (
 		<div className="flex justify-center mt-2 text-white">
@@ -87,8 +109,8 @@ const GameControls: React.FC<ControlProps> = ({
 						onMouseDown={startLeft}
 						onMouseUp={stopLeft}
 						onMouseLeave={stopLeft}
-						onTouchStart={startLeft}
-						onTouchEnd={stopLeft}
+						onTouchStart={startTouchLeft}
+						onTouchEnd={stopTouchLeft}
 						className={`${
 							pressedKey === "ArrowLeft"
 								? "-translate-x-1 duration-150"
@@ -118,8 +140,8 @@ const GameControls: React.FC<ControlProps> = ({
 						onMouseDown={startRight}
 						onMouseUp={stopRight}
 						onMouseLeave={stopRight}
-						onTouchStart={startRight}
-						onTouchEnd={stopRight}
+						onTouchStart={startTouchRight}
+						onTouchEnd={stopTouchRight}
 						className={`${
 							pressedKey === "ArrowRight"
 								? "translate-x-1 duration-150"
@@ -135,8 +157,8 @@ const GameControls: React.FC<ControlProps> = ({
 					onMouseDown={startDown}
 					onMouseUp={stopDown}
 					onMouseLeave={stopDown}
-					onTouchStart={startDown}
-					onTouchEnd={stopDown}
+					onTouchStart={startTouchDown}
+					onTouchEnd={stopTouchDown}
 					className={`${
 						pressedKey === "ArrowDown"
 							? "translate-y-1 duration-150"

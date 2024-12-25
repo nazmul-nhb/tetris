@@ -166,7 +166,7 @@ const Tetris: React.FC = () => {
 						state.gameOver || (!state.gameOver && state.isPaused)
 							? "blur-sm z-30"
 							: "blur-none"
-					} transition-all duration-500 flex flex-col items-center bg-white p-3 rounded-md relative border border-red-600`}
+					} transition-all duration-500 flex flex-col items-center bg-white p-3 rounded-md relative`}
 				>
 					{/* Show Points PopUp */}
 					<PointsPopUp points={state.points} />
