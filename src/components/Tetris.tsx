@@ -5,9 +5,11 @@ import GameOverScreen from "./GameOverScreen";
 import ScoredPoints from "./ScoredPoints";
 import RestartGame from "./RestartGame";
 import PointsPopUp from "./PointsPopUp";
+import Confirmation from "./Confirmation";
 import { PressedKey } from "../types";
 import { initialState } from "../constants/state";
 import { gameReducer } from "../reducers/gameReducer";
+import { useRestartGame } from "../hooks/useRestartGame";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import {
 	getRenderedGrid,
@@ -19,8 +21,6 @@ import {
 	playSoundEffect,
 	toggleMusic,
 } from "../utilities/soundUtils";
-import { useRestartGame } from "../hooks/useRestartGame";
-import Confirmation from "./Confirmation";
 
 /** Tetris Component */
 const Tetris: React.FC = () => {

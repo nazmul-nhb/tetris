@@ -45,7 +45,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 			// Check if the spawn position is valid
 			if (isCollision(state.grid, piece.shape, spawnPosition)) {
-				return { ...state, speed: 1000, gameOver: true }; // Game Over
+				return { ...state, gameOver: true }; // Game Over
 			}
 
 			return {
@@ -60,11 +60,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			if (!state.currentPiece) return state;
 
 			if (state.isPaused) {
-				return {
-					...state,
-					isPaused: false,
-					// isMusicEnabled: true,
-				};
+				return { ...state, isPaused: false };
 			}
 
 			const newX = state.position.x + action.x;
@@ -108,11 +104,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			if (!state.currentPiece) return state;
 
 			if (state.isPaused) {
-				return {
-					...state,
-					isPaused: false,
-					// isMusicEnabled: true,
-				};
+				return { ...state, isPaused: false };
 			}
 
 			// Rotate the piece
@@ -184,11 +176,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		}
 
 		case "TOGGLE_PAUSE":
-			return {
-				...state,
-				isPaused: !state.isPaused,
-				// isMusicEnabled: !!state.isPaused,
-			};
+			return { ...state, isPaused: !state.isPaused };
 
 		case "TOGGLE_MUSIC":
 			if (action.enableMusic) {
@@ -204,10 +192,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			};
 
 		case "RESET_POINTS":
-			return {
-				...state,
-				points: null,
-			};
+			return { ...state, points: null };
 
 		default:
 			return state;
