@@ -7,13 +7,13 @@ type Props = { state: GameState };
 
 const ScoredPoints: React.FC<Props> = ({ state }) => {
 	return (
-		<div className="flex justify-between items-center w-full relative pb-2">
+		<div className="flex justify-between tracking-wider items-center w-full relative pb-2">
 			{/* Best Score */}
 			<h2
 				title="Best Score"
 				className="text-lg font-semibold flex items-center gap-2"
 			>
-				<FaTrophy size={24} />
+				<FaTrophy size={22} />
 				{state.bestScore}
 			</h2>
 			{/* Next Piece */}
@@ -25,7 +25,7 @@ const ScoredPoints: React.FC<Props> = ({ state }) => {
 				title="Current Score"
 				className="text-lg font-semibold flex items-center gap-2"
 			>
-				<FaCoins size={24} /> {state.score}
+				<FaCoins size={20} /> {state.score}
 			</h2>
 		</div>
 	);

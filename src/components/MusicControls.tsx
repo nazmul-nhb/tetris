@@ -23,7 +23,7 @@ const MusicControls: React.FC<ControlProps> = ({
 				title="Total Lines Cleared"
 				className="text-lg font-semibold flex items-center gap-2"
 			>
-				<FaTasks size={24} /> {state.totalLines}
+				<FaTasks size={21} /> {state.totalLines}
 			</h2>
 			<div className="absolute left-1/2 -translate-x-1/2 bottom-1 flex items-center gap-1">
 				{/* Toggle Sound Effects */}
@@ -98,7 +98,7 @@ const MusicControls: React.FC<ControlProps> = ({
 				title="Lines Cleared"
 				className="text-lg font-semibold flex items-center gap-2"
 			>
-				<FaCheckToSlot size={24} /> {state.linesCleared}
+				<FaCheckToSlot size={23} /> {state.linesCleared}
 			</h2>
 		</div>
 	);
