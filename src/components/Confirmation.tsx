@@ -57,7 +57,7 @@ const Confirmation: React.FC<Props> = ({ onConfirm, onCancel }) => {
 					</button>
 					<button
 						onClick={handleCancel}
-						className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-800 transition-all duration-300 hover:-translate-y-1 active:translate-y-1 shadow-sm shadow-gra-500 active:shadow-md active:shadow-gray-700"
+						className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-800 transition-all duration-300 hover:-translate-y-1 active:translate-y-1 shadow-sm shadow-gray-500 active:shadow-md active:shadow-gray-700"
 					>
 						Cancel
 					</button>
