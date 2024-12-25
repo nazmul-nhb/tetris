@@ -76,7 +76,7 @@ const GameControls: React.FC<ControlProps> = ({
 		stopTouch: stopTouchDown,
 	} = useAction(
 		() => {
-			playSoundEffect("drop", state.isSoundEffectsEnabled);
+			playSoundEffect("move", state.isSoundEffectsEnabled);
 			dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
 		},
 		state.gameOver,
