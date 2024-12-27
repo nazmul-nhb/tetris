@@ -61,6 +61,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 | Restart                    | Escape/R    |
 | Toggle Sound Effects       | S           |
 | Toggle Background Music    | M           |
+| Open File(s) or Folder     | F           |
 | Play next background music | N           |
 
 ## 🖥️ **Technologies Used**
@@ -74,7 +75,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 2.0.0
+Current version: 2.2.0
 
 ## 👨‍💻 Author
 

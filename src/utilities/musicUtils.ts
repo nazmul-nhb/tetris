@@ -20,6 +20,26 @@ currentMusic.addEventListener("ended", () => {
 });
 
 /**
+ * Fetch the file and create a File object for music files that don't have a File object.
+ * @param url URL of the music file.
+ * @returns FIle object for metadata.
+ */
+const fetchMusicFile = async (url: string): Promise<File | null> => {
+	try {
+		const response = await fetch(url);
+		const blob = await response.blob();
+
+		const file = new File([blob], url.split("/").pop() || "default.mp3", {
+			type: blob.type,
+		});
+		return file;
+	} catch (error) {
+		console.error("Error fetching file:", error);
+		return null;
+	}
+};
+
+/**
  * Select music files from the user.
  * @param fileList A list of user-selected music files.
  */
@@ -34,10 +54,9 @@ export const selectMusicFiles = (fileList: FileList) => {
 
 	currentTrackIndex = Math.floor(Math.random() * currentMusicTracks.length);
 	currentFile = currentMusicTracks[currentTrackIndex].file;
+
 	currentMusic = new Audio(currentMusicTracks[currentTrackIndex].url);
-
 	currentMusic.loop = true;
-
 	currentMusic.play();
 
 	// Loop the background music playlist
@@ -85,11 +104,15 @@ export const playNextTrack = (isEnabled: boolean) => {
 /** Extract metadata from the currently playing audio file. */
 export const extractMetadata = async () => {
 	if (!currentFile) {
-		return {
-			filename: "Unknown File",
-			title: "Unknown Title",
-			artist: "Unknown Artist",
-		};
+		currentFile = await fetchMusicFile(currentMusic.src);
+		
+		if (!currentFile) {
+			return {
+				filename: "Unknown File",
+				title: "Unknown Title",
+				artist: "Unknown Artist",
+			};
+		}
 	}
 
 	try {

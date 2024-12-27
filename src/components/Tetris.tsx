@@ -29,6 +29,7 @@ const Tetris: React.FC = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialState);
 	const [selectedMusic, setSelectedMusic] = useState<FileList | null>(null);
 	const [pressedKey, setPressedKey] = useState<PressedKey | null>(null);
+	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [popupKey, setPopupKey] = useState<number>(Date.now());
 	const intervalRef = useRef<number | null>(null);
 
@@ -161,6 +162,10 @@ const Tetris: React.FC = () => {
 					playNextTrack(true);
 					dispatch({ type: "TOGGLE_MUSIC", enableMusic: true });
 					break;
+				case "f":
+					setPressedKey("Folder");
+					setShowOptions((prev) => !prev);
+					break;
 				default:
 					break;
 			}
@@ -266,8 +271,11 @@ const Tetris: React.FC = () => {
 					pressedKey={pressedKey}
 					selectedMusic={selectedMusic}
 					setSelectedMusic={setSelectedMusic}
+					showOptions={showOptions}
+					setShowOptions={setShowOptions}
 				/>
-				<MusicInfo />
+				{/* Music Info */}
+				<MusicInfo state={state} selectedMusic={selectedMusic} />
 				{/* Restart Game button with the Game Over Screen */}
 				{state.gameOver && (
 					<GameOverScreen state={state} dispatch={dispatch} />

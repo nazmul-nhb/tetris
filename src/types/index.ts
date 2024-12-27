@@ -50,7 +50,8 @@ export type PressedKey =
 	| "Music"
 	| "Sound"
 	| "Restart"
-	| "Next";
+	| "Next"
+	| "Folder";
 
 export type TetrisScores = {
 	totalLines: number;
