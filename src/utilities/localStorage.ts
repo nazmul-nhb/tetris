@@ -8,7 +8,8 @@ export const getSavedScores = (): TetrisScores => {
 	const savedScores = localStorage.getItem("tetrisScores");
 
 	if (savedScores) {
-		return JSON.parse(savedScores);
+		const scores = JSON.parse(savedScores) as TetrisScores;
+		return scores;
 	}
 
 	return { totalLines: 0, bestScore: 0 };
@@ -34,32 +35,31 @@ export const updateBestScore = (score: number): void => {
 	storeTetrisScores(updatedScores);
 };
 
+let isUpdating = false;
+
 /**
  * Update the total lines cleared in local storage.
  * @param lines New cleared lines to add to the previous cleared lines.
  */
 export const updateLinesCleared = (lines: number): void => {
+	// Check if there's a pending update
+	if (isUpdating) return;
+
 	// Retrieve the current saved scores
 	const savedScores = getSavedScores();
-
-	// Check if there's a pending update in the same object
-	if (savedScores.pendingUpdate) {
-		return; // Prevent duplicate updates
-	}
 
 	// Set the flag before updating
 	const updatedScores: TetrisScores = {
 		...savedScores,
 		totalLines: savedScores.totalLines + lines,
-		pendingUpdate: true,
 	};
+
+	isUpdating = true;
 
 	storeTetrisScores(updatedScores);
 
 	// Clear the flag after a successful update
 	setTimeout(() => {
-		const finalScores = getSavedScores();
-		finalScores.pendingUpdate = false;
-		storeTetrisScores(finalScores);
+		isUpdating = false;
 	}, 0);
 };

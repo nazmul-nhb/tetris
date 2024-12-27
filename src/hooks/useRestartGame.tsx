@@ -7,7 +7,7 @@ type UseRestartGameProps = {
 	dispatch: React.Dispatch<GameAction>;
 };
 
-/** Hook to create  */
+/** Hook to create restart related functions with popup */
 export const useRestartGame = ({ state, dispatch }: UseRestartGameProps) => {
 	const [showPopup, setShowPopup] = useState(false);
 

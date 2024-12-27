@@ -134,14 +134,21 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				// Update lines cleared in local storage
 				updateLinesCleared(rowsCleared);
 
-				if (rowsCleared === 1) {
-					newPoints = 100;
-				} else if (rowsCleared === 2) {
-					newPoints = 300;
-				} else if (rowsCleared === 3) {
-					newPoints = 500;
-				} else if (rowsCleared === 4) {
-					newPoints = 800;
+				switch (rowsCleared) {
+					case 1:
+						newPoints = 100;
+						break;
+					case 2:
+						newPoints = 300;
+						break;
+					case 3:
+						newPoints = 500;
+						break;
+					case 4:
+						newPoints = 800;
+						break;
+					default:
+						break;
 				}
 			}
 

@@ -20,7 +20,7 @@ body {
 	font-weight: 600;
 }
 
-/* Animation for Bonus Points PopUp */
+/* Animation for Points PopUp */
 @keyframes pop-up {
 	0% {
 		transform: scale(1);

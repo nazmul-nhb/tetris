@@ -56,7 +56,6 @@ export type PressedKey =
 export type TetrisScores = {
 	totalLines: number;
 	bestScore: number;
-	pendingUpdate?: boolean;
 };
 
 export type KeyPress = (event: KeyboardEvent) => void;

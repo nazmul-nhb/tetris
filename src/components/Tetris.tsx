@@ -26,6 +26,7 @@ import {
 const Tetris: React.FC = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialState);
 	const [pressedKey, setPressedKey] = useState<PressedKey | null>(null);
+	const [popupKey, setPopupKey] = useState<number>(Date.now());
 	const intervalRef = useRef<number | null>(null);
 	const { showPopup, restartGame, confirmRestart, cancelRestart } =
 		useRestartGame({
@@ -169,7 +170,9 @@ const Tetris: React.FC = () => {
 
 			const timeout = setTimeout(() => {
 				dispatch({ type: "RESET_POINTS" });
-			}, 3000);
+			}, 1500);
+
+			setPopupKey(Date.now());
 
 			return () => clearTimeout(timeout);
 		}
@@ -197,7 +200,7 @@ const Tetris: React.FC = () => {
 					} transition-all duration-500 flex flex-col items-center bg-white p-3 rounded-md relative`}
 				>
 					{/* Show Points PopUp */}
-					<PointsPopUp points={state.points} />
+					<PointsPopUp key={popupKey} points={state.points} />
 					{/* Main Tetrominos Grid */}
 					<div
 						onClick={() => {
