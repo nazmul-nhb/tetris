@@ -201,6 +201,12 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		case "RESET_POINTS":
 			return { ...state, points: null };
 
+		case "CHANGE_TRACK":
+			return {
+				...state,
+				trackChanges: state.trackChanges + 1,
+			};
+
 		default:
 			return state;
 	}

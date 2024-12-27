@@ -237,7 +237,9 @@ const Tetris: React.FC = () => {
 							row.map((cell, colIndex) => (
 								<div
 									key={`${rowIndex}-${colIndex}`}
-									className="w-5 h-5 border border-gray-400"
+									className={`w-5 h-5 border border-gray-400`}
+									// ${cell.filled && "border border-gray-400"}
+									// Implement this later: Not border for empty grids
 									style={{
 										backgroundColor: cell.filled
 											? cell.color || "gray"

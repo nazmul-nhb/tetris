@@ -25,6 +25,7 @@ export type GameState = {
 	isSoundEffectsEnabled: boolean;
 	points: number | null;
 	speed: number;
+	trackChanges: number;
 };
 
 export type GameAction =
@@ -38,6 +39,7 @@ export type GameAction =
 	| { type: "CLEAR_ROWS" }
 	| { type: "TOGGLE_PAUSE" }
 	| { type: "TOGGLE_MUSIC"; enableMusic?: boolean }
+	| { type: "CHANGE_TRACK" }
 	| { type: "TOGGLE_SOUND_EFFECTS" }
 	| { type: "RESET_POINTS" };
 

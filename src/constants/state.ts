@@ -21,4 +21,5 @@ export const initialState: GameState = {
 	isSoundEffectsEnabled: true,
 	points: null,
 	speed: 1000,
+	trackChanges: 0,
 };

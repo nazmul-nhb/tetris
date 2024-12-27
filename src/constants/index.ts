@@ -67,3 +67,9 @@ export const TETROMINOS: Record<string, PieceDetails> = {
 		color: "OrangeRed",
 	},
 } as const;
+
+export const defaultMusicInfo = {
+	filename: "Unknown File",
+	title: "Unknown Title",
+	artist: "Unknown Artist",
+};

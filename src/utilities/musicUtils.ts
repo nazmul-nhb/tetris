@@ -1,5 +1,6 @@
-import { parseBlob } from "music-metadata";
 import { MusicTrack } from "../types";
+import { parseBlob } from "music-metadata";
+import { defaultMusicInfo } from "../constants";
 
 const musicTracks: MusicTrack[] = [
 	{ file: null, url: "/music/puppets.mp3" },
@@ -12,7 +13,7 @@ let currentTrackIndex = Math.floor(Math.random() * currentMusicTracks.length);
 let currentMusic = new Audio(currentMusicTracks[currentTrackIndex].url);
 let currentFile: File | null = currentMusicTracks[currentTrackIndex].file;
 
-currentMusic.loop = true;
+// currentMusic.loop = true;
 
 // Loop the background music playlist
 currentMusic.addEventListener("ended", () => {
@@ -29,9 +30,13 @@ const fetchMusicFile = async (url: string): Promise<File | null> => {
 		const response = await fetch(url);
 		const blob = await response.blob();
 
-		const file = new File([blob], url.split("/").pop() || "default.mp3", {
-			type: blob.type,
-		});
+		const file = new File(
+			[blob],
+			url.split("/").pop() || "/music/puppets.mp3",
+			{
+				type: blob.type,
+			}
+		);
 		return file;
 	} catch (error) {
 		console.error("Error fetching file:", error);
@@ -56,7 +61,7 @@ export const selectMusicFiles = (fileList: FileList) => {
 	currentFile = currentMusicTracks[currentTrackIndex].file;
 
 	currentMusic = new Audio(currentMusicTracks[currentTrackIndex].url);
-	currentMusic.loop = true;
+	// currentMusic.loop = true;
 	currentMusic.play();
 
 	// Loop the background music playlist
@@ -94,43 +99,40 @@ export const playNextTrack = (isEnabled: boolean) => {
 	currentFile = nextTrack.file;
 
 	currentMusic = new Audio(nextTrack.url);
-	currentMusic.loop = true;
+	// currentMusic.loop = true;
 
 	if (isEnabled) {
 		currentMusic.play();
 	}
+
+	currentMusic.addEventListener("ended", () => {
+		playNextTrack(true);
+	});
 };
 
 /** Extract metadata from the currently playing audio file. */
 export const extractMetadata = async () => {
 	if (!currentFile) {
 		currentFile = await fetchMusicFile(currentMusic.src);
-		
+
 		if (!currentFile) {
-			return {
-				filename: "Unknown File",
-				title: "Unknown Title",
-				artist: "Unknown Artist",
-			};
+			return defaultMusicInfo;
 		}
 	}
 
 	try {
 		const metadata = await parseBlob(currentFile);
 		const { title, artist } = metadata.common;
-		const filename = currentFile.name;
 
 		return {
-			filename,
-			title: title || "Unknown Title",
+			filename: currentFile.name || "Unknown File",
+			title: title || currentFile.name.split(".")[0],
 			artist: artist || "Unknown Artist",
 		};
 	} catch (error) {
 		console.error("Error extracting metadata:", error);
-		return {
-			filename: currentFile.name,
-			title: "Unknown Title",
-			artist: "Unknown Artist",
-		};
+		return defaultMusicInfo;
 	}
 };
+
+export { currentFile };

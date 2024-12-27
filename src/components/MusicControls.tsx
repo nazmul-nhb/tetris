@@ -29,7 +29,6 @@ const MusicControls: React.FC<Props> = ({
 	showOptions,
 	setShowOptions,
 }) => {
-	// const [showOptions, setShowOptions] = useState<boolean>(false);
 	const buttonRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -58,7 +57,7 @@ const MusicControls: React.FC<Props> = ({
 			// Folder selection
 			input.webkitdirectory = true;
 		} else {
-			// Single or multiple file selection
+			// File(s) selection
 			input.webkitdirectory = false;
 		}
 
@@ -190,6 +189,7 @@ const MusicControls: React.FC<Props> = ({
 				<button
 					onClick={() => {
 						playNextTrack(true);
+						dispatch({ type: "CHANGE_TRACK" });
 						dispatch({
 							type: "TOGGLE_MUSIC",
 							enableMusic: true,
