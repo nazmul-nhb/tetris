@@ -1,8 +1,9 @@
-import React from "react";
 import { ControlProps } from "../types";
-import { playNextTrack } from "../utilities/soundUtils";
-import { FaCheckToSlot } from "react-icons/fa6";
 import { FaTasks } from "react-icons/fa";
+import { FaCheckToSlot } from "react-icons/fa6";
+import React, { Dispatch, SetStateAction } from "react";
+import { playNextTrack } from "../utilities/musicUtils";
+import { RiFolderMusicFill, RiFolderMusicLine } from "react-icons/ri";
 import {
 	MdMusicNote,
 	MdMusicOff,
@@ -11,11 +12,43 @@ import {
 	MdVolumeUp,
 } from "react-icons/md";
 
-const MusicControls: React.FC<ControlProps> = ({
+type Props = ControlProps & {
+	selectedMusic: FileList | null;
+	setSelectedMusic: Dispatch<SetStateAction<FileList | null>>;
+};
+
+const MusicControls: React.FC<Props> = ({
 	state,
 	dispatch,
 	pressedKey,
+	selectedMusic,
+	setSelectedMusic,
 }) => {
+	const selectMusicFolder = () => {
+		const input = document.createElement("input");
+		input.type = "file";
+		input.accept = ".mp3,.wav,.ogg,.flac,.m4a,.aac";
+		input.multiple = true;
+		input.webkitdirectory = true;
+
+		// Listen for file selection
+		input.addEventListener("change", (event) => {
+			const files = (event.target as HTMLInputElement).files;
+
+			if (files && files.length > 0) {
+				// Set the selected FileList directly
+				setSelectedMusic(files);
+			} else {
+				console.warn(
+					"No valid audio files found in the selected folder."
+				);
+			}
+		});
+
+		// Trigger the file/folder selection dialog
+		input.click();
+	};
+
 	return (
 		<div className="flex justify-between w-full relative mb-2 tracking-wider">
 			{/* Total Lines Cleared */}
@@ -53,7 +86,7 @@ const MusicControls: React.FC<ControlProps> = ({
 						<MdVolumeOff size={20} />
 					)}
 				</button>
-				{/* Toggle Music */}
+				{/* Toggle Music On/Off*/}
 				<button
 					onClick={() => dispatch({ type: "TOGGLE_MUSIC" })}
 					className={`${
@@ -74,6 +107,22 @@ const MusicControls: React.FC<ControlProps> = ({
 						<MdMusicOff size={20} />
 					)}
 				</button>
+				{/* Select a music folder */}
+				<button
+					title="Select Your Own Music Tracks"
+					className={`${
+						pressedKey === "Music"
+							? "scale-90 duration-150"
+							: "hover:scale-125 active:scale-90 duration-300"
+					} outline-none transition-all`}
+					onClick={selectMusicFolder}
+				>
+					{selectedMusic ? (
+						<RiFolderMusicFill size={20} />
+					) : (
+						<RiFolderMusicLine size={20} />
+					)}
+				</button>
 				{/* Play Next Music Track */}
 				<button
 					onClick={() => {
@@ -88,7 +137,7 @@ const MusicControls: React.FC<ControlProps> = ({
 							? "-translate-x-1 duration-150"
 							: "hover:translate-x-1 active:-translate-x-1 duration-300"
 					} outline-none transition-all`}
-					title="Restart Game"
+					title="Play Next Music Track"
 				>
 					<MdSkipNext size={20} />
 				</button>

@@ -11,23 +11,27 @@ import { initialState } from "../constants/state";
 import { gameReducer } from "../reducers/gameReducer";
 import { useRestartGame } from "../hooks/useRestartGame";
 import React, { useEffect, useReducer, useRef, useState } from "react";
+import { playSoundEffect } from "../utilities/soundUtils";
+import {
+	playNextTrack,
+	selectMusicFiles,
+	toggleMusic,
+} from "../utilities/musicUtils";
 import {
 	getRenderedGrid,
 	getSpeedMultiplier,
 	throttleKeyPress,
 } from "../utilities/gameUtils";
-import {
-	playNextTrack,
-	playSoundEffect,
-	toggleMusic,
-} from "../utilities/soundUtils";
+import MusicInfo from "./MusicInfo";
 
 /** Tetris Component */
 const Tetris: React.FC = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialState);
+	const [selectedMusic, setSelectedMusic] = useState<FileList | null>(null);
 	const [pressedKey, setPressedKey] = useState<PressedKey | null>(null);
 	const [popupKey, setPopupKey] = useState<number>(Date.now());
 	const intervalRef = useRef<number | null>(null);
+
 	const { showPopup, restartGame, confirmRestart, cancelRestart } =
 		useRestartGame({
 			state,
@@ -80,6 +84,16 @@ const Tetris: React.FC = () => {
 			dispatch({ type: "SPAWN_PIECE" });
 		}
 	}, [state.currentPiece, dispatch, state.isSoundEffectsEnabled]);
+
+	useEffect(() => {
+		if (selectedMusic) {
+			selectMusicFiles(selectedMusic);
+			dispatch({
+				type: "TOGGLE_MUSIC",
+				enableMusic: true,
+			});
+		}
+	}, [selectedMusic]);
 
 	useEffect(() => {
 		toggleMusic(state.isMusicEnabled);
@@ -250,7 +264,10 @@ const Tetris: React.FC = () => {
 					state={state}
 					dispatch={dispatch}
 					pressedKey={pressedKey}
+					selectedMusic={selectedMusic}
+					setSelectedMusic={setSelectedMusic}
 				/>
+				<MusicInfo />
 				{/* Restart Game button with the Game Over Screen */}
 				{state.gameOver && (
 					<GameOverScreen state={state} dispatch={dispatch} />

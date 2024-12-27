@@ -7,7 +7,7 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 ## 🚀 **Key Features**
 
 - 🎲 **Classic Tetris Gameplay:** Enjoy the iconic block-stacking puzzle mechanics.  
-- 🔊 **Sound Effects & Music:** Toggle background music and sound effects for an engaging experience.  
+- 🔊 **Sound Effects & Music:** Toggle background music and sound effects for an engaging experience. Users can also select their own favorite music tracks by clicking the music folder icon.
 - 💾 **Local Storage Integration:** Automatically save **high scores** and **total lines cleared**.  
 - 🎮 **Keyboard & On-Screen Controls:** Play using keyboard shortcuts or on-screen buttons.  
 - 🧩 **Next Piece Preview:** Preview the upcoming Tetromino to plan better strategy.  
@@ -74,7 +74,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 1.9.5
+Current version: 2.0.0
 
 ## 👨‍💻 Author
 

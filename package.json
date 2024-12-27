@@ -1,7 +1,7 @@
 {
 	"name": "tetris-nhb",
 	"private": true,
-	"version": "1.9.5",
+	"version": "2.0.0",
 	"author": {
 		"name": "Nazmul Hassan",
 		"email": "nazmulnhb@gmail.com"
@@ -14,6 +14,7 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"music-metadata": "^10.6.4",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-icons": "^5.4.0"

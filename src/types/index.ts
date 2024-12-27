@@ -1,4 +1,3 @@
-
 export type Cell = {
 	filled: boolean;
 	color: string | null;
@@ -64,4 +63,15 @@ export type ControlProps = {
 	state: GameState;
 	dispatch: React.Dispatch<GameAction>;
 	pressedKey: PressedKey | null;
+};
+
+export type MusicTrack = {
+	file: File | null;
+	url: string;
+};
+
+export type MusicDetails = {
+	filename: string;
+	title: string;
+	artist: string;
 };
