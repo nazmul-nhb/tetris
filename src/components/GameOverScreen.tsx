@@ -5,6 +5,12 @@ import { FaArrowsRotate } from "react-icons/fa6";
 
 type Props = Omit<ControlProps, "pressedKey">;
 
+/**
+ * GameOverScreen component that displays the game over message and score with a restart button.
+ *
+ * @param state - The current game state, including the score and sound effects settings.
+ * @param dispatch - Dispatch function to send actions to reset the game state.
+ */
 const GameOverScreen: React.FC<Props> = ({ state, dispatch }) => {
 	return (
 		<div className="absolute z-40 top-1/2 -translate-y-1/2 text-nowrap font-bold flex flex-col items-center gap-2">

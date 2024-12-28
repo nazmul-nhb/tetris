@@ -5,6 +5,7 @@ const soundEffects = {
 	clear: new Audio("/sounds/clear.wav"),
 	gameOver: new Audio("/sounds/game-over.wav"),
 	pause: new Audio("/sounds/pause.wav"),
+	warn: new Audio("/sounds/warn.wav"),
 };
 
 /**

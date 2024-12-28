@@ -20,6 +20,18 @@ type Props = ControlProps & {
 	setShowOptions: Dispatch<SetStateAction<boolean>>;
 };
 
+/**
+ * MusicControls component that provides music control functionalities such as enabling/disabling sound effects,
+ * enabling/disabling music, selecting files/folders for music tracks, and skipping to the next track.
+ *
+ * @param state - The current game state, including sound effects and music settings, total lines cleared, etc.
+ * @param dispatch - Dispatch function to send actions to modify the game state.
+ * @param pressedKey - The key that is currently pressed (for visual feedback).
+ * @param selectedMusic - The selected music files or folder.
+ * @param setSelectedMusic - State setter function to update selected music.
+ * @param showOptions - Whether to show the file/folder selection options.
+ * @param setShowOptions - State setter function to toggle showing the selection options.
+ */
 const MusicControls: React.FC<Props> = ({
 	state,
 	dispatch,

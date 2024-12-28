@@ -4,6 +4,12 @@ import { createEmptyGrid, getRenderedGrid } from "../utilities/gameUtils";
 
 type Props = { nextPiece: PieceDetails };
 
+/**
+ * NextPiece component renders a preview of the next Tetris piece.
+ * It creates a mini grid to display the next piece's shape and color.
+ *
+ * @param nextPiece - The details of the next piece, including its shape and color.
+ */
 const NextPiece: React.FC<Props> = ({ nextPiece }) => {
 	const miniGrid = createEmptyGrid(3, 4);
 

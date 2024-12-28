@@ -5,6 +5,12 @@ type Props = {
 	onCancel: () => void;
 };
 
+/**
+ * Confirmation modal component that shows a confirmation message and allows the user to confirm or cancel an action.
+ *
+ * @param onConfirm - Function to execute when the user confirms the action.
+ * @param onCancel - Function to execute when the user cancels the action or clicks outside the modal.
+ */
 const Confirmation: React.FC<Props> = ({ onConfirm, onCancel }) => {
 	const [isExiting, setIsExiting] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);

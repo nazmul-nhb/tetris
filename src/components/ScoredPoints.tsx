@@ -5,6 +5,11 @@ import { FaCoins, FaTrophy } from "react-icons/fa6";
 
 type Props = { state: GameState };
 
+/**
+ * ScoredPoints component displays the current score, best score, and the next piece in the Tetris game.
+ *
+ * @param state - The current state of the game, containing the scores (bestScore, score) and the next piece.
+ */
 const ScoredPoints: React.FC<Props> = ({ state }) => {
 	return (
 		<div className="flex justify-between tracking-wider items-center w-full relative pb-2">

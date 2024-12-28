@@ -9,6 +9,13 @@ import {
 	IoIosArrowDroprightCircle,
 } from "react-icons/io";
 
+/**
+ * GameControls component that provides interactive buttons for controlling the game.
+ *
+ * @param state - The current game state, including whether the game is paused and other game properties.
+ * @param dispatch - Dispatch function to send actions to the game state.
+ * @param pressedKey - The key that is currently pressed by the user, if any.
+ */
 const GameControls: React.FC<ControlProps> = ({
 	state,
 	dispatch,

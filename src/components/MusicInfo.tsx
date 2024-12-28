@@ -9,6 +9,13 @@ type Props = {
 	selectedMusic: FileList | null;
 };
 
+/**
+ * MusicInfo component displays information about the currently playing music track, including the title and artist.
+ * It fetches metadata periodically to update the displayed information.
+ *
+ * @param state - The current game state, including track changes.
+ * @param selectedMusic - The selected music files.
+ */
 const MusicInfo: React.FC<Props> = ({ state, selectedMusic }) => {
 	const [info, setInfo] = useState<MusicDetails>(defaultMusicInfo);
 	const [dependencyKey, setDependencyKey] = useState("dependency");

@@ -4,7 +4,14 @@ import Confirmation from "./Confirmation";
 import { RiRefreshFill } from "react-icons/ri";
 import { useRestartGame } from "../hooks/useRestartGame";
 
-// Restart Game Component with Confirmation Popup
+/**
+ * RestartGame component provides a button to restart the game and shows a confirmation popup.
+ * The button triggers the restart process and the popup is displayed for confirmation.
+ *
+ * @param state - The current state of the game, used to determine game modes (e.g., Hard Mode).
+ * @param dispatch - The dispatch function to update the game state.
+ * @param pressedKey - A string that represents the key being pressed, used to apply visual effects to the button.
+ */
 const RestartGame: React.FC<ControlProps> = ({
 	state,
 	dispatch,
@@ -17,7 +24,7 @@ const RestartGame: React.FC<ControlProps> = ({
 		});
 
 	return (
-		<div>
+		<div className="absolute top-12 -right-3 z-50">
 			<button
 				onClick={restartGame}
 				className={`${

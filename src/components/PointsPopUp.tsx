@@ -2,6 +2,11 @@ import React from "react";
 
 type Props = { points: number | null };
 
+/**
+ * PointsPopUp component displays a popup with the points added to the game score.
+ *
+ * @param points - The number of points to display in the popup. If null, the popup will not be rendered.
+ */
 const PointsPopUp: React.FC<Props> = ({ points }) => {
 	if (!points) return null;
 

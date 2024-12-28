@@ -15,10 +15,11 @@ import {
 } from "../utilities/localStorage";
 
 /**
- * Game Reducer.
- * @param state The current game state.
- * @param action The action to perform.
- * @returns The new game state.
+ * Reducer function to manage game state for Tetris.
+ *
+ * @param state - The current game state.
+ * @param action - The action to perform, such as "RESET_GRID", "SPAWN_PIECE", "UPDATE_POSITION", etc.
+ * @returns The new game state after the action is processed.
  */
 export function gameReducer(state: GameState, action: GameAction): GameState {
 	switch (action.type) {

@@ -4,6 +4,13 @@ import { playSoundEffect } from "../utilities/soundUtils";
 
 type Props = Omit<ControlProps, "pressedKey">;
 
+/**
+ * PausedScreen component displays the paused screen with a message and instructions to resume the game.
+ * It also plays a sound effect and toggles the game's pause state when clicked.
+ *
+ * @param state - The current game state.
+ * @param dispatch - The dispatch function for dispatching actions to update the game state.
+ */
 const PausedScreen: React.FC<Props> = ({ state, dispatch }) => {
 	return (
 		<div
