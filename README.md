@@ -77,7 +77,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 2.3.1
+Current version: 2.3.2
 
 ## 👨‍💻 Author
 

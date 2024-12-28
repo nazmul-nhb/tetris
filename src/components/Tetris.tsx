@@ -6,25 +6,20 @@ import ScoredPoints from "./ScoredPoints";
 import RestartGame from "./RestartGame";
 import PointsPopUp from "./PointsPopUp";
 import Confirmation from "./Confirmation";
+import MusicInfo from "./MusicInfo";
+import GameGrid from "./GameGrid";
 import { PressedKey } from "../types";
 import { FaTheaterMasks } from "react-icons/fa";
 import { FaMasksTheater } from "react-icons/fa6";
 import { initialState } from "../constants/state";
 import { gameReducer } from "../reducers/gameReducer";
 import { useRestartGame } from "../hooks/useRestartGame";
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { playSoundEffect } from "../utilities/soundUtils";
-import {
-	playNextTrack,
-	selectMusicFiles,
-	toggleMusic,
-} from "../utilities/musicUtils";
-import {
-	getRenderedGrid,
-	getSpeedMultiplier,
-	throttleKeyPress,
-} from "../utilities/gameUtils";
-import MusicInfo from "./MusicInfo";
+import { getRenderedGrid, getSpeedMultiplier } from "../utilities/gameUtils";
+import { useKeyboard } from "../hooks/useKeyboard";
+import { useGameLoop } from "../hooks/useGameLoop";
+import { useGameEffects } from "../hooks/useGameEffects";
 
 /** Tetris Component */
 const Tetris: React.FC = () => {
@@ -33,7 +28,6 @@ const Tetris: React.FC = () => {
 	const [pressedKey, setPressedKey] = useState<PressedKey | null>(null);
 	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [popupKey, setPopupKey] = useState<number>(Date.now());
-	const intervalRef = useRef<number | null>(null);
 
 	const { showPopup, restartGame, confirmRestart, cancelRestart } =
 		useRestartGame({
@@ -51,143 +45,21 @@ const Tetris: React.FC = () => {
 		  )
 		: state.grid;
 
-	/** Automatically drop the Tetromino according to `speed` */
-	useEffect(() => {
-		const startInterval = () => {
-			intervalRef.current = window.setInterval(() => {
-				playSoundEffect("move", state.isSoundEffectsEnabled);
-				dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
-			}, state.speed);
-		};
+	// Automatically drop the Tetromino according to `speed`
+	useGameLoop(state, dispatch);
 
-		const stopInterval = () => {
-			if (intervalRef.current) {
-				clearInterval(intervalRef.current);
-				intervalRef.current = null;
-			}
-		};
+	// Handle game effects and music
+	useGameEffects(state, dispatch, selectedMusic);
 
-		if (!state.isPaused && !state.gameOver) {
-			startInterval();
-		}
-
-		return stopInterval;
-	}, [
-		state.isPaused,
-		state.gameOver,
-		state.speed,
-		state.isSoundEffectsEnabled,
+	// Attach keyboard listeners
+	useKeyboard(
+		state,
 		dispatch,
-	]);
-
-	useEffect(() => {
-		if (!state.currentPiece) {
-			dispatch({ type: "CLEAR_ROWS" });
-			playSoundEffect("drop", state.isSoundEffectsEnabled);
-			dispatch({ type: "SPAWN_PIECE" });
-		}
-	}, [state.currentPiece, dispatch, state.isSoundEffectsEnabled]);
-
-	useEffect(() => {
-		if (selectedMusic) {
-			selectMusicFiles(selectedMusic);
-			dispatch({
-				type: "TOGGLE_MUSIC",
-				enableMusic: true,
-			});
-		}
-	}, [selectedMusic]);
-
-	useEffect(() => {
-		toggleMusic(state.isMusicEnabled);
-	}, [state.isMusicEnabled]);
-
-	useEffect(() => {
-		if (state.gameOver) {
-			playSoundEffect("gameOver", state.isSoundEffectsEnabled);
-		}
-	}, [state.gameOver, state.isSoundEffectsEnabled]);
-
-	// Attach keyboard listener
-	useEffect(() => {
-		/** Handle keyboard controls */
-		const handleKeyDown = throttleKeyPress((e: KeyboardEvent) => {
-			e.preventDefault();
-
-			if (e.key === "Escape" || e.key === "r") {
-				setPressedKey("Restart");
-				restartGame();
-			}
-
-			if (state.gameOver) {
-				playSoundEffect("gameOver", state.isSoundEffectsEnabled);
-				return;
-			}
-
-			switch (e.key) {
-				case "ArrowLeft":
-					setPressedKey("ArrowLeft");
-					playSoundEffect("move", state.isSoundEffectsEnabled);
-					dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 });
-					break;
-				case "ArrowRight":
-					setPressedKey("ArrowRight");
-					playSoundEffect("move", state.isSoundEffectsEnabled);
-					dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 });
-					break;
-				case "ArrowDown":
-					setPressedKey("ArrowDown");
-					playSoundEffect("move", state.isSoundEffectsEnabled);
-					dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
-					break;
-				case "ArrowUp":
-					setPressedKey("ArrowUp");
-					playSoundEffect("rotate", state.isSoundEffectsEnabled);
-					dispatch({ type: "ROTATE_PIECE" });
-					break;
-				case "p":
-				case " ":
-					setPressedKey("Pause");
-					playSoundEffect("pause", state.isSoundEffectsEnabled);
-					dispatch({ type: "TOGGLE_PAUSE" });
-					break;
-				case "s":
-					setPressedKey("Sound");
-					dispatch({ type: "TOGGLE_SOUND_EFFECTS" });
-					break;
-				case "m":
-					setPressedKey("Music");
-					dispatch({ type: "TOGGLE_MUSIC" });
-					break;
-				case "n":
-					setPressedKey("Next");
-					playNextTrack(true);
-					dispatch({ type: "TOGGLE_MUSIC", enableMusic: true });
-					break;
-				case "f":
-					setPressedKey("Folder");
-					setShowOptions((prev) => !prev);
-					break;
-				case "h":
-				case "e":
-					setPressedKey("Hard");
-					dispatch({ type: "TOGGLE_MODE" });
-					break;
-				default:
-					break;
-			}
-		}, 25);
-		window.addEventListener("keydown", handleKeyDown);
-		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [state.gameOver, dispatch, state.isSoundEffectsEnabled, restartGame]);
-
-	// Reset key pressed after animation completes
-	useEffect(() => {
-		if (pressedKey) {
-			const timeout = setTimeout(() => setPressedKey(null), 150);
-			return () => clearTimeout(timeout);
-		}
-	}, [pressedKey]);
+		restartGame,
+		pressedKey,
+		setPressedKey,
+		setShowOptions
+	);
 
 	// Reset Current Scored Points
 	useEffect(() => {
@@ -228,38 +100,11 @@ const Tetris: React.FC = () => {
 					{/* Show Points PopUp */}
 					<PointsPopUp key={popupKey} points={state.points} />
 					{/* Main Tetrominos Grid */}
-					<div
-						onClick={() => {
-							playSoundEffect(
-								"pause",
-								state.isSoundEffectsEnabled
-							);
-							dispatch({ type: "TOGGLE_PAUSE" });
-						}}
-						className={`${
-							state.gameOver ? "-z-10" : "z-10"
-						} grid grid-cols-12 border border-gray-700`}
-					>
-						{renderedGrid.map((row, rowIndex) =>
-							row.map((cell, colIndex) => (
-								<div
-									key={`${rowIndex}-${colIndex}`}
-									className={`w-5 h-5 ${
-										state.isHardMode && cell.filled
-											? "border border-gray-400"
-											: !state.isHardMode
-											? "border border-gray-400"
-											: ""
-									}`}
-									style={{
-										backgroundColor: cell.filled
-											? cell.color || "gray"
-											: "white",
-									}}
-								/>
-							))
-						)}
-					</div>
+					<GameGrid
+						state={state}
+						dispatch={dispatch}
+						renderedGrid={renderedGrid}
+					/>
 				</div>
 				{/* Show Dropping Speed & Change Mode */}
 				<div
