@@ -14,6 +14,7 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 - 🏆 **Dynamic Points Pop-Up:** Instant feedback with animated point pop-ups after clearing lines.  
 - ⭐ **Reward System:** Score higher rewards for clearing multiple lines simultaneously.  
 - ⚡ **Adaptive Difficulty:** The game speeds up as the player progresses, adding more challenge. Show speed on top-left corner.  
+- 🎭 **Hard/Easy Mode:** Switch between modes using the Mode Toggle button `H` or `E`. Click the button `E` to enable Hard Mode `(H)`; In Hard Mode `(H)`, grid lines are hidden for an added challenge. Click the button `H` to enable Easy Mode `(E)`, which reveals grid lines for better visibility.  
 - 🛑 **Pause & Restart Controls:** Easily pause and restart the game. Show restart button on top-right corner. Restarting the game requires confirmation.
 
 ## 📊 Scoring & Reward System
@@ -62,6 +63,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 | Toggle Sound Effects       | S           |
 | Toggle Background Music    | M           |
 | Open File(s) or Folder     | F           |
+| Toggle Hard/Easy Mode      | E/H         |
 | Play next background music | N           |
 
 ## 🖥️ **Technologies Used**
@@ -75,7 +77,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 2.2.4
+Current version: 2.3.0
 
 ## 👨‍💻 Author
 

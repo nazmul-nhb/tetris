@@ -26,6 +26,7 @@ export type GameState = {
 	points: number | null;
 	speed: number;
 	trackChanges: number;
+	isHardMode: boolean;
 };
 
 export type GameAction =
@@ -41,6 +42,7 @@ export type GameAction =
 	| { type: "TOGGLE_MUSIC"; enableMusic?: boolean }
 	| { type: "CHANGE_TRACK" }
 	| { type: "TOGGLE_SOUND_EFFECTS" }
+	| { type: "TOGGLE_MODE" }
 	| { type: "RESET_POINTS" };
 
 export type PressedKey =
@@ -53,6 +55,7 @@ export type PressedKey =
 	| "Sound"
 	| "Restart"
 	| "Next"
+	| "Hard"
 	| "Folder";
 
 export type TetrisScores = {

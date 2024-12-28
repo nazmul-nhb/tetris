@@ -207,6 +207,12 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 				trackChanges: state.trackChanges + 1,
 			};
 
+		case "TOGGLE_MODE":
+			return {
+				...state,
+				isHardMode: !state.isHardMode,
+			};
+
 		default:
 			return state;
 	}

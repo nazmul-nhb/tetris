@@ -166,6 +166,11 @@ const Tetris: React.FC = () => {
 					setPressedKey("Folder");
 					setShowOptions((prev) => !prev);
 					break;
+				case "h":
+				case "e":
+					setPressedKey("Hard");
+					dispatch({ type: "TOGGLE_MODE" });
+					break;
 				default:
 					break;
 			}
@@ -237,9 +242,13 @@ const Tetris: React.FC = () => {
 							row.map((cell, colIndex) => (
 								<div
 									key={`${rowIndex}-${colIndex}`}
-									className={`w-5 h-5 border border-gray-400`}
-									// ${cell.filled && "border border-gray-400"}
-									// Implement this later: Not border for empty grids
+									className={`w-5 h-5 ${
+										state.isHardMode && cell.filled
+											? "border border-gray-400"
+											: !state.isHardMode
+											? "border border-gray-400"
+											: ""
+									}`}
 									style={{
 										backgroundColor: cell.filled
 											? cell.color || "gray"
@@ -250,13 +259,36 @@ const Tetris: React.FC = () => {
 						)}
 					</div>
 				</div>
-				{/* Show Dropping Speed */}
-				<div className="absolute top-12 -left-3 z-30 tracking-wider w-9 aspect-square bg-orange-800 text-[13px] flex items-center justify-center p-1 rounded-full border-[3.5px] font-extrabold hover:scale-[1.2] hover:rotate-[360deg] transition-all duration-300">
-					<h4 className="font-black">
+				{/* Show Dropping Speed & Change Mode */}
+				<div
+					title={`Dropping speed: 1 piece per ${state.speed} milliseconds`}
+					className={`absolute top-12 -left-3 z-30 tracking-wider w-9 aspect-square text-[13px] flex items-center justify-center p-1 rounded-full border-[3.5px] font-extrabold hover:scale-[1.2] hover:rotate-[360deg] transition-all duration-300 ${
+						state.isHardMode ? "bg-blue-700" : "bg-orange-800"
+					}`}
+				>
+					<h4 className="font-black relative">
 						{getSpeedMultiplier(state.speed)}
 						<span className="text-[9.5px]">x</span>
 					</h4>
 				</div>
+				{/* Current Mode: Hard/Easy */}
+				<h4
+					onClick={() => dispatch({ type: "TOGGLE_MODE" })}
+					title={
+						state.isHardMode
+							? "Change to Easy Mode"
+							: "Change to Hard Mode"
+					}
+					className={`absolute top-12 left-1/2 -translate-x-1/2 text-sm font-bold text-red-50 w-6 aspect-square flex items-center justify-center rounded-full text-center z-40 border-2 pl-[3px] cursor-pointer transition-all ${
+						state.isHardMode ? "bg-blue-700" : "bg-orange-800"
+					} ${
+						pressedKey === "Hard"
+							? "scale-75 duration-150 -rotate-[360deg]"
+							: "active:-rotate-[360deg] active:scale-75 hover:scale-[1.2] hover:rotate-[360deg] duration-300"
+					}`}
+				>
+					{state.isHardMode ? "H" : "E"}
+				</h4>
 				{/* Restart Button at the Right-top Corner */}
 				<div className="absolute top-12 -right-3 z-50">
 					<RestartGame

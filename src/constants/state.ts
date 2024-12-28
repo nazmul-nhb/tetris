@@ -22,4 +22,5 @@ export const initialState: GameState = {
 	points: null,
 	speed: 1000,
 	trackChanges: 0,
+	isHardMode: false,
 };

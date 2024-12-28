@@ -28,7 +28,9 @@ const RestartGame: React.FC<ControlProps> = ({
 				title="Restart Game"
 			>
 				<RiRefreshFill
-					className="bg-white text-orange-800 rounded-full -p-2 rotate-[-57deg]"
+					className={`bg-white rounded-full -p-2 rotate-[-57deg] ${
+						state.isHardMode ? "text-blue-700" : "text-orange-800"
+					}`}
 					size={36}
 				/>
 			</button>
