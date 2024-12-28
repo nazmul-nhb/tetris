@@ -7,6 +7,8 @@ import RestartGame from "./RestartGame";
 import PointsPopUp from "./PointsPopUp";
 import Confirmation from "./Confirmation";
 import { PressedKey } from "../types";
+import { FaTheaterMasks } from "react-icons/fa";
+import { FaMasksTheater } from "react-icons/fa6";
 import { initialState } from "../constants/state";
 import { gameReducer } from "../reducers/gameReducer";
 import { useRestartGame } from "../hooks/useRestartGame";
@@ -279,15 +281,15 @@ const Tetris: React.FC = () => {
 							? "Change to Easy Mode"
 							: "Change to Hard Mode"
 					}
-					className={`absolute top-12 left-1/2 -translate-x-1/2 text-sm font-bold text-red-50 w-6 aspect-square flex items-center justify-center rounded-full text-center z-40 border-2 pl-[3px] cursor-pointer transition-all ${
+					className={`absolute top-12 left-1/2 -translate-x-1/2 text-base font-bold text-red-50 w-7 aspect-square flex items-center justify-center rounded-full text-center z-40 border-2 cursor-pointer transition-all p-1 ${
 						state.isHardMode ? "bg-blue-700" : "bg-orange-800"
 					} ${
 						pressedKey === "Hard"
-							? "scale-75 duration-150 -rotate-[360deg]"
-							: "active:-rotate-[360deg] active:scale-75 hover:scale-[1.2] hover:rotate-[360deg] duration-300"
+							? "scale-75 duration-150"
+							: "active:scale-75 hover:scale-[1.2] duration-300"
 					}`}
 				>
-					{state.isHardMode ? "H" : "E"}
+					{state.isHardMode ? <FaMasksTheater /> : <FaTheaterMasks />}
 				</h4>
 				{/* Restart Button at the Right-top Corner */}
 				<div className="absolute top-12 -right-3 z-50">
