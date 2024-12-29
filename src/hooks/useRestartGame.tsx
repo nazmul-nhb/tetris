@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 import { GameAction, GameState } from "../types";
 import { playSoundEffect } from "../utilities/soundUtils";
 
-type UseRestartGameProps = {
+type Restart = (params: {
 	state: GameState;
-	dispatch: React.Dispatch<GameAction>;
+	dispatch: Dispatch<GameAction>;
+	toggleMode?: boolean;
+}) => {
+	showPopup: boolean;
+	restartGame: () => void;
+	confirmRestart: () => void;
+	cancelRestart: () => void;
 };
 
 /**
@@ -13,6 +19,7 @@ type UseRestartGameProps = {
  *
  * @param state - The current game state.
  * @param dispatch - The dispatch function to update the game state.
+ * @param toggleMode - Optional boolean for mode toggling (Hard/Easy).
  *
  * @returns An object with boolean state and functions:
  *   - `showPopup`: A boolean flag to show or hide the restart confirmation popup.
@@ -20,7 +27,7 @@ type UseRestartGameProps = {
  *   - `confirmRestart`: Function to confirm the restart and reset the grid.
  *   - `cancelRestart`: Function to cancel the restart and resume the game if paused.
  */
-export const useRestartGame = ({ state, dispatch }: UseRestartGameProps) => {
+export const useRestartGame: Restart = ({ state, dispatch, toggleMode }) => {
 	const [showPopup, setShowPopup] = useState(false);
 
 	const restartGame = () => {
@@ -36,15 +43,15 @@ export const useRestartGame = ({ state, dispatch }: UseRestartGameProps) => {
 		setShowPopup(false);
 		playSoundEffect("pause", state.isSoundEffectsEnabled);
 		dispatch({ type: "RESET_GRID" });
+
+		if (toggleMode) {
+			dispatch({ type: "TOGGLE_MODE" });
+		}
 	};
 
 	const cancelRestart = () => {
 		playSoundEffect("warn", state.isSoundEffectsEnabled);
 		setShowPopup(false);
-
-		if (state.isPaused) {
-			dispatch({ type: "TOGGLE_PAUSE" });
-		}
 	};
 
 	return { showPopup, restartGame, confirmRestart, cancelRestart };

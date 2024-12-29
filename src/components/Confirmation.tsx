@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 type Props = {
 	onConfirm: () => void;
 	onCancel: () => void;
+	message: string;
 };
 
 /**
@@ -11,7 +12,7 @@ type Props = {
  * @param onConfirm - Function to execute when the user confirms the action.
  * @param onCancel - Function to execute when the user cancels the action or clicks outside the modal.
  */
-const Confirmation: React.FC<Props> = ({ onConfirm, onCancel }) => {
+const Confirmation: React.FC<Props> = ({ onConfirm, onCancel, message }) => {
 	const [isExiting, setIsExiting] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +53,7 @@ const Confirmation: React.FC<Props> = ({ onConfirm, onCancel }) => {
 				`}
 			>
 				<h2 className="text-sm font-semibold text-center mb-4 tracking-wider">
-					Want to restart the game?
+					{message}
 				</h2>
 				<div className="flex justify-evenly text-xs tracking-widest">
 					<button

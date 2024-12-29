@@ -13,6 +13,7 @@ import { playNextTrack } from "../utilities/musicUtils";
  * @param pressedKey - Currently pressed key for UI or state updates.
  * @param setPressedKey - Function to set the currently pressed key.
  * @param setShowOptions - Function to toggle visibility of folder/file selection menu for music.
+ * @param toggleMode - Function to toggle mode and restart the game.
  */
 export const useKeyboard = (
 	state: GameState,
@@ -20,7 +21,8 @@ export const useKeyboard = (
 	restartGame: () => void,
 	pressedKey: PressedKey | null,
 	setPressedKey: Dispatch<SetStateAction<PressedKey | null>>,
-	setShowOptions: Dispatch<SetStateAction<boolean>>
+	setShowOptions: Dispatch<SetStateAction<boolean>>,
+	toggleMode: () => void
 ) => {
 	useEffect(() => {
 		/** Handle keyboard controls */
@@ -84,7 +86,7 @@ export const useKeyboard = (
 				case "h":
 				case "e":
 					setPressedKey("Hard");
-					dispatch({ type: "TOGGLE_MODE" });
+					toggleMode();
 					break;
 				default:
 					break;
@@ -97,6 +99,7 @@ export const useKeyboard = (
 		dispatch,
 		state.isSoundEffectsEnabled,
 		restartGame,
+		toggleMode,
 		setPressedKey,
 		setShowOptions,
 	]);

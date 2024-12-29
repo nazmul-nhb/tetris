@@ -28,11 +28,24 @@ const Tetris: React.FC = () => {
 	const [showOptions, setShowOptions] = useState<boolean>(false);
 	const [popupKey, setPopupKey] = useState<number>(Date.now());
 
+	// Restart Game functions
 	const { showPopup, restartGame, confirmRestart, cancelRestart } =
 		useRestartGame({
 			state,
 			dispatch,
 		});
+
+	// Toggle Mode functions
+	const {
+		showPopup: showTogglePopUp,
+		restartGame: toggleMode,
+		confirmRestart: confirmModeChange,
+		cancelRestart: cancelModeChange,
+	} = useRestartGame({
+		state,
+		dispatch,
+		toggleMode: true,
+	});
 
 	/** Get the rendered grid with the current piece. */
 	const renderedGrid = state.currentPiece
@@ -57,7 +70,8 @@ const Tetris: React.FC = () => {
 		restartGame,
 		pressedKey,
 		setPressedKey,
-		setShowOptions
+		setShowOptions,
+		toggleMode
 	);
 
 	return (
@@ -69,8 +83,21 @@ const Tetris: React.FC = () => {
 				{/* Show Restart Confirmation Popup */}
 				{showPopup && (
 					<Confirmation
+						key="restart-game-keyboard"
 						onConfirm={confirmRestart}
 						onCancel={cancelRestart}
+						message="Want to restart the game?"
+					/>
+				)}
+				{/* Show Toggle Mode Confirmation Popup */}
+				{showTogglePopUp && (
+					<Confirmation
+						key="toggle-mode-keyboard"
+						onConfirm={confirmModeChange}
+						onCancel={cancelModeChange}
+						message={`Reset Current Progress and Switch to ${
+							state.isHardMode ? "Easy" : "Hard"
+						} Mode?`}
 					/>
 				)}
 
@@ -134,13 +161,11 @@ const Tetris: React.FC = () => {
 			</div>
 
 			{/* Game Control Buttons */}
-			{!state.gameOver && (
-				<GameControls
-					state={state}
-					dispatch={dispatch}
-					pressedKey={pressedKey}
-				/>
-			)}
+			<GameControls
+				state={state}
+				dispatch={dispatch}
+				pressedKey={pressedKey}
+			/>
 		</section>
 	);
 };

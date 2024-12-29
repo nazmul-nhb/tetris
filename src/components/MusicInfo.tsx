@@ -45,7 +45,7 @@ const MusicInfo: React.FC<Props> = ({ state, selectedMusic }) => {
 		<div
 			key={info.filename}
 			title={`${info.title} by ${info.artist}`}
-			className="w-full overflow-hidden -mt-4 z-40"
+			className="w-full overflow-hidden -mt-4 -mb-1 z-40"
 		>
 			<h5 className="text-[10px] !font-extralight text-orange-100 flex items-center gap-2 tracking-widest font-serif whitespace-nowrap max-w-[260px] overflow-hidden">
 				<BsMusicNoteList />
