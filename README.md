@@ -37,7 +37,7 @@ As more lines are cleared in a single move, the points awarded increase. Clearin
 The base points are multiplied by a **Speed Multiplier** based on the current drop speed:
 
 ```text
-Final Points = Base Points × Speed Multiplier
+Final Points = Base Points × Speed Multiplier (1.0, 1.1, 1.3, 1.4 etc.)
 ```
 
 ### 🎭 Hard Mode Bonus
@@ -62,9 +62,9 @@ As more points are accumulated during gameplay, the speed of the falling Tetromi
 | **1000 - 4999**          | **0.9 second**           |
 | **5000 - 9999**          | **0.8 second**           |
 | **10000 - 19999**        | **0.7 second**           |
-| **20000 - 24999**        | **0.6 second**           |
-| **25000 - 29999**        | **0.5 second**           |
-| **30000 - 39999**        | **0.4 second**           |
+| **20000 - 29999**        | **0.6 second**           |
+| **30000 - 34999**        | **0.5 second**           |
+| **35000 - 39999**        | **0.4 second**           |
 | **40000 - 44999**        | **0.3 second**           |
 | **45000 - 49999**        | **0.2 second**           |
 | **50000+**               | **0.1 second**           |
@@ -99,7 +99,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 2.4.4
+Current version: 2.4.6
 
 ## 👨‍💻 Author
 

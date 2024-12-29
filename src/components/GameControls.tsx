@@ -32,7 +32,7 @@ const GameControls: React.FC<ControlProps> = ({
 			playSoundEffect("rotate", state.isSoundEffectsEnabled);
 			dispatch({ type: "ROTATE_PIECE" });
 		},
-		state.gameOver,
+		state,
 		175,
 		225
 	);
@@ -48,7 +48,7 @@ const GameControls: React.FC<ControlProps> = ({
 			playSoundEffect("move", state.isSoundEffectsEnabled);
 			dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 });
 		},
-		state.gameOver,
+		state,
 		150,
 		150
 	);
@@ -70,7 +70,7 @@ const GameControls: React.FC<ControlProps> = ({
 			playSoundEffect("move", state.isSoundEffectsEnabled);
 			dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 });
 		},
-		state.gameOver,
+		state,
 		150,
 		150
 	);
@@ -86,7 +86,7 @@ const GameControls: React.FC<ControlProps> = ({
 			playSoundEffect("move", state.isSoundEffectsEnabled);
 			dispatch({ type: "UPDATE_POSITION", x: 0, y: 1 });
 		},
-		state.gameOver,
+		state,
 		50,
 		100
 	);
@@ -137,7 +137,7 @@ const GameControls: React.FC<ControlProps> = ({
 								: "hover:scale-125 active:scale-90 duration-300"
 						} outline-none transition-all`}
 					>
-						{state.isPaused ? (
+						{state.isPaused || state.gameOver ? (
 							<FaPlay title="Resume Game" size={32} />
 						) : (
 							<FaCirclePause title="Pause Game" size={32} />

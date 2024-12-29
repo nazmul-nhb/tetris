@@ -29,17 +29,21 @@ export const useKeyboard = (
 		const handleKeyDown = throttleKeyPress((e: KeyboardEvent) => {
 			e.preventDefault();
 
-			if (e.key === "Escape" || e.key === "r") {
-				setPressedKey("Restart");
-				restartGame();
-			}
-
 			if (state.gameOver) {
-				playSoundEffect("gameOver", state.isSoundEffectsEnabled);
-				return;
+				if (e.key === " " || e.key === "r" || e.key === "Enter") {
+					playSoundEffect("pause", state.isSoundEffectsEnabled);
+					return dispatch({ type: "RESET_GRID" });
+				}
+
+				return playSoundEffect("gameOver", state.isSoundEffectsEnabled);
 			}
 
 			switch (e.key) {
+				case "r":
+				case "Escape":
+					setPressedKey("Restart");
+					restartGame();
+					break;
 				case "ArrowLeft":
 					setPressedKey("ArrowLeft");
 					playSoundEffect("move", state.isSoundEffectsEnabled);
@@ -92,7 +96,9 @@ export const useKeyboard = (
 					break;
 			}
 		}, 25);
+
 		window.addEventListener("keydown", handleKeyDown);
+
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [
 		state.gameOver,
@@ -102,6 +108,7 @@ export const useKeyboard = (
 		toggleMode,
 		setPressedKey,
 		setShowOptions,
+		state.currentPiece,
 	]);
 
 	// Reset key pressed after animation completes

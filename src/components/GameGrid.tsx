@@ -18,8 +18,10 @@ type Props = {
 const GameGrid: React.FC<Props> = ({ state, dispatch, renderedGrid }) => (
 	<div
 		onClick={() => {
-			playSoundEffect("pause", state.isSoundEffectsEnabled);
-			dispatch({ type: "TOGGLE_PAUSE" });
+			if (!state.gameOver) {
+				playSoundEffect("pause", state.isSoundEffectsEnabled);
+				dispatch({ type: "TOGGLE_PAUSE" });
+			}
 		}}
 		className={`${
 			state.gameOver ? "-z-10" : "z-10"

@@ -47,7 +47,7 @@ const RestartGame: React.FC<ControlProps> = ({
 					key="restart-game-button"
 					onConfirm={confirmRestart}
 					onCancel={cancelRestart}
-					message="Want to restart the game?"
+					message="Want to Restart the Game? Current Progress will be Reset."
 				/>
 			)}
 		</div>

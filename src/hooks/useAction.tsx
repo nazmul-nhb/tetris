@@ -1,15 +1,16 @@
 import { useEffect, useRef } from "react";
+import { GameState } from "../types";
 
 /**
  * Custom hook to handle continuous actions on mouse or touch events with throttling.
  * @param action The action to perform repeatedly.
- * @param isGameOver Indicates if the game is over.
+ * @param state Current game state.
  * @param delay Interval delay in milliseconds. Default is 50ms.
  * @param throttle Throttle delay for starting the action. Default is 200ms.
  */
 export const useAction = (
 	action: () => void,
-	isGameOver: boolean = false,
+	state: GameState,
 	delay: number = 50,
 	throttle: number = 200
 ) => {
@@ -20,8 +21,8 @@ export const useAction = (
 	/** Start the Action (throttled) */
 	const startAction = () => {
 		const now = Date.now();
-		
-		if (isGameOver || now - lastStartRef.current < throttle) return;
+
+		if (state.gameOver || now - lastStartRef.current < throttle) return;
 
 		lastStartRef.current = now;
 
@@ -57,14 +58,14 @@ export const useAction = (
 		stopAction();
 	};
 
-	/** Cleanup on Unmount or Game Over */
+	/** Cleanup on Unmount or Game Over or current piece is locked */
 	useEffect(() => {
-		if (isGameOver) {
+		if (state.gameOver || !state.currentPiece) {
 			stopAction();
 		}
 
 		return stopAction;
-	}, [isGameOver]);
+	}, [state.currentPiece, state.gameOver]);
 
 	return {
 		start: startAction,
