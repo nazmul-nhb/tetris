@@ -1,3 +1,4 @@
+import React, { useReducer, useState } from "react";
 import GameControls from "./GameControls";
 import MusicControls from "./MusicControls";
 import PausedScreen from "./PausedScreen";
@@ -13,8 +14,6 @@ import GameGrid from "./GameGrid";
 import { PressedKey } from "../types";
 import { initialState } from "../constants/state";
 import { gameReducer } from "../reducers/gameReducer";
-import { playSoundEffect } from "../utilities/soundUtils";
-import React, { useEffect, useReducer, useState } from "react";
 import { getRenderedGrid } from "../utilities/gameUtils";
 import { useRestartGame } from "../hooks/useRestartGame";
 import { useKeyboard } from "../hooks/useKeyboard";
@@ -48,8 +47,8 @@ const Tetris: React.FC = () => {
 	// Automatically drop the Tetromino according to `speed`
 	useGameLoop(state, dispatch);
 
-	// Handle game effects and music
-	useGameEffects(state, dispatch, selectedMusic);
+	// Handle game effects, sound effects and music
+	useGameEffects(state, dispatch, selectedMusic, setPopupKey);
 
 	// Attach keyboard listeners
 	useKeyboard(
@@ -60,21 +59,6 @@ const Tetris: React.FC = () => {
 		setPressedKey,
 		setShowOptions
 	);
-
-	// Reset Current Scored Points
-	useEffect(() => {
-		if (state.points) {
-			playSoundEffect("clear", state.isSoundEffectsEnabled);
-
-			const timeout = setTimeout(() => {
-				dispatch({ type: "RESET_POINTS" });
-			}, 1500);
-
-			setPopupKey(Date.now());
-
-			return () => clearTimeout(timeout);
-		}
-	}, [state.isSoundEffectsEnabled, state.points]);
 
 	return (
 		<section className="flex flex-col items-center select-none overflow-hidden">
@@ -89,7 +73,7 @@ const Tetris: React.FC = () => {
 						onCancel={cancelRestart}
 					/>
 				)}
-				
+
 				{/* Blur Grid Background based on `gameOver` flag */}
 				<div
 					className={`${

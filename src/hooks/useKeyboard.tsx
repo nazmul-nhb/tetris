@@ -1,4 +1,4 @@
-import { Dispatch, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { GameAction, GameState, PressedKey } from "../types";
 import { throttleKeyPress } from "../utilities/gameUtils";
 import { playSoundEffect } from "../utilities/soundUtils";
@@ -19,8 +19,8 @@ export const useKeyboard = (
 	dispatch: Dispatch<GameAction>,
 	restartGame: () => void,
 	pressedKey: PressedKey | null,
-	setPressedKey: Dispatch<React.SetStateAction<PressedKey | null>>,
-	setShowOptions: Dispatch<React.SetStateAction<boolean>>
+	setPressedKey: Dispatch<SetStateAction<PressedKey | null>>,
+	setShowOptions: Dispatch<SetStateAction<boolean>>
 ) => {
 	useEffect(() => {
 		/** Handle keyboard controls */

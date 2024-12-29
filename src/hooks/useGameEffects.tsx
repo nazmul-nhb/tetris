@@ -1,4 +1,4 @@
-import { Dispatch, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { playSoundEffect } from "../utilities/soundUtils";
 import { selectMusicFiles, toggleMusic } from "../utilities/musicUtils";
 import { GameAction, GameState } from "../types";
@@ -9,11 +9,13 @@ import { GameAction, GameState } from "../types";
  * @param state - The current state of the game, including game status, piece, and music settings.
  * @param dispatch - Function to dispatch actions to update the game state.
  * @param selectedMusic - The selected music files for background music.
+ * @param setPopupKey - State setter function to set popup key for `PointsPopUp` component.
  */
 export const useGameEffects = (
 	state: GameState,
 	dispatch: Dispatch<GameAction>,
-	selectedMusic: FileList | null
+	selectedMusic: FileList | null,
+	setPopupKey: Dispatch<SetStateAction<number>>
 ) => {
 	// Handle spawning a new Tetromino and clearing rows
 	useEffect(() => {
@@ -46,4 +48,19 @@ export const useGameEffects = (
 			playSoundEffect("gameOver", state.isSoundEffectsEnabled);
 		}
 	}, [state.gameOver, state.isSoundEffectsEnabled]);
+
+	// Reset Current Scored Points
+	useEffect(() => {
+		if (state.points) {
+			playSoundEffect("clear", state.isSoundEffectsEnabled);
+
+			const timeout = setTimeout(() => {
+				dispatch({ type: "RESET_POINTS" });
+			}, 1500);
+
+			setPopupKey(Date.now());
+
+			return () => clearTimeout(timeout);
+		}
+	}, [dispatch, setPopupKey, state.isSoundEffectsEnabled, state.points]);
 };
