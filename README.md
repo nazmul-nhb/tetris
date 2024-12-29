@@ -19,16 +19,36 @@ A modern implementation of the classic **Tetris** game built with `React` and `T
 
 ## 📊 Scoring & Reward System
 
-The game rewards players with points based on how many lines they clear at once:
+The game rewards players based on the number of lines cleared and the current game speed:
 
-| **Lines Cleared** | **Points Awarded** |
-|------------------:|:-------------------|
-| 1 Line            | 100 Points         |
-| 2 Lines           | 300 Points         |
-| 3 Lines           | 500 Points         |
-| 4 Lines           | 800 Points         |
+### 🪄 Base Points (per Clear Action)
+
+| **Lines Cleared** | **Base Points** |
+|------------------:|:---------------:|
+| 1 Line            | 100             |
+| 2 Lines           | 300             |
+| 3 Lines           | 500             |
+| 4 Lines           | 800             |
 
 As more lines are cleared in a single move, the points awarded increase. Clearing multiple lines simultaneously is a strategic way to accumulate points quickly and boost the score efficiently.
+
+### ⚡ Speed Multiplier
+
+The base points are multiplied by a **Speed Multiplier** based on the current drop speed:
+
+```text
+Final Points = Base Points × Speed Multiplier
+```
+
+### 🎭 Hard Mode Bonus
+
+If **Hard Mode** is enabled, the final points are further increased by **1.5×**:
+
+```text
+Final Score = Final Points × 1.5 (if Hard Mode is ON)
+```
+
+This encourages skilled players to attempt harder challenges for higher rewards.
 
 ## 🔥 Speed Ups
 
@@ -41,19 +61,20 @@ As more points are accumulated during gameplay, the speed of the falling Tetromi
 | **0 - 999**              | **1.0 second**           |
 | **1000 - 4999**          | **0.9 second**           |
 | **5000 - 9999**          | **0.8 second**           |
-| **10000 - 24999**        | **0.7 second**           |
-| **25000 - 34999**        | **0.6 second**           |
-| **35000 - 39999**        | **0.5 second**           |
-| **40000 - 44999**        | **0.4 second**           |
-| **45000 - 49999**        | **0.3 second**           |
-| **50000+**               | **0.2 second**           |
+| **10000 - 19999**        | **0.7 second**           |
+| **20000 - 24999**        | **0.6 second**           |
+| **25000 - 29999**        | **0.5 second**           |
+| **30000 - 39999**        | **0.4 second**           |
+| **40000 - 44999**        | **0.3 second**           |
+| **45000 - 49999**        | **0.2 second**           |
+| **50000+**               | **0.1 second**           |
 
 The Tetrominos will fall faster as the player reaches higher score thresholds, making the game progressively more difficult and exciting.
 
 ## 🎯 **Controls with Keyboard Shortcuts**
 
 | **Action**                 | **Key**     |
-|---------------------------:|:------------|
+|---------------------------:|:-----------:|
 | Rotate                     | ↑ Arrow     |
 | Move Left                  | ← Arrow     |
 | Move Right                 | → Arrow     |
@@ -74,10 +95,11 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 - **useReducer Hook** for complex state management.  
 - **LocalStorage** for persistent game data.  
 - **React Icons** for visual controls with attractive icons.  
+- **Music Metadata** for extracting music metadata (song title and artist name).  
 
 ## 📦 Version
 
-Current version: 2.3.4
+Current version: 2.4.0
 
 ## 👨‍💻 Author
 

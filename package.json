@@ -1,7 +1,7 @@
 {
 	"name": "tetris-nhb",
 	"private": true,
-	"version": "2.3.5",
+	"version": "2.4.0",
 	"author": {
 		"name": "Nazmul Hassan",
 		"email": "nazmulnhb@gmail.com"

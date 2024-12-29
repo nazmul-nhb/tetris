@@ -7,6 +7,7 @@ import {
 	rotateMatrix,
 	clearFullRows,
 	getRandomPiece,
+	getSpeedMultiplier,
 } from "../utilities/gameUtils";
 import {
 	getSavedScores,
@@ -129,7 +130,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 		case "CLEAR_ROWS": {
 			const { newGrid, rowsCleared } = clearFullRows(state.grid);
 
-			let newPoints: number | null = null;
+			let basePoints: number = 0;
 
 			if (rowsCleared > 0) {
 				// Update lines cleared in local storage
@@ -137,23 +138,28 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 
 				switch (rowsCleared) {
 					case 1:
-						newPoints = 100;
+						basePoints = 100;
 						break;
 					case 2:
-						newPoints = 300;
+						basePoints = 300;
 						break;
 					case 3:
-						newPoints = 500;
+						basePoints = 500;
 						break;
 					case 4:
-						newPoints = 800;
+						basePoints = 800;
 						break;
 					default:
 						break;
 				}
 			}
 
-			const newScore = state.score + (newPoints || 0);
+			// Bonus Multiplier for faster speed
+			const speed = Number(getSpeedMultiplier(state.speed));
+			const newPoints = basePoints * speed;
+
+			const newScore =
+				state.score + (state.isHardMode ? newPoints * 1.5 : newPoints);
 
 			let bestScore = state.bestScore;
 

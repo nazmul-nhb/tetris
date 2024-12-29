@@ -9,11 +9,12 @@ export const SPEED_LEVELS = [
 	{ score: 1000, speed: 900 },
 	{ score: 5000, speed: 800 },
 	{ score: 10000, speed: 700 },
-	{ score: 25000, speed: 600 },
-	{ score: 35000, speed: 500 },
-	{ score: 40000, speed: 400 },
-	{ score: 45000, speed: 300 },
-	{ score: 50000, speed: 200 },
+	{ score: 20000, speed: 600 },
+	{ score: 25000, speed: 500 },
+	{ score: 30000, speed: 400 },
+	{ score: 40000, speed: 300 },
+	{ score: 45000, speed: 200 },
+	{ score: 50000, speed: 100 },
 ];
 
 /** The Tetrominos shapes and colors */
