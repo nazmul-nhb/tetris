@@ -49,7 +49,7 @@ const GameControls: React.FC<ControlProps> = ({
 			dispatch({ type: "UPDATE_POSITION", x: -1, y: 0 });
 		},
 		state,
-		150,
+		125,
 		150
 	);
 
@@ -71,7 +71,7 @@ const GameControls: React.FC<ControlProps> = ({
 			dispatch({ type: "UPDATE_POSITION", x: 1, y: 0 });
 		},
 		state,
-		150,
+		125,
 		150
 	);
 
