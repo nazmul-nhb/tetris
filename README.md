@@ -2,7 +2,7 @@
 
 [**▶️ Play Now!**](https://tetris-nhb.vercel.app)
 
-A modern implementation of the classic **Tetris** game built with `React` and `TypeScript`.
+A modern, fast-paced web implementation of the classic **Tetris** game built with `React` and `TypeScript`.
 
 ## 🚀 **Key Features**
 
@@ -37,7 +37,7 @@ As more lines are cleared in a single move, the points awarded increase. Clearin
 The base points are multiplied by a **Speed Multiplier** based on the current drop speed:
 
 ```text
-Final Points = Base Points × Speed Multiplier (1.0, 1.1, 1.3, 1.4 etc.)
+Final Points = Base Points × Speed Multiplier (1.0, 1.1, 1.4, 2.5 etc.)
 ```
 
 ### 🎭 Hard Mode Bonus
@@ -99,7 +99,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 2.4.8
+Current version: 2.4.9
 
 ## 👨‍💻 Author
 

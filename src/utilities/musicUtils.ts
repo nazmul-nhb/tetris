@@ -22,29 +22,6 @@ let currentFile: File | null = currentMusicTracks[currentTrackIndex].file;
 currentMusic.addEventListener("ended", playNextTrackWrapper);
 
 /**
- * Fetch the file and create a File object for music files that don't have a File object.
- * @param url URL of the music file.
- * @returns FIle object for metadata.
- */
-const fetchMusicFile = async (url: string): Promise<File | null> => {
-	try {
-		const response = await fetch(url);
-		const blob = await response.blob();
-
-		const file = new File(
-			[blob],
-			url.split("/").pop() || "/music/tetris-8bit.mp3",
-			{ type: blob.type }
-		);
-
-		return file;
-	} catch (error) {
-		console.error("Error fetching file:", error);
-		return null;
-	}
-};
-
-/**
  * Function to get random track index.
  * @param tracks An array of track urls.
  * @param exclude The track index to exclude.
@@ -126,6 +103,29 @@ export const playNextTrack = (isEnabled: boolean) => {
 	}
 
 	currentMusic.addEventListener("ended", playNextTrackWrapper);
+};
+
+/**
+ * Fetch the file and create a File object for music files that don't have a File object.
+ * @param url URL of the music file.
+ * @returns FIle object for metadata.
+ */
+const fetchMusicFile = async (url: string): Promise<File | null> => {
+	try {
+		const response = await fetch(url);
+		const blob = await response.blob();
+
+		const file = new File(
+			[blob],
+			url.split("/").pop() || "/music/tetris-8bit.mp3",
+			{ type: blob.type }
+		);
+
+		return file;
+	} catch (error) {
+		console.error("Error Fetching File:", error);
+		return null;
+	}
 };
 
 /** Extract metadata from the currently playing audio file. */
