@@ -145,24 +145,3 @@ export const getSpeedMultiplier = (speed: number): string => {
 	const multiplier = 1000 / speed;
 	return multiplier.toFixed(1);
 };
-
-
-
-// /**
-//  * Throttle a function to prevent rapid execution.
-//  * @param func The function to throttle.
-//  * @param delay Delay in milliseconds.
-//  * @returns A throttled version of the function.
-//  */
-// export const throttleButtonPress = (func: () => void, delay: number) => {
-// 	let lastCall = 0;
-
-// 	return () => {
-// 		const now = Date.now();
-
-// 		if (now - lastCall >= delay) {
-// 			lastCall = now;
-// 			func();
-// 		}
-// 	};
-// };

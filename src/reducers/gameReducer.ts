@@ -155,21 +155,21 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 			}
 
 			// Bonus Multiplier for faster speed
-			const speed = Number(getSpeedMultiplier(state.speed));
-			const newPoints = basePoints * speed;
+			const speedMultiplier = Number(getSpeedMultiplier(state.speed));
 
-			const newScore =
-				state.score + (state.isHardMode ? newPoints * 1.5 : newPoints);
+			// Bonus Multiplier for Hard mode
+			const newPoints = Math.round(
+				basePoints * speedMultiplier * (state.isHardMode ? 1.5 : 1)
+			);
 
-			let bestScore = state.bestScore;
+			const newScore = Math.round(state.score + newPoints);
 
-			// Update Best Score in memory and local storage
+			// Update Best Score in local storage
 			if (newScore > state.bestScore) {
-				bestScore = newScore;
-				updateBestScore(bestScore);
+				updateBestScore(newScore);
 			}
 
-			// Dynamic Speed Adjustment
+			// Dynamic Speed Adjustment based on current score
 			const newSpeed = SPEED_LEVELS.reduce((acc, level) => {
 				return newScore >= level.score ? level.speed : acc;
 			}, 1000);
