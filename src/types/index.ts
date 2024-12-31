@@ -81,3 +81,13 @@ export type MusicDetails = {
 	title: string;
 	artist: string;
 };
+
+export type Device =
+	| "android"
+	| "iphone"
+	| "ipad"
+	| "ipod"
+	| "windows"
+	| "mac"
+	| "linux"
+	| "unknown";

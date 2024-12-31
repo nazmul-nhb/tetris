@@ -1,19 +1,11 @@
-type Device =
-	| "android"
-	| "iphone"
-	| "ipad"
-	| "ipod"
-	| "windows"
-	| "mac"
-	| "linux"
-	| "unknown";
+import { Device } from "../types";
 
 /**
  * Detects if the game is running on Android, Mac, Windows, Linux etc.
  * @returns - Device OS: `android` if running on Android, `windows` if running on Windows and so on.
  */
 export const detectDevice = (): Device => {
-	const userAgent = navigator.userAgent.toLowerCase();
+	const userAgent = window.navigator.userAgent.toLowerCase();
 
 	if (userAgent.includes("android")) {
 		return "android";

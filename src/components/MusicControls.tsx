@@ -1,10 +1,17 @@
-import { ControlProps } from "../types";
 import { FaTasks } from "react-icons/fa";
 import { FaCheckToSlot } from "react-icons/fa6";
-import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
-import { playNextTrack } from "../utilities/musicUtils";
-import { RiFolderMusicFill, RiFolderMusicLine } from "react-icons/ri";
+import { ControlProps, Device } from "../types";
 import { BsFileEarmarkMusic } from "react-icons/bs";
+import { playNextTrack } from "../utilities/musicUtils";
+import { detectDevice } from "../utilities/detectDevice";
+import { RiFolderMusicFill, RiFolderMusicLine } from "react-icons/ri";
+import React, {
+	Dispatch,
+	SetStateAction,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import {
 	MdMusicNote,
 	MdMusicOff,
@@ -12,7 +19,6 @@ import {
 	MdVolumeOff,
 	MdVolumeUp,
 } from "react-icons/md";
-import { detectDevice } from "../utilities/detectDevice";
 
 type Props = ControlProps & {
 	selectedMusic: FileList | null;
@@ -20,9 +26,6 @@ type Props = ControlProps & {
 	showOptions: boolean;
 	setShowOptions: Dispatch<SetStateAction<boolean>>;
 };
-
-// Detect user's device
-const device = detectDevice();
 
 /**
  * MusicControls component that provides music control functionalities such as enabling/disabling sound effects,
@@ -46,6 +49,12 @@ const MusicControls: React.FC<Props> = ({
 	setShowOptions,
 }) => {
 	const buttonRef = useRef<HTMLDivElement>(null);
+	const [device, setDevice] = useState<Device>("unknown");
+
+	// Detect user's device
+	useEffect(() => {
+		setDevice(detectDevice());
+	}, []);
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
