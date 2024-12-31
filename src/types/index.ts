@@ -1,7 +1,7 @@
-export type Cell = {
-	filled: boolean;
-	color: string | null;
-};
+import { Dispatch } from "react";
+
+export type Cell = { filled: boolean; color: string | null };
+
 export type Tetromino = number[][];
 
 export type Position = { x: number; y: number };
@@ -58,29 +58,19 @@ export type PressedKey =
 	| "Hard"
 	| "Folder";
 
-export type TetrisScores = {
-	totalLines: number;
-	bestScore: number;
-};
+export type TetrisScores = { totalLines: number; bestScore: number };
 
 export type KeyPress = (event: KeyboardEvent) => void;
 
 export type ControlProps = {
 	state: GameState;
-	dispatch: React.Dispatch<GameAction>;
+	dispatch: Dispatch<GameAction>;
 	pressedKey: PressedKey | null;
 };
 
-export type MusicTrack = {
-	file: File | null;
-	url: string;
-};
+export type MusicTrack = { file: File | null; url: string };
 
-export type MusicDetails = {
-	filename: string;
-	title: string;
-	artist: string;
-};
+export type MusicDetails = { filename: string; title: string; artist: string };
 
 export type Device =
 	| "android"
