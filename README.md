@@ -6,13 +6,13 @@ A modern, fast-paced web implementation of the classic **Tetris** game built wit
 
 ## 🚀 **Key Features**
 
-- 🎲 **Classic Tetris Gameplay:** Enjoy the iconic block-stacking puzzle mechanics.  
+- 🎲 **Classic Tetris Gameplay:** Enjoy the iconic block-stacking puzzle mechanics with simplified yet attractive UI.  
 - 🔊 **Sound Effects & Music:** Toggle background music and sound effects for an engaging experience. Users can also select their own favorite music tracks by clicking the music folder icon.
 - 💾 **Local Storage Integration:** Automatically save **high scores** and **total lines cleared**.  
 - 🎮 **Keyboard & On-Screen Controls:** Play using keyboard shortcuts or on-screen buttons.  
 - 🧩 **Next Piece Preview:** Preview the upcoming Tetromino to plan better strategy.  
 - 🏆 **Dynamic Points Pop-Up:** Instant feedback with animated point pop-ups after clearing lines.  
-- ⭐ **Reward System:** Score higher rewards for clearing multiple lines simultaneously.  
+- ⭐ **Reward System:** Score higher as rewards for clearing multiple lines simultaneously or for faster speed.  
 - ⚡ **Adaptive Difficulty:** The game speeds up as the player progresses, adding more challenge. Show speed on top-left corner.  
 - 🎭 **Hard/Easy Mode:** Switch between modes using the **🎭 Mode Toggle** button (Mask Icon on top). An **empty mask on back** represents **Easy Mode** (grid lines visible), while **both masks filled** represents **Hard Mode** (grid lines hidden). The mask icon along with speed and restart button icon turns **orange** in *Easy Mode* and **blue** in *Hard Mode*.
 - 🛑 **Pause & Restart Controls:** Easily pause and restart the game. Show restart button on top-right corner. Restarting the game requires confirmation.
@@ -56,18 +56,18 @@ As more points are accumulated during gameplay, the speed of the falling Tetromi
 
 ### 📊 Speed Levels Table
 
-| **Score Range (points)** | **Drop Speed (seconds)** |
-|-------------------------:|:------------------------:|
-| **0 - 999**              | **1.0 second**           |
-| **1000 - 4999**          | **0.9 second**           |
-| **5000 - 9999**          | **0.8 second**           |
-| **10000 - 19999**        | **0.7 second**           |
-| **20000 - 29999**        | **0.6 second**           |
-| **30000 - 34999**        | **0.5 second**           |
-| **35000 - 39999**        | **0.4 second**           |
-| **40000 - 44999**        | **0.3 second**           |
-| **45000 - 49999**        | **0.2 second**           |
-| **50000+**               | **0.1 second**           |
+| **Score Range (points)** | **Drop Speed** |
+|-------------------------:|:--------------:|
+| **0 - 999**              | **1.0 second** |
+| **1000 - 4999**          | **0.9 second** |
+| **5000 - 9999**          | **0.8 second** |
+| **10000 - 19999**        | **0.7 second** |
+| **20000 - 29999**        | **0.6 second** |
+| **30000 - 34999**        | **0.5 second** |
+| **35000 - 39999**        | **0.4 second** |
+| **40000 - 44999**        | **0.3 second** |
+| **45000 - 49999**        | **0.2 second** |
+| **50000+**               | **0.1 second** |
 
 The Tetrominos will fall faster as the player reaches higher score thresholds, making the game progressively more difficult and exciting.
 
@@ -99,7 +99,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 2.5.4
+Current version: 2.5.5
 
 ## 👨‍💻 Author
 
