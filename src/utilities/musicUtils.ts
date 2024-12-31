@@ -12,11 +12,23 @@ const musicTracks: MusicTrack[] = [
 
 let currentMusicTracks: MusicTrack[] = musicTracks;
 let currentTrackIndex: number = 0;
-let currentMusic = new Audio(currentMusicTracks[currentTrackIndex].url);
+let currentMusic: HTMLAudioElement | null = new Audio(
+	currentMusicTracks[currentTrackIndex].url
+);
 let currentFile: File | null = currentMusicTracks[currentTrackIndex].file;
 
 // Loop the background music playlist
 currentMusic.addEventListener("ended", () => playNextTrack(true));
+
+/** Cleanup currently playing music */
+const cleanUpCurrentTrack = () => {
+	if (currentMusic) {
+		currentMusic.pause();
+		currentMusic.removeEventListener("ended", () => playNextTrack(true));
+		currentMusic.src = "";
+		currentMusic = null;
+	}
+};
 
 /**
  * Function to get random track index.
@@ -41,10 +53,7 @@ const getRandomTrack = (tracks: MusicTrack[], exclude?: number): number => {
  * @param fileList A list of user-selected music files.
  */
 export const selectMusicFiles = (fileList: FileList) => {
-	if (currentMusic) {
-		currentMusic.pause();
-		currentMusic.src = "";
-	}
+	cleanUpCurrentTrack();
 
 	currentMusicTracks = Array.from(fileList).map((file) => ({
 		file,
@@ -56,10 +65,10 @@ export const selectMusicFiles = (fileList: FileList) => {
 	currentFile = currentMusicTracks[currentTrackIndex].file;
 
 	currentMusic = new Audio(currentMusicTracks[currentTrackIndex].url);
-	currentMusic.play();
 
 	// Loop the background music playlist
 	currentMusic.addEventListener("ended", () => playNextTrack(true));
+	currentMusic.play();
 };
 
 /**
@@ -67,6 +76,8 @@ export const selectMusicFiles = (fileList: FileList) => {
  * @param isEnabled Whether music should be played.
  */
 export const toggleMusic = (isEnabled: boolean) => {
+	if (!currentMusic) return;
+
 	if (isEnabled) {
 		currentMusic.play();
 	} else {
@@ -79,10 +90,7 @@ export const toggleMusic = (isEnabled: boolean) => {
  * @param isEnabled Whether music is enabled.
  */
 export const playNextTrack = (isEnabled: boolean) => {
-	if (currentMusic) {
-		currentMusic.pause();
-		currentMusic.src = "";
-	}
+	cleanUpCurrentTrack();
 
 	// currentTrackIndex = (currentTrackIndex + 1) % currentMusicTracks.length;
 
@@ -96,12 +104,10 @@ export const playNextTrack = (isEnabled: boolean) => {
 
 	currentMusic = new Audio(nextTrack.url);
 
-	if (isEnabled) {
-		currentMusic.play();
-	}
-
 	// Loop the background music playlist
 	currentMusic.addEventListener("ended", () => playNextTrack(true));
+
+	if (isEnabled) currentMusic.play();
 };
 
 /**
@@ -130,11 +136,11 @@ const fetchMusicFile = async (url: string): Promise<File | null> => {
 /** Extract metadata from the currently playing audio file. */
 export const extractMetadata = async () => {
 	if (!currentFile) {
+		if (!currentMusic) return defaultMusicInfo;
+
 		currentFile = await fetchMusicFile(currentMusic.src);
 
-		if (!currentFile) {
-			return defaultMusicInfo;
-		}
+		if (!currentFile) return defaultMusicInfo;
 	}
 
 	try {
