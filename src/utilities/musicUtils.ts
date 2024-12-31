@@ -28,11 +28,15 @@ currentMusic.addEventListener("ended", playNextTrackWrapper);
  * @returns Random track index.
  */
 const getRandomTrack = (tracks: MusicTrack[], exclude?: number): number => {
+	if (tracks.length === 1) return 0;
+
 	const randomIndex = Math.floor(
 		Math.random() * (tracks.length - (exclude !== undefined ? 1 : 0))
 	);
 
-	return randomIndex < (exclude ?? -1) ? randomIndex : randomIndex + 1;
+	return exclude !== undefined && randomIndex >= exclude
+		? randomIndex + 1
+		: randomIndex;
 };
 
 /**
@@ -53,6 +57,7 @@ export const selectMusicFiles = (fileList: FileList) => {
 	}));
 
 	currentTrackIndex = getRandomTrack(currentMusicTracks);
+
 	currentFile = currentMusicTracks[currentTrackIndex].file;
 
 	currentMusic = new Audio(currentMusicTracks[currentTrackIndex].url);
@@ -102,6 +107,7 @@ export const playNextTrack = (isEnabled: boolean) => {
 		currentMusic.play();
 	}
 
+	// Loop the background music playlist
 	currentMusic.addEventListener("ended", playNextTrackWrapper);
 };
 

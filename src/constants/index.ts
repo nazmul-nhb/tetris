@@ -70,7 +70,7 @@ export const TETROMINOS: Record<string, PieceDetails> = {
 } as const;
 
 export const defaultMusicInfo = {
-	filename: "Unknown File",
+	filename: "Unknown Music File",
 	title: "Unknown Title",
 	artist: "Unknown Artist",
 };
