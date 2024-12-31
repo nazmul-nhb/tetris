@@ -34,10 +34,10 @@ As more lines are cleared in a single move, the points awarded increase. Clearin
 
 ### ⚡ Speed Multiplier
 
-The base points are multiplied by a **Speed Multiplier** based on the current drop speed:
+The base points are multiplied by a [**Speed Multiplier**](#-speed-levels-table) based on the current drop speed:
 
 ```text
-Final Points = Base Points × Speed Multiplier (1.0, 1.1, 1.4, 2.5 etc.)
+Final Points = Base Points × Speed Multiplier (1.0, 1.1, 1.3, 2.5 etc.)
 ```
 
 ### 🎭 Hard Mode Bonus
@@ -56,18 +56,18 @@ As more points are accumulated during gameplay, the speed of the falling Tetromi
 
 ### 📊 Speed Levels Table
 
-| **Score Range (points)** | **Drop Speed** |
-|-------------------------:|:--------------:|
-| **0 - 999**              | **1.0 second** |
-| **1000 - 4999**          | **0.9 second** |
-| **5000 - 9999**          | **0.8 second** |
-| **10000 - 19999**        | **0.7 second** |
-| **20000 - 29999**        | **0.6 second** |
-| **30000 - 34999**        | **0.5 second** |
-| **35000 - 39999**        | **0.4 second** |
-| **40000 - 44999**        | **0.3 second** |
-| **45000 - 49999**        | **0.2 second** |
-| **50000+**               | **0.1 second** |
+| **Score Range (points)** | **Drop Speed** | **Speed Multiplier** |  
+|-------------------------:|:--------------:|:--------------------:|
+| **0 - 999**              | **1000 ms**    | **1.0x**             |
+| **1000 - 4999**          | **875 ms**     | **1.1x**             |
+| **5000 - 9999**          | **775 ms**     | **1.3x**             |
+| **10000 - 19999**        | **675 ms**     | **1.5x**             |
+| **20000 - 29999**        | **590 ms**     | **1.7x**             |
+| **30000 - 34999**        | **500 ms**     | **2.0x**             |
+| **35000 - 39999**        | **400 ms**     | **2.5x**             |
+| **40000 - 44999**        | **335 ms**     | **3.0x**             |
+| **45000 - 49999**        | **270 ms**     | **3.7x**             |
+| **50000+**               | **220 ms**     | **4.5x**             |
 
 The Tetrominos will fall faster as the player reaches higher score thresholds, making the game progressively more difficult and exciting.
 
@@ -79,7 +79,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 | Move Left                  | ← Arrow     |
 | Move Right                 | → Arrow     |
 | Faster Drop                | ↓ Arrow     |
-| Pause/Resume               | Space-bar/P |
+| Pause/Resume               | Spacebar/P  |
 | Restart                    | Escape/R    |
 | Toggle Sound Effects       | S           |
 | Toggle Background Music    | M           |
@@ -91,7 +91,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 - **React** for building UI components.  
 - **TypeScript** for type safety during development.  
-- **TailwindCSS** for styling alongside vanilla css.  
+- **TailwindCSS** for styling alongside vanilla css (for custom animation).  
 - **useReducer Hook** for complex state management.  
 - **LocalStorage** for persistent game data.  
 - **React Icons** for visual controls with attractive icons.  
@@ -99,7 +99,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: 2.5.6
+Current version: **2.5.7**
 
 ## 👨‍💻 Author
 
