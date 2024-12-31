@@ -12,6 +12,7 @@ import {
 	MdVolumeOff,
 	MdVolumeUp,
 } from "react-icons/md";
+import { detectDevice } from "../utilities/detectDevice";
 
 type Props = ControlProps & {
 	selectedMusic: FileList | null;
@@ -19,6 +20,9 @@ type Props = ControlProps & {
 	showOptions: boolean;
 	setShowOptions: Dispatch<SetStateAction<boolean>>;
 };
+
+// Detect user's device
+const device = detectDevice();
 
 /**
  * MusicControls component that provides music control functionalities such as enabling/disabling sound effects,
@@ -54,9 +58,9 @@ const MusicControls: React.FC<Props> = ({
 		};
 
 		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
+
+		return () =>
 			document.removeEventListener("mousedown", handleClickOutside);
-		};
 	}, [setShowOptions]);
 
 	const selectMusic = (isFolder: boolean) => {
@@ -98,6 +102,22 @@ const MusicControls: React.FC<Props> = ({
 
 		input.click();
 		setShowOptions(false);
+	};
+
+	/** Choose either folder or file based on device. */
+	const handleMusicSelection = () => {
+		if (
+			device === "ipad" ||
+			device === "ipod" ||
+			device === "iphone" ||
+			device === "android" ||
+			device === "unknown"
+		) {
+			selectMusic(false);
+			return;
+		}
+
+		setShowOptions((prev) => !prev);
 	};
 
 	return (
@@ -163,7 +183,7 @@ const MusicControls: React.FC<Props> = ({
 					{/* Music Folder or File Select Button */}
 					<button
 						title="Select Your Own Music Tracks"
-						onClick={() => setShowOptions((prev) => !prev)}
+						onClick={handleMusicSelection}
 						className={`${
 							pressedKey === "Folder"
 								? "scale-90 duration-150"
@@ -178,19 +198,19 @@ const MusicControls: React.FC<Props> = ({
 					</button>
 
 					{/* Dropdown for file/folder selection */}
-					{showOptions && (
+					{showOptions && device !== "android" && (
 						<div className="absolute bg-slate-950 border p-2 rounded shadow-md flex gap-2 top-10 left-1/2 -translate-x-1/2 !z-50">
 							<button
 								className="hover:scale-125 active:scale-90 duration-300 outline-none transition-all"
 								onClick={() => selectMusic(true)}
-								title="Select Folder"
+								title="Select Music Folder"
 							>
 								<RiFolderMusicLine size={20} />
 							</button>
 							<button
 								className="hover:scale-125 active:scale-90 duration-300 outline-none transition-all"
 								onClick={() => selectMusic(false)}
-								title="Select File(s)"
+								title="Select Music File(s)"
 							>
 								<BsFileEarmarkMusic size={18} />
 							</button>
