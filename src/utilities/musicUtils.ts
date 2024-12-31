@@ -10,16 +10,13 @@ const musicTracks: MusicTrack[] = [
 	{ file: null, url: "/music/tetris-1984.mp3" },
 ];
 
-/** Play Next Music Track. */
-const playNextTrackWrapper = () => playNextTrack(true);
-
 let currentMusicTracks: MusicTrack[] = musicTracks;
 let currentTrackIndex: number = 0;
 let currentMusic = new Audio(currentMusicTracks[currentTrackIndex].url);
 let currentFile: File | null = currentMusicTracks[currentTrackIndex].file;
 
 // Loop the background music playlist
-currentMusic.addEventListener("ended", playNextTrackWrapper);
+currentMusic.addEventListener("ended", () => playNextTrack(true));
 
 /**
  * Function to get random track index.
@@ -45,8 +42,6 @@ const getRandomTrack = (tracks: MusicTrack[], exclude?: number): number => {
  */
 export const selectMusicFiles = (fileList: FileList) => {
 	if (currentMusic) {
-		currentMusic.removeEventListener("ended", playNextTrackWrapper);
-
 		currentMusic.pause();
 		currentMusic.src = "";
 	}
@@ -64,7 +59,7 @@ export const selectMusicFiles = (fileList: FileList) => {
 	currentMusic.play();
 
 	// Loop the background music playlist
-	currentMusic.addEventListener("ended", playNextTrackWrapper);
+	currentMusic.addEventListener("ended", () => playNextTrack(true));
 };
 
 /**
@@ -85,8 +80,6 @@ export const toggleMusic = (isEnabled: boolean) => {
  */
 export const playNextTrack = (isEnabled: boolean) => {
 	if (currentMusic) {
-		currentMusic.removeEventListener("ended", playNextTrackWrapper);
-
 		currentMusic.pause();
 		currentMusic.src = "";
 	}
@@ -108,7 +101,7 @@ export const playNextTrack = (isEnabled: boolean) => {
 	}
 
 	// Loop the background music playlist
-	currentMusic.addEventListener("ended", playNextTrackWrapper);
+	currentMusic.addEventListener("ended", () => playNextTrack(true));
 };
 
 /**
