@@ -16,6 +16,7 @@ A modern, fast-paced web implementation of the classic **Tetris** game built wit
 - ⚡ **Adaptive Difficulty:** The game speeds up as the player progresses, adding more challenge. Show speed on top-left corner.  
 - 🎭 **Hard/Easy Mode:** Switch between modes using the **🎭 Mode Toggle** button (Mask Icon on top). An **empty mask on back** represents **Easy Mode** (grid lines visible), while **both masks filled** represents **Hard Mode** (grid lines hidden). The mask icon along with speed and restart button icon turns **orange** in *Easy Mode* and **blue** in *Hard Mode*.
 - 🛑 **Pause & Restart Controls:** Easily pause and restart the game. Show restart button on top-right corner. Restarting the game requires confirmation.
+- 📱 **Progressive Web App (PWA):** This game is a `PWA` and can be installed on your device for offline play.
 
 ## 📊 Scoring & Reward System
 
@@ -99,7 +100,7 @@ The Tetrominos will fall faster as the player reaches higher score thresholds, m
 
 ## 📦 Version
 
-Current version: **2.5.7**
+Current version: **2.6.0**
 
 ## 👨‍💻 Author
 
